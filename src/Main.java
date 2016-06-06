@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.Objects;
 
 /**
@@ -17,7 +16,6 @@ public class Main {
     Float velocity = null;
 
     static Boolean stopNow = false;
-
 
     // TODO: file
 
@@ -61,12 +59,7 @@ public class Main {
             // Stop timer
         }
         else{
-
-
+            //Write File
         }
-
-
-
     }
-
 }

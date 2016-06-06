@@ -25,6 +25,7 @@ public class GUI {
 
     JComboBox<String> forceComboBox = new JComboBox<>(forceStrings);
     JComboBox<String> speedComboBox = new JComboBox<>(speedStrings);
+    private JPanel LettxJpanel;
 
     public GUI() {
         // File location
@@ -104,6 +105,14 @@ public class GUI {
                 }
             }
         });
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("GUI");
+        frame.setContentPane(new GUI().LettxJpanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }
 }
 

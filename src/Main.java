@@ -3,7 +3,8 @@ import java.util.Objects;
 /**
  * Created by Rens on 2-6-2016.
  */
-public class Main {
+
+class Main {
     String com = null;
     String filelocation = null;
     String filename = null;
@@ -39,14 +40,11 @@ public class Main {
         if (GUI.selectedSpeed.equals("10 mm/min")){
             //TODO: Write("1");
         }
-        else if (GUI.selectedSpeed.equals("20 mm/min")){
+        else if (GUI.selectedSpeed.equals("50 mm/min")){
             //TODO: Write("2");
         }
-        else if (GUI.selectedSpeed.equals("50 mm/min")){
+        else if (GUI.selectedSpeed.equals("100 mm/min")){
             //TODO: Write("3");
-        }
-        else{
-            //TODO: Write("4");
         }
 
         //TODO: Write("I"); to start

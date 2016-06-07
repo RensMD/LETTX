@@ -21,7 +21,7 @@ public class GUI {
     public static String selectedSpeed;
 
     private String[] forceStrings = {"100Kg", "500Kg"};
-    private String[] speedStrings = {"10 mm/min", "20 mm/min", "30 mm/min", "40 mm/min"};
+    private String[] speedStrings = {"10 mm/min", "50 mm/min", "100 mm/min"};
 
     JComboBox<String> forceComboBox = new JComboBox<>(forceStrings);
     JComboBox<String> speedComboBox = new JComboBox<>(speedStrings);

@@ -14,8 +14,8 @@
         </constraints>
         <properties>
           <model>
-            <item value="100Kg"/>
-            <item value="500Kg"/>
+            <item value="100 Kg"/>
+            <item value="500 Kg"/>
           </model>
         </properties>
       </component>
@@ -37,7 +37,7 @@
           <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Start"/>
+          <text value="&amp;Start"/>
         </properties>
       </component>
       <component id="a6b70" class="javax.swing.JButton" binding="gripUpButton" default-binding="true">
@@ -45,7 +45,7 @@
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Grip Up"/>
+          <text value="&amp;Grip Up"/>
         </properties>
       </component>
       <component id="f6db" class="javax.swing.JButton" binding="gripDownButton" default-binding="true">
@@ -53,7 +53,7 @@
           <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Grip Down"/>
+          <text value="Grip &amp;Down"/>
         </properties>
       </component>
       <component id="d1907" class="javax.swing.JButton" binding="fileLocationButton" default-binding="true">
@@ -61,7 +61,7 @@
           <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="File location"/>
+          <text value="&amp;File location"/>
         </properties>
       </component>
       <component id="c0179" class="javax.swing.JLabel">

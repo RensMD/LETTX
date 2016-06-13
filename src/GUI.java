@@ -20,15 +20,15 @@ import java.util.Vector;
 public class GUI extends JPanel implements Network_iface, ActionListener {
 
     //String com = null;
-    //String filelocation = null;
-    //String filename = null;
+    // String filename = null;
     //String elongationPrint;
     //String force = null;
     //Double time = null;
     //Double pwmsignal = null;
     //Float velocity = null;
 
-    // set the speed of the serial port
+    private static String filelocation = null;
+
     static private final String newline = "\n";
     private static int speed = 19200;
     private static Network network;
@@ -45,8 +45,8 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
     private JFileChooser fc;
 
     private boolean startButtonStop = false;
-    private static Boolean stopNow = false;
     private static Boolean resend_active = false;
+    private static Boolean stopNow = false;
     private static String elongation; //TODO: VBFixedString
 
     private static String forceString_Current;
@@ -54,84 +54,8 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
     JComboBox<String> forceComboBox;
     JComboBox<String> speedComboBox;
 
-    public void actionPerformed(ActionEvent e) {
-
-        //Handle open button action.
-        if (e.getSource() == openButton) {
-            int returnVal = fc.showOpenDialog(GUI.this);
-
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fc.getSelectedFile();
-                //This is where a real application would open the file.
-                log.append("Opening: " + file.getName() + "." + newline);
-            } else {
-                log.append("Open command cancelled by user." + newline);
-            }
-            log.setCaretPosition(log.getDocument().getLength());
-
-            //Handle save button action.
-        } else if (e.getSource() == saveButton) {
-            int returnVal = fc.showSaveDialog(GUI.this);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fc.getSelectedFile();
-                //This is where a real application would save the file.
-                log.append("Saving: " + file.getName() + "." + newline);
-            } else {
-                log.append("Save command cancelled by user." + newline);
-            }
-            log.setCaretPosition(log.getDocument().getLength());
-        }
-    }
-
-//    /** Returns an ImageIcon, or null if the path was invalid. */
-//    private static ImageIcon createImageIcon(String path) {
-//        java.net.URL imgURL = FileChooser.class.getResource(path);
-//        if (imgURL != null) {
-//            return new ImageIcon(imgURL);
-//        } else {
-//            System.err.println("Couldn't find file: " + path);
-//            return null;
-//        }
-//    }
-
-    /**
-     * Create the GUI and show it.  For thread safety,
-     * this method should be invoked from the
-     * event dispatch thread.
-     */
-    private static void createAndShowGUI() {
-        //Create and set up the window.
-        JFrame frame = new JFrame("FileChooserDemo");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        //Add content to the window.
-        frame.add(new FileChooser());
-
-        //Display the window.
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    private void createUIComponents() {
-
-        //TODO: List entries not showing..
-        String[] forceStrings = {"100Kg", "500Kg"};
-        String[] speedStrings = {"10 mm/min", "50 mm/min", "100 mm/min"};
-        forceComboBox = new JComboBox<>(forceStrings);
-        speedComboBox = new JComboBox<>(speedStrings);
-        forceString_Current = forceStrings[0];
-        speedString_Current = speedStrings[0];
-    }
-
     public static void main(String[] args) {
 
-        //Schedule a job for the event dispatch thread:
-        //creating and showing this application's GUI.
-        SwingUtilities.invokeLater(() -> {
-            //Turn off metal's use of bold fonts
-            UIManager.put("swing.boldMetal", Boolean.FALSE);
-
-        });
         network = new Network(0, new GUI(), 255);
 
         JFrame frame = new JFrame("GUI");
@@ -139,6 +63,13 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+
+        //Schedule a job for the event dispatch thread:
+        //creating and showing this application's GUI.
+        SwingUtilities.invokeLater(() -> {
+            //Turn off metal's use of bold fonts
+            UIManager.put("swing.boldMetal", Boolean.FALSE);
+        });
 
         // reading the speed if
         if (args.length > 0) {
@@ -153,8 +84,7 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
         // initializing reader from command line
         int i, inp_num = 0;
         String input;
-        BufferedReader in_stream = new BufferedReader(new InputStreamReader(
-                System.in));
+        BufferedReader in_stream = new BufferedReader(new InputStreamReader(System.in));
 
         // getting a list of the available serial ports
         Vector<String> ports = network.getPortList();
@@ -162,34 +92,36 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
         // choosing the port to connect to
         System.out.println();
         if (ports.size() > 0) {
-            System.out
-                    .println("the following serial ports have been detected:");
+            System.out.println("the following serial ports have been detected:");
         } else {
-            System.out
-                    .println("sorry, no serial ports were found on your computer\n");
+            System.out.println("sorry, no serial ports were found on your computer\n");
             System.exit(0);
         }
         for (i = 0; i < ports.size(); ++i) {
-            System.out.println("    " + Integer.toString(i + 1) + ":  "
-                    + ports.elementAt(i));
+            System.out.println("    " + Integer.toString(i + 1) + ":  " + ports.elementAt(i));
         }
+
         boolean valid_answer = false;
-        while (!valid_answer) {
-            System.out
-                    .println("enter the id (1,2,...) of the connection to connect to: ");
-            try {
-                input = in_stream.readLine();
-                inp_num = Integer.parseInt(input);
-                if ((inp_num < 1) || (inp_num >= ports.size() + 1))
-                    System.out.println("your input is not valid");
-                else
-                    valid_answer = true;
-            } catch (NumberFormatException ex) {
-                System.out.println("please enter a correct number");
-            } catch (IOException e) {
-                System.out.println("there was an input error\n");
-                System.exit(1);
+        if(ports.size()!=1) {
+            while (!valid_answer) {
+                System.out.println("enter the id (1,2,...) of the connection to connect to: ");
+                try {
+                    input = in_stream.readLine();
+                    inp_num = Integer.parseInt(input);
+                    if ((inp_num < 1) || (inp_num >= ports.size() + 1))
+                        System.out.println("your input is not valid");
+                    else
+                        valid_answer = true;
+                } catch (NumberFormatException ex) {
+                    System.out.println("please enter a correct number");
+                } catch (IOException e) {
+                    System.out.println("there was an input error\n");
+                    System.exit(1);
+                }
             }
+        }
+        else{
+            inp_num=1;
         }
 
         // connecting to the selected port
@@ -200,33 +132,33 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
             System.exit(1);
         }
 
-        // asking whether user wants to mirror traffic
-        System.out
-                .println("do you want this tool to send back all the received messages?");
-        valid_answer = false;
-        while (!valid_answer) {
-            System.out.println("'y' for yes or 'n' for no: ");
-            try {
-                input = in_stream.readLine();
-                switch (input) {
-                    case "y":
-                        resend_active = true;
-                        valid_answer = true;
-                        break;
-                    case "n":
-                        valid_answer = true;
-                        break;
-                    case "q":
-                        System.out.println("example terminated\n");
-                        System.exit(0);
-                }
-            } catch (IOException e) {
-                System.out.println("there was an input error\n");
-                System.exit(1);
-            }
-        }
+//        // asking whether user wants to mirror traffic
+//        System.out.println("do you want this tool to send back all the received messages?");
+//        valid_answer = false;
+//        while (!valid_answer) {
+//            System.out.println("'y' for yes or 'n' for no: ");
+//            try {
+//                input = in_stream.readLine();
+//                switch (input) {
+//                    case "y":
+//                        resend_active = true;
+//                        valid_answer = true;
+//                        break;
+//                    case "n":
+//                        valid_answer = true;
+//                        break;
+//                    case "q":
+//                        System.out.println("example terminated\n");
+//                        System.exit(0);
+//                }
+//            } catch (IOException e) {
+//                System.out.println("there was an input error\n");
+//                System.exit(1);
+//            }
+//        }
 
         // reading in numbers (bytes) to be sent over the serial port
+
         System.out.println("type 'q' to end the example");
         while (true) {
             try {
@@ -235,8 +167,7 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
             }
 //            catch (InterruptedException e1) {
 //            }
-            System.out
-                    .println("\nenter a number between 0 and 254 to be sent ('q' to exit): ");
+            System.out.println("\nenter a number between 0 and 254 to be sent ('q' to exit): ");
             try {
                 input = in_stream.readLine();
                 if (input.equals("q")) {
@@ -273,24 +204,13 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
 
         //Create a file chooser
         fc = new JFileChooser();
-
-        //Uncomment one of the following lines to try a different
-        //file selection mode.  The first allows just directories
-        //to be selected (and, at least in the Java look and feel,
-        //shown).  The second allows both files and directories
-        //to be selected.  If you leave these lines commented out,
-        //then the default mode (FILES_ONLY) will be used.
-        //
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        //fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-        //Create the open button.  We use the image from the JLF
-        //Graphics Repository (but we extracted it from the jar).
+        //Create the open button.
         openButton = new JButton("Open a File...");
         openButton.addActionListener(this);
 
-        //Create the save button.  We use the image from the JLF
-        //Graphics Repository (but we extracted it from the jar).
+        //Create the save button.
         saveButton = new JButton("Save a File...");
         saveButton.addActionListener(this);
 
@@ -302,6 +222,7 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
         //Add the buttons and the log to this panel.
         add(buttonPanel, BorderLayout.PAGE_START);
         add(logScrollPane, BorderLayout.CENTER);
+
         // Force
         forceComboBox.addActionListener(actionEvent -> {
             JComboBox forceComboBox1 = (JComboBox) actionEvent.getSource();
@@ -327,8 +248,6 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
             public void mouseClicked(MouseEvent mouseEvent) {
                 super.mouseClicked(mouseEvent);
                 createAndShowGUI();
-//                final JFileChooser fc = new JFileChooser();
-//                int returnVal = fc.showOpenDialog(FileChooser.aComponent);
             }
         });
 
@@ -390,42 +309,59 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
 
     private static void start() {
 
-        //if(filelocation == ""){
-        // select file location }
-
-
-        if (forceString_Current.equals("100Kg")){
-            //TODO: Write("E");
-            return;
+        if(Objects.equals(filelocation, "")){
+            System.out.println("No File location selected\n");
         }
-        else{
-            //TODO: Write("F");
-        }
+        else {
+            switch (forceString_Current) {
+                case "100Kg": {
+                    int temp[] = {'E'};
+                    network.writeSerial(1, temp);
+                    break;
+                }
+                case "500Kg": {
+                    int temp[] = {'F'};
+                    network.writeSerial(1, temp);
+                    break;
+                }
+                default:
+                    System.out.println("Wrong Force input\n");
+                    break;
+            }
 
-        if (speedString_Current.equals("10 mm/min")){
-            //TODO: Write("1");
-            return;
-        }
-        else if (speedString_Current.equals("50 mm/min")){
-            //TODO: Write("2");
-            return;
-        }
-        else if (speedString_Current.equals("100 mm/min")){
-            //TODO: Write("3");
-            return;
-        }
+            switch (speedString_Current) {
+                case "10 mm/min": {
+                    int temp[] = {'1'};
+                    network.writeSerial(1, temp);
+                    break;
+                }
+                case "50 mm/min": {
+                    int temp[] = {'2'};
+                    network.writeSerial(1, temp);
+                    break;
+                }
+                case "100 mm/min": {
+                    //TODO: maybe remove ''
+                    int temp[] = {'3'};
+                    network.writeSerial(1, temp);
+                    break;
+                }
+                default:
+                    System.out.println("Wrong Speed input\n");
+                    break;
+            }
 
-        //TODO: Write("I"); to start
-
-        //TODO: procedure loop
-
-        // Check for cancel
-        if(stopNow || Objects.equals(elongation, "a")){
-            //Write("I");
-            // Stop timer
-        }
-        else{
-            //Write File
+            //TODO: procedure loop
+            // Check for cancel
+            if (stopNow || Objects.equals(elongation, "a")) {
+                int temp[] = { 'C' };
+                network.writeSerial(1, temp);
+                // Stop timer
+            } else {
+                // Start
+                int temp[] = { 'I' };
+                network.writeSerial(1, temp);
+            }
         }
     }
 
@@ -450,6 +386,77 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
 
     public void networkDisconnected(int id) {
         System.exit(0);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+        //Handle open button action.
+        if (e.getSource() == openButton) {
+            int returnVal = fc.showOpenDialog(GUI.this);
+
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                //This is where a real application would open the file.
+                filelocation = file.getName();
+                //TODO: change into usable path
+                log.append("Opening: " + file.getName() + "." + newline);
+            } else {
+                log.append("Open command cancelled by user." + newline);
+            }
+            log.setCaretPosition(log.getDocument().getLength());
+
+            //Handle save button action.
+        } else if (e.getSource() == saveButton) {
+            int returnVal = fc.showSaveDialog(GUI.this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                //This is where a real application would save the file.
+                log.append("Saving: " + file.getName() + "." + newline);
+            } else {
+                log.append("Save command cancelled by user." + newline);
+            }
+            log.setCaretPosition(log.getDocument().getLength());
+        }
+    }
+
+//    /** Returns an ImageIcon, or null if the path was invalid. */
+//    private static ImageIcon createImageIcon(String path) {
+//        java.net.URL imgURL = FileChooser.class.getResource(path);
+//        if (imgURL != null) {
+//            return new ImageIcon(imgURL);
+//        } else {
+//            System.err.println("Couldn't find file: " + path);
+//            return null;
+//        }
+//    }
+
+    /**
+     * Create the GUI and show it.  For thread safety,
+     * this method should be invoked from the
+     * event dispatch thread.
+     */
+    private static void createAndShowGUI() {
+        //Create and set up the window.
+        JFrame frame = new JFrame("FileChooserDemo");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //Add content to the window.
+        frame.add(new GUI());
+
+        //Display the window.
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private void createUIComponents() {
+
+        //TODO: List entries not showing..
+        String[] forceStrings = {"100Kg", "500Kg"};
+        String[] speedStrings = {"10 mm/min", "50 mm/min", "100 mm/min"};
+        forceComboBox = new JComboBox<>(forceStrings);
+        speedComboBox = new JComboBox<>(speedStrings);
+        forceString_Current = forceStrings[0];
+        speedString_Current = speedStrings[0];
     }
 
 }

@@ -8,28 +8,22 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="9cdd7" class="javax.swing.JComboBox" binding="forceComboBox" default-binding="true">
+      <component id="9cdd7" class="javax.swing.JComboBox" binding="forceComboBox" custom-create="true" default-binding="true">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <model>
-            <item value="100 Kg"/>
-            <item value="500 Kg"/>
-          </model>
+          <actionCommand value=""/>
+          <model/>
         </properties>
       </component>
-      <component id="df59f" class="javax.swing.JComboBox" binding="speedComboBox" default-binding="true">
+      <component id="df59f" class="javax.swing.JComboBox" binding="speedComboBox" custom-create="true" default-binding="true">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <model>
-            <item value="10 mm/min"/>
-            <item value="20 mm/min"/>
-            <item value="50 mm/min"/>
-            <item value="100 mm/min"/>
-          </model>
+          <actionCommand value=""/>
+          <model/>
         </properties>
       </component>
       <component id="a051f" class="javax.swing.JButton" binding="startButton" default-binding="true">
@@ -77,6 +71,7 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <labelFor value="9cdd7"/>
           <text value="Step 2"/>
         </properties>
       </component>
@@ -85,6 +80,7 @@
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <labelFor value="df59f"/>
           <text value="Step 3"/>
         </properties>
       </component>

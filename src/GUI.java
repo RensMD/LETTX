@@ -27,7 +27,7 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
     //Double pwmsignal = null;
     //Float velocity = null;
 
-    private static String filelocation = null;
+    private static String fileLocation = null;
 
     static private final String newline = "\n";
     private static int speed = 19200;
@@ -45,14 +45,17 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
     private JFileChooser fc;
 
     private boolean startButtonStop = false;
-    private static Boolean resend_active = false;
+    //private static Boolean resend_active = false;
     private static Boolean stopNow = false;
     private static String elongation; //TODO: VBFixedString
 
+    private static String testString_Current;
     private static String forceString_Current;
     private static String speedString_Current;
     JComboBox<String> forceComboBox;
     JComboBox<String> speedComboBox;
+    JComboBox<String> testComboBox;
+
 
     public static void main(String[] args) {
 
@@ -223,10 +226,16 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
         add(buttonPanel, BorderLayout.PAGE_START);
         add(logScrollPane, BorderLayout.CENTER);
 
+        //Test
+        testComboBox.addActionListener(actionEvent -> {
+            JComboBox testComboBox = (JComboBox) actionEvent.getSource();
+            testString_Current = (String) testComboBox.getSelectedItem();
+        });
+
         // Force
         forceComboBox.addActionListener(actionEvent -> {
-            JComboBox forceComboBox1 = (JComboBox) actionEvent.getSource();
-            forceString_Current = (String) forceComboBox1.getSelectedItem();
+            JComboBox forceComboBox = (JComboBox) actionEvent.getSource();
+            forceString_Current = (String) forceComboBox.getSelectedItem();
         });
 //        forceComboBox.addActionListener(new ActionListener() {
 //            @Override
@@ -238,8 +247,8 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
 
         // Speed
         speedComboBox.addActionListener(actionEvent -> {
-            JComboBox speedComboBox1 = (JComboBox) actionEvent.getSource();
-            speedString_Current = (String) speedComboBox1.getSelectedItem();
+            JComboBox speedComboBox = (JComboBox) actionEvent.getSource();
+            speedString_Current = (String) speedComboBox.getSelectedItem();
         });
 
         // File location
@@ -309,10 +318,25 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
 
     private static void start() {
 
-        if(Objects.equals(filelocation, "")){
+        if(Objects.equals(fileLocation, "")){
             System.out.println("No File location selected\n");
         }
         else {
+            switch (testString_Current) {
+                case "Tensile": {
+                    int temp[] = {'T'};
+                    network.writeSerial(1, temp);
+                    break;
+                }
+                case "Compression": {
+                    int temp[] = {'R'};
+                    network.writeSerial(1, temp);
+                    break;
+                }
+                default:
+                    System.out.println("Wrong Test input\n");
+                    break;
+            }
             switch (forceString_Current) {
                 case "100Kg": {
                     int temp[] = {'E'};
@@ -351,7 +375,7 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
                     break;
             }
 
-            //TODO: procedure loop
+            //TODO: procedure loop!
             // Check for cancel
             if (stopNow || Objects.equals(elongation, "a")) {
                 int temp[] = { 'C' };
@@ -370,12 +394,7 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
     }
 
     public void parseInput(int id, int numBytes, int[] message) {
-        if (resend_active) {
-            network.writeSerial(numBytes, message);
-            System.out.print("received and sent back the following message: ");
-        } else {
-            System.out.print("received the following message: ");
-        }
+        System.out.print("received the following message: ");
         System.out.print(message[0]);
         for (int i = 1; i < numBytes; ++i) {
             System.out.print(", ");
@@ -397,7 +416,7 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
                 //This is where a real application would open the file.
-                filelocation = file.getName();
+                fileLocation = file.getName();
                 //TODO: change into usable path
                 log.append("Opening: " + file.getName() + "." + newline);
             } else {
@@ -449,16 +468,16 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
     }
 
     private void createUIComponents() {
-
-        //TODO: List entries not showing..
+        String[] testStrings = {"Tensile", "Compression"};
         String[] forceStrings = {"100Kg", "500Kg"};
         String[] speedStrings = {"10 mm/min", "50 mm/min", "100 mm/min"};
+        testComboBox = new JComboBox<>(testStrings);
         forceComboBox = new JComboBox<>(forceStrings);
         speedComboBox = new JComboBox<>(speedStrings);
+        testString_Current = testStrings[0];
         forceString_Current = forceStrings[0];
         speedString_Current = speedStrings[0];
     }
-
 }
 
 

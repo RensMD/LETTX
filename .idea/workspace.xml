@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f34c0a99-5d67-4a63-94f1-2ac7bd269974" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/LETTX/GUI$1.class" afterPath="$PROJECT_DIR$/out/production/LETTX/GUI$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/LETTX/GUI$2.class" afterPath="$PROJECT_DIR$/out/production/LETTX/GUI$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/LETTX/GUI$3.class" afterPath="$PROJECT_DIR$/out/production/LETTX/GUI$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/LETTX/GUI$4.class" afterPath="$PROJECT_DIR$/out/production/LETTX/GUI$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/LETTX/GUI$5.class" afterPath="$PROJECT_DIR$/out/production/LETTX/GUI$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/LETTX/GUI$6.class" afterPath="$PROJECT_DIR$/out/production/LETTX/GUI$6.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/LETTX/GUI.class" afterPath="$PROJECT_DIR$/out/production/LETTX/GUI.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GUI.form" afterPath="$PROJECT_DIR$/src/GUI.form" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GUI.java" afterPath="$PROJECT_DIR$/src/GUI.java" />
     </list>
     <ignored path="LETTX.iws" />
@@ -40,28 +45,22 @@
       <file leaf-file-name="GUI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="362">
-              <caret line="405" column="13" selection-start-line="405" selection-start-column="13" selection-end-line="405" selection-end-column="13" />
+            <state relative-caret-position="418">
+              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#main#0;class#GUI#0" expanded="false" />
-                <element signature="e#4438#4494#0" expanded="false" />
                 <element signature="method#GUI#0;class#GUI#0" expanded="false" />
-                <element signature="e#8360#8424#0" expanded="false" />
-                <element signature="class#9071:9901" expanded="false" />
-                <element signature="class#9980:10236" expanded="false" />
-                <element signature="class#10281:10539" expanded="false" />
-                <element signature="class#10603:10859" expanded="false" />
-                <element signature="method#mousePressed#0;class#10603:10859" expanded="false" />
-                <element signature="class#10906:11164" expanded="false" />
-                <element signature="class#11226:11707" expanded="false" />
-                <element signature="e#11745#11792#0" expanded="false" />
+                <element signature="class#5873:6703" expanded="false" />
+                <element signature="class#7515:7771" expanded="false" />
+                <element signature="class#7816:8074" expanded="false" />
+                <element signature="class#8137:8393" expanded="false" />
+                <element signature="method#mousePressed#0;class#8137:8393" expanded="false" />
+                <element signature="class#8440:8698" expanded="false" />
+                <element signature="class#8759:9240" expanded="false" />
+                <element signature="method#start#0;class#GUI#0" expanded="false" />
                 <element signature="method#parseInput#0;class#GUI#0" expanded="false" />
-                <element signature="e#15219#15269#0" expanded="false" />
-                <element signature="e#16576#16643#0" expanded="false" />
-                <element signature="docComment;method#createUIComponents#0;class#GUI#0" expanded="false" />
-                <element signature="e#18164#18165#0" expanded="true" />
-                <element signature="e#18214#18215#0" expanded="true" />
+                <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -568,7 +567,14 @@
       <option name="project" value="LOCAL" />
       <updated>1465893271007</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Now able to create a file at chosen destination folder">
+      <created>1465895653350</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1465895653350</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -586,7 +592,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33932585" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3337156" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33370787" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39978212" sideWeight="0.50208336" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -652,7 +658,8 @@
     <MESSAGE value="Auto Connect in case of only one option&#10;Added writeSerials to start()&#10;Start of file location path&#10; Clean up" />
     <MESSAGE value="ComboBoxes now Working&#10;Added Test (compression/tensile) ComboBox" />
     <MESSAGE value="Directory Path Chooser working" />
-    <option name="LAST_COMMIT_MESSAGE" value="Directory Path Chooser working" />
+    <MESSAGE value="Now able to create a file at chosen destination folder" />
+    <option name="LAST_COMMIT_MESSAGE" value="Now able to create a file at chosen destination folder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -672,23 +679,17 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#main#0;class#GUI#0" expanded="false" />
-            <element signature="e#4438#4494#0" expanded="false" />
             <element signature="method#GUI#0;class#GUI#0" expanded="false" />
-            <element signature="e#8360#8424#0" expanded="false" />
-            <element signature="class#9071:9901" expanded="false" />
-            <element signature="class#9980:10236" expanded="false" />
-            <element signature="class#10281:10539" expanded="false" />
-            <element signature="class#10603:10859" expanded="false" />
-            <element signature="method#mousePressed#0;class#10603:10859" expanded="false" />
-            <element signature="class#10906:11164" expanded="false" />
-            <element signature="class#11226:11707" expanded="false" />
-            <element signature="e#11745#11792#0" expanded="false" />
+            <element signature="class#5873:6703" expanded="false" />
+            <element signature="class#7515:7771" expanded="false" />
+            <element signature="class#7816:8074" expanded="false" />
+            <element signature="class#8137:8393" expanded="false" />
+            <element signature="method#mousePressed#0;class#8137:8393" expanded="false" />
+            <element signature="class#8440:8698" expanded="false" />
+            <element signature="class#8759:9240" expanded="false" />
+            <element signature="method#start#0;class#GUI#0" expanded="false" />
             <element signature="method#parseInput#0;class#GUI#0" expanded="false" />
-            <element signature="e#15219#15269#0" expanded="false" />
-            <element signature="e#16576#16643#0" expanded="false" />
-            <element signature="docComment;method#createUIComponents#0;class#GUI#0" expanded="false" />
-            <element signature="e#18164#18165#0" expanded="true" />
-            <element signature="e#18214#18215#0" expanded="true" />
+            <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -700,23 +701,17 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#main#0;class#GUI#0" expanded="false" />
-            <element signature="e#4438#4494#0" expanded="false" />
             <element signature="method#GUI#0;class#GUI#0" expanded="false" />
-            <element signature="e#8360#8424#0" expanded="false" />
-            <element signature="class#9071:9901" expanded="false" />
-            <element signature="class#9980:10236" expanded="false" />
-            <element signature="class#10281:10539" expanded="false" />
-            <element signature="class#10603:10859" expanded="false" />
-            <element signature="method#mousePressed#0;class#10603:10859" expanded="false" />
-            <element signature="class#10906:11164" expanded="false" />
-            <element signature="class#11226:11707" expanded="false" />
-            <element signature="e#11745#11792#0" expanded="false" />
+            <element signature="class#5873:6703" expanded="false" />
+            <element signature="class#7515:7771" expanded="false" />
+            <element signature="class#7816:8074" expanded="false" />
+            <element signature="class#8137:8393" expanded="false" />
+            <element signature="method#mousePressed#0;class#8137:8393" expanded="false" />
+            <element signature="class#8440:8698" expanded="false" />
+            <element signature="class#8759:9240" expanded="false" />
+            <element signature="method#start#0;class#GUI#0" expanded="false" />
             <element signature="method#parseInput#0;class#GUI#0" expanded="false" />
-            <element signature="e#15219#15269#0" expanded="false" />
-            <element signature="e#16576#16643#0" expanded="false" />
-            <element signature="docComment;method#createUIComponents#0;class#GUI#0" expanded="false" />
-            <element signature="e#18164#18165#0" expanded="true" />
-            <element signature="e#18214#18215#0" expanded="true" />
+            <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -751,23 +746,17 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#main#0;class#GUI#0" expanded="false" />
-            <element signature="e#4438#4494#0" expanded="false" />
             <element signature="method#GUI#0;class#GUI#0" expanded="false" />
-            <element signature="e#8360#8424#0" expanded="false" />
-            <element signature="class#9071:9901" expanded="false" />
-            <element signature="class#9980:10236" expanded="false" />
-            <element signature="class#10281:10539" expanded="false" />
-            <element signature="class#10603:10859" expanded="false" />
-            <element signature="method#mousePressed#0;class#10603:10859" expanded="false" />
-            <element signature="class#10906:11164" expanded="false" />
-            <element signature="class#11226:11707" expanded="false" />
-            <element signature="e#11745#11792#0" expanded="false" />
+            <element signature="class#5873:6703" expanded="false" />
+            <element signature="class#7515:7771" expanded="false" />
+            <element signature="class#7816:8074" expanded="false" />
+            <element signature="class#8137:8393" expanded="false" />
+            <element signature="method#mousePressed#0;class#8137:8393" expanded="false" />
+            <element signature="class#8440:8698" expanded="false" />
+            <element signature="class#8759:9240" expanded="false" />
+            <element signature="method#start#0;class#GUI#0" expanded="false" />
             <element signature="method#parseInput#0;class#GUI#0" expanded="false" />
-            <element signature="e#15219#15269#0" expanded="false" />
-            <element signature="e#16576#16643#0" expanded="false" />
-            <element signature="docComment;method#createUIComponents#0;class#GUI#0" expanded="false" />
-            <element signature="e#18164#18165#0" expanded="true" />
-            <element signature="e#18214#18215#0" expanded="true" />
+            <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -803,23 +792,17 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#main#0;class#GUI#0" expanded="false" />
-            <element signature="e#4438#4494#0" expanded="false" />
             <element signature="method#GUI#0;class#GUI#0" expanded="false" />
-            <element signature="e#8360#8424#0" expanded="false" />
-            <element signature="class#9071:9901" expanded="false" />
-            <element signature="class#9980:10236" expanded="false" />
-            <element signature="class#10281:10539" expanded="false" />
-            <element signature="class#10603:10859" expanded="false" />
-            <element signature="method#mousePressed#0;class#10603:10859" expanded="false" />
-            <element signature="class#10906:11164" expanded="false" />
-            <element signature="class#11226:11707" expanded="false" />
-            <element signature="e#11745#11792#0" expanded="false" />
+            <element signature="class#5873:6703" expanded="false" />
+            <element signature="class#7515:7771" expanded="false" />
+            <element signature="class#7816:8074" expanded="false" />
+            <element signature="class#8137:8393" expanded="false" />
+            <element signature="method#mousePressed#0;class#8137:8393" expanded="false" />
+            <element signature="class#8440:8698" expanded="false" />
+            <element signature="class#8759:9240" expanded="false" />
+            <element signature="method#start#0;class#GUI#0" expanded="false" />
             <element signature="method#parseInput#0;class#GUI#0" expanded="false" />
-            <element signature="e#15219#15269#0" expanded="false" />
-            <element signature="e#16576#16643#0" expanded="false" />
-            <element signature="docComment;method#createUIComponents#0;class#GUI#0" expanded="false" />
-            <element signature="e#18164#18165#0" expanded="true" />
-            <element signature="e#18214#18215#0" expanded="true" />
+            <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -840,23 +823,17 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#main#0;class#GUI#0" expanded="false" />
-            <element signature="e#4438#4494#0" expanded="false" />
             <element signature="method#GUI#0;class#GUI#0" expanded="false" />
-            <element signature="e#8360#8424#0" expanded="false" />
-            <element signature="class#9071:9901" expanded="false" />
-            <element signature="class#9980:10236" expanded="false" />
-            <element signature="class#10281:10539" expanded="false" />
-            <element signature="class#10603:10859" expanded="false" />
-            <element signature="method#mousePressed#0;class#10603:10859" expanded="false" />
-            <element signature="class#10906:11164" expanded="false" />
-            <element signature="class#11226:11707" expanded="false" />
-            <element signature="e#11745#11792#0" expanded="false" />
+            <element signature="class#5873:6703" expanded="false" />
+            <element signature="class#7515:7771" expanded="false" />
+            <element signature="class#7816:8074" expanded="false" />
+            <element signature="class#8137:8393" expanded="false" />
+            <element signature="method#mousePressed#0;class#8137:8393" expanded="false" />
+            <element signature="class#8440:8698" expanded="false" />
+            <element signature="class#8759:9240" expanded="false" />
+            <element signature="method#start#0;class#GUI#0" expanded="false" />
             <element signature="method#parseInput#0;class#GUI#0" expanded="false" />
-            <element signature="e#15219#15269#0" expanded="false" />
-            <element signature="e#16576#16643#0" expanded="false" />
-            <element signature="docComment;method#createUIComponents#0;class#GUI#0" expanded="false" />
-            <element signature="e#18164#18165#0" expanded="true" />
-            <element signature="e#18214#18215#0" expanded="true" />
+            <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -952,28 +929,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
-          <caret line="405" column="13" selection-start-line="405" selection-start-column="13" selection-end-line="405" selection-end-column="13" />
+        <state relative-caret-position="418">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#main#0;class#GUI#0" expanded="false" />
-            <element signature="e#4438#4494#0" expanded="false" />
             <element signature="method#GUI#0;class#GUI#0" expanded="false" />
-            <element signature="e#8360#8424#0" expanded="false" />
-            <element signature="class#9071:9901" expanded="false" />
-            <element signature="class#9980:10236" expanded="false" />
-            <element signature="class#10281:10539" expanded="false" />
-            <element signature="class#10603:10859" expanded="false" />
-            <element signature="method#mousePressed#0;class#10603:10859" expanded="false" />
-            <element signature="class#10906:11164" expanded="false" />
-            <element signature="class#11226:11707" expanded="false" />
-            <element signature="e#11745#11792#0" expanded="false" />
+            <element signature="class#5873:6703" expanded="false" />
+            <element signature="class#7515:7771" expanded="false" />
+            <element signature="class#7816:8074" expanded="false" />
+            <element signature="class#8137:8393" expanded="false" />
+            <element signature="method#mousePressed#0;class#8137:8393" expanded="false" />
+            <element signature="class#8440:8698" expanded="false" />
+            <element signature="class#8759:9240" expanded="false" />
+            <element signature="method#start#0;class#GUI#0" expanded="false" />
             <element signature="method#parseInput#0;class#GUI#0" expanded="false" />
-            <element signature="e#15219#15269#0" expanded="false" />
-            <element signature="e#16576#16643#0" expanded="false" />
-            <element signature="docComment;method#createUIComponents#0;class#GUI#0" expanded="false" />
-            <element signature="e#18164#18165#0" expanded="true" />
-            <element signature="e#18214#18215#0" expanded="true" />
+            <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
           </folding>
         </state>
       </provider>

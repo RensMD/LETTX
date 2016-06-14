@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
+import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -17,7 +15,7 @@ import java.util.Vector;
  * Created by Rens Doornbusch on 2-6-2016. *
  */
 
-public class GUI extends JPanel implements Network_iface {
+public class GUI extends JPanel implements Network_iface, ActionListener {
 
     //String com = null;
     // String filename = null;
@@ -27,7 +25,7 @@ public class GUI extends JPanel implements Network_iface {
     //Double pwmsignal = null;
     //Float velocity = null;
 
-    private static File fileLocation = null;
+    private static String fileLocation = null;
 
     static private final String newline = "\n";
     private static int speed = 19200;
@@ -40,7 +38,7 @@ public class GUI extends JPanel implements Network_iface {
     private JButton gripDownButton;
     private JButton startButton;
 
-    private JButton openButton, saveButton;
+    //private JButton openButton, saveButton;
     private JTextArea log;
     private JFileChooser fc;
 
@@ -55,7 +53,8 @@ public class GUI extends JPanel implements Network_iface {
     JComboBox<String> forceComboBox;
     JComboBox<String> speedComboBox;
     JComboBox<String> testComboBox;
-    private JTextField fileName;
+    JTextField fileNameField;
+    private static String fileName;
 
 
     public static void main(String[] args) {
@@ -252,6 +251,8 @@ public class GUI extends JPanel implements Network_iface {
             speedString_Current = (String) speedComboBox.getSelectedItem();
         });
 
+        fileNameField.addActionListener(this);
+
         // File location
         fileLocationButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -261,7 +262,7 @@ public class GUI extends JPanel implements Network_iface {
 
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
-                    fileLocation =fc.getSelectedFile();
+                    fileLocation = Paths.get(String.valueOf(fc.getSelectedFile())).normalize().toString();
 
                     log.append("Opening: " + file.getName() + "." + newline);
                 } else {
@@ -269,7 +270,7 @@ public class GUI extends JPanel implements Network_iface {
                 }
                 log.setCaretPosition(log.getDocument().getLength());
                 System.out.println("Current Path:");
-                System.out.println(fc.getSelectedFile());
+                System.out.println(fileLocation);
             }
         });
 
@@ -329,12 +330,12 @@ public class GUI extends JPanel implements Network_iface {
         });
     }
 
-    private static void start() {
+    private void start() {
 
-        if(Objects.equals(fileLocation, "")){
-            System.out.println("No File location selected\n");
-        }
-        else {
+//        if(Objects.equals(fileLocation, "")){
+//            System.out.println("No File location selected\n");
+//        }
+//        else {
             switch (testString_Current) {
                 case "Tensile": {
                     int temp[] = {'T'};
@@ -387,19 +388,39 @@ public class GUI extends JPanel implements Network_iface {
                     break;
             }
 
+//        if(!Objects.equals(fileNameField.getText(), "")) {
+//            fileName = fileNameField.getText();
+//        }
+//        else {
+        fileName = fileNameField.getText();
+        System.out.println(fileLocation + "\\" + fileName + ".txt");
+            try {
+                File textFile = new File(fileLocation + "\\" + fileName + ".txt");
+                FileOutputStream is = new FileOutputStream(textFile);
+                OutputStreamWriter osw = new OutputStreamWriter(is);
+                Writer w = new BufferedWriter(osw);
+                w.write("POTATO!!!");
+                w.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
             //TODO: procedure loop!
             // Check for cancel
             if (stopNow || Objects.equals(elongation, "a")) {
                 int temp[] = { 'C' };
                 network.writeSerial(1, temp);
                 // Stop timer
+
+
             } else {
                 // Start
                 int temp[] = { 'I' };
                 network.writeSerial(1, temp);
             }
         }
-    }
+
 
     public void writeLog(int id, String text) {
         System.out.println("   log:  |" + text + "|");
@@ -467,18 +488,18 @@ public class GUI extends JPanel implements Network_iface {
      * this method should be invoked from the
      * event dispatch thread.
      */
-    private static void createAndShowGUI() {
-        //Create and set up the window.
-        JFrame frame = new JFrame("FileChooserDemo");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        //Add content to the window.
-        frame.add(new GUI());
-
-        //Display the window.
-        frame.pack();
-        frame.setVisible(true);
-    }
+//    private static void createAndShowGUI() {
+//        //Create and set up the window.
+//        JFrame frame = new JFrame("FileChooserDemo");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//        //Add content to the window.
+//        frame.add(new GUI());
+//
+//        //Display the window.
+//        frame.pack();
+//        frame.setVisible(true);
+//    }
 
     private void createUIComponents() {
         String[] testStrings = {"Tensile", "Compression"};
@@ -490,6 +511,12 @@ public class GUI extends JPanel implements Network_iface {
         testString_Current = testStrings[0];
         forceString_Current = forceStrings[0];
         speedString_Current = speedStrings[0];
+        fileNameField = new JTextField(20);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        fileName = fileNameField.getText();
     }
 }
 

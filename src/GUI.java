@@ -17,7 +17,7 @@ import java.util.Vector;
  * Created by Rens Doornbusch on 2-6-2016. *
  */
 
-public class GUI extends JPanel implements Network_iface, ActionListener {
+public class GUI extends JPanel implements Network_iface {
 
     //String com = null;
     // String filename = null;
@@ -27,7 +27,7 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
     //Double pwmsignal = null;
     //Float velocity = null;
 
-    private static String fileLocation = null;
+    private static File fileLocation = null;
 
     static private final String newline = "\n";
     private static int speed = 19200;
@@ -55,6 +55,7 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
     JComboBox<String> forceComboBox;
     JComboBox<String> speedComboBox;
     JComboBox<String> testComboBox;
+    private JTextField fileName;
 
 
     public static void main(String[] args) {
@@ -203,28 +204,28 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
         log = new JTextArea(5,20);
         log.setMargin(new Insets(5,5,5,5));
         log.setEditable(false);
-        JScrollPane logScrollPane = new JScrollPane(log);
+//        JScrollPane logScrollPane = new JScrollPane(log);
 
         //Create a file chooser
         fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-        //Create the open button.
-        openButton = new JButton("Open a File...");
-        openButton.addActionListener(this);
+//        //Create the open button.
+//        openButton = new JButton("Open a File...");
+//        openButton.addActionListener(this);
+//
+//        //Create the save button.
+//        saveButton = new JButton("Save a File...");
+//        saveButton.addActionListener(this);
 
-        //Create the save button.
-        saveButton = new JButton("Save a File...");
-        saveButton.addActionListener(this);
-
-        //For layout purposes, put the buttons in a separate panel
-        JPanel buttonPanel = new JPanel(); //use FlowLayout
-        buttonPanel.add(openButton);
-        buttonPanel.add(saveButton);
-
-        //Add the buttons and the log to this panel.
-        add(buttonPanel, BorderLayout.PAGE_START);
-        add(logScrollPane, BorderLayout.CENTER);
+//        //For layout purposes, put the buttons in a separate panel
+//        JPanel buttonPanel = new JPanel(); //use FlowLayout
+//        buttonPanel.add(openButton);
+//        buttonPanel.add(saveButton);
+//
+//        //Add the buttons and the log to this panel.
+//        add(buttonPanel, BorderLayout.PAGE_START);
+//        add(logScrollPane, BorderLayout.CENTER);
 
         //Test
         testComboBox.addActionListener(actionEvent -> {
@@ -256,7 +257,19 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 super.mouseClicked(mouseEvent);
-                createAndShowGUI();
+                int returnVal = fc.showOpenDialog(GUI.this);
+
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    File file = fc.getSelectedFile();
+                    fileLocation =fc.getSelectedFile();
+
+                    log.append("Opening: " + file.getName() + "." + newline);
+                } else {
+                    log.append("Open command cancelled by user." + newline);
+                }
+                log.setCaretPosition(log.getDocument().getLength());
+                System.out.println("Current Path:");
+                System.out.println(fc.getSelectedFile());
             }
         });
 
@@ -365,7 +378,6 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
                     break;
                 }
                 case "100 mm/min": {
-                    //TODO: maybe remove ''
                     int temp[] = {'3'};
                     network.writeSerial(1, temp);
                     break;
@@ -407,36 +419,37 @@ public class GUI extends JPanel implements Network_iface, ActionListener {
         System.exit(0);
     }
 
-    public void actionPerformed(ActionEvent e) {
-
-        //Handle open button action.
-        if (e.getSource() == openButton) {
-            int returnVal = fc.showOpenDialog(GUI.this);
-
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fc.getSelectedFile();
-                //This is where a real application would open the file.
-                fileLocation = file.getName();
-                //TODO: change into usable path
-                log.append("Opening: " + file.getName() + "." + newline);
-            } else {
-                log.append("Open command cancelled by user." + newline);
-            }
-            log.setCaretPosition(log.getDocument().getLength());
-
-            //Handle save button action.
-        } else if (e.getSource() == saveButton) {
-            int returnVal = fc.showSaveDialog(GUI.this);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fc.getSelectedFile();
-                //This is where a real application would save the file.
-                log.append("Saving: " + file.getName() + "." + newline);
-            } else {
-                log.append("Save command cancelled by user." + newline);
-            }
-            log.setCaretPosition(log.getDocument().getLength());
-        }
-    }
+//    public void actionPerformed(ActionEvent e) {
+//
+//        //Handle open button action.
+//        if (e.getSource() == openButton) {
+//            int returnVal = fc.showOpenDialog(GUI.this);
+//
+//            if (returnVal == JFileChooser.APPROVE_OPTION) {
+//                File file = fc.getSelectedFile();
+//                fileLocation =fc.getSelectedFile();
+//
+//                log.append("Opening: " + file.getName() + "." + newline);
+//            } else {
+//                log.append("Open command cancelled by user." + newline);
+//            }
+//            log.setCaretPosition(log.getDocument().getLength());
+//            System.out.println("Current Path:");
+//            System.out.println(fc.getSelectedFile());
+//
+//            //Handle save button action.
+//        } else if (e.getSource() == saveButton) {
+//            int returnVal = fc.showSaveDialog(GUI.this);
+//            if (returnVal == JFileChooser.APPROVE_OPTION) {
+//                File file = fc.getSelectedFile();
+//                //This is where a real application would save the file.
+//                log.append("Saving: " + file.getName() + "." + newline);
+//            } else {
+//                log.append("Save command cancelled by user." + newline);
+//            }
+//            log.setCaretPosition(log.getDocument().getLength());
+//        }
+//    }
 
 //    /** Returns an ImageIcon, or null if the path was invalid. */
 //    private static ImageIcon createImageIcon(String path) {

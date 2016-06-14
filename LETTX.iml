@@ -11,5 +11,8 @@
     <orderEntry type="library" name="create-lab-commons-serial" level="project" />
     <orderEntry type="library" name="create-lab-commons-serial-src" level="project" />
     <orderEntry type="library" name="RXTXcomm" level="project" />
+    <orderEntry type="library" name="commons-io-2.5" level="project" />
+    <orderEntry type="library" name="commons-io-2.5-javadoc" level="project" />
+    <orderEntry type="library" name="commons-io-2.5-javadoc (2)" level="project" />
   </component>
 </module>

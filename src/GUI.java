@@ -1,3 +1,5 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.nio.file.Paths;
 
@@ -6,6 +8,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -31,6 +36,8 @@ public class GUI extends JPanel implements Network_iface {
 
     static private final String newline = "\n";
     private static Network network;
+    private static java.lang.String idinput;
+    private static boolean closed = false;
 
     private JPanel LettxJpanel;
 
@@ -54,10 +61,26 @@ public class GUI extends JPanel implements Network_iface {
     private static String fileLocation = null;
 
     private JFileChooser fc;
-    private JTextArea log;
-
+    private static JTextArea log;
+    private static JButton COMButton;
+    private static JTextField COMField;
 
     public static void main(String[] args) {
+
+        log = new JTextArea(5,50);
+        log.setMargin(new Insets(5,5,5,5));
+        log.setEditable(false);
+
+        COMButton = new JButton("Choose Port");
+        COMField = new JTextField("");
+        COMField.setPreferredSize( new Dimension( 200, 24 ) );
+        COMButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                closed = true;
+            }
+        });
+
 
         network = new Network(0, new GUI(), 255);
 
@@ -82,35 +105,43 @@ public class GUI extends JPanel implements Network_iface {
         // getting a list of the available serial ports
         Vector<String> ports = network.getPortList();
 
-        // choosing the port to connect to
-        System.out.println();
-        if (ports.size() > 0) {
-            System.out.println("the following serial ports have been detected:");
-        } else {
-            System.out.println("sorry, no serial ports were found on your computer\n");
-            System.exit(0);
-        }
-        for (i = 0; i < ports.size(); ++i) {
-            System.out.println("    " + Integer.toString(i + 1) + ":  " + ports.elementAt(i));
-        }
 
         //TODO: Create arduino choice window
         boolean valid_answer = false;
         if(ports.size()!=1) {
-            while (!valid_answer) {
-                System.out.println("enter the id (1,2,...) of the connection to connect to: ");
+            createCOMPopUp();
+
+            // choosing the port to connect to
+            if (ports.size() > 0) {
+                System.out.println("Multiple serial ports have been detected:");
+                log.append("Multiple serial ports have been detected:\n");
+            } else {
+                System.out.println("sorry, no serial ports were found on your computer\n");
+                log.append("Sorry, no serial ports were found on your computer.\n");
+                log.append("Program will exit soon...");
                 try {
-                    input = in_stream.readLine();
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.exit(0);
+            }
+            for (i = 0; i < ports.size(); ++i) {
+                log.append("    " + Integer.toString(i + 1) + ":  " + ports.elementAt(i) + "\n");
+            }
+
+            // TODO: make dependent on button press
+            while (!valid_answer) {
+                log.append("Enter the number (1,2,...) of the port to connect to: \n");
+                try {
+                    input = textFieldInput();
                     inp_num = Integer.parseInt(input);
                     if ((inp_num < 1) || (inp_num >= ports.size() + 1))
-                        System.out.println("your input is not valid");
+                        log.append("your input is not valid");
                     else
                         valid_answer = true;
                 } catch (NumberFormatException ex) {
-                    System.out.println("please enter a correct number");
-                } catch (IOException e) {
-                    System.out.println("there was an input error\n");
-                    System.exit(1);
+                    log.append("please enter a correct number");
                 }
             }
         }
@@ -127,47 +158,66 @@ public class GUI extends JPanel implements Network_iface {
             System.exit(1);
         }
 
-        //TODO: Get rid of 0-254
-        // reading in numbers (bytes) to be sent over the serial port
-        System.out.println("type 'q' to end the example");
-        while (true) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ignored) {
-            }
+//        //TODO: Get rid of 0-254
+//        // reading in numbers (bytes) to be sent over the serial port
+//        System.out.println("type 'q' to end the example");
+//        while (true) {
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException ignored) {
+//            }
+//
+//            System.out.println("\nenter a number between 0 and 254 to be sent ('q' to exit): ");
+//            try {
+//                input = in_stream.readLine();
+//                if (input.equals("q")) {
+//                    System.out.println("example terminated\n");
+//                    network.disconnect();
+//                    System.exit(0);
+//                }
+//                inp_num = Integer.parseInt(input);
+//                if ((inp_num > 255) || (inp_num < 0)) {
+//                    System.out.println("the number you entered is not valid");
+//                } else {
+//                    int temp[] = { inp_num };
+//                    network.writeSerial(1, temp);
+//                    System.out.println("sent " + inp_num + " over the serial port");
+//                }
+//            } catch (NumberFormatException ex) {
+//                System.out.println("please enter a correct number");
+//            } catch (IOException e) {
+//                System.out.println("there was an input error");
+//            }
+//        }
+    }
 
-            System.out.println("\nenter a number between 0 and 254 to be sent ('q' to exit): ");
+    private static String textFieldInput() {
+        while(!closed){
             try {
-                input = in_stream.readLine();
-                if (input.equals("q")) {
-                    System.out.println("example terminated\n");
-                    network.disconnect();
-                    System.exit(0);
-                }
-                inp_num = Integer.parseInt(input);
-                if ((inp_num > 255) || (inp_num < 0)) {
-                    System.out.println("the number you entered is not valid");
-                } else {
-                    int temp[] = { inp_num };
-                    network.writeSerial(1, temp);
-                    System.out.println("sent " + inp_num + " over the serial port");
-                }
-            } catch (NumberFormatException ex) {
-                System.out.println("please enter a correct number");
-            } catch (IOException e) {
-                System.out.println("there was an input error");
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
+        idinput = COMField.getText();
+        //TODO: close frame
+        return idinput;
     }
 
     private GUI() {
 
         super(new BorderLayout());
 
+        JScrollPane logScrollPane = new JScrollPane(log);
+        //For layout purposes, put the buttons in a separate panel
+        JPanel buttonPanel = new JPanel(); //use FlowLayout
+        buttonPanel.add(COMField);
+        buttonPanel.add(COMButton);
+
+        //Add the buttons and the log to this panel.
+        add(buttonPanel, BorderLayout.PAGE_END);
+        add(logScrollPane, BorderLayout.CENTER);
         //Create the log first, because the action listeners need to refer to it.
-        log = new JTextArea(5,20);
-        log.setMargin(new Insets(5,5,5,5));
-        log.setEditable(false);
 
         //Create a file chooser
         fc = new JFileChooser();
@@ -267,8 +317,15 @@ public class GUI extends JPanel implements Network_iface {
 
     private void start() {
 
-        if(!Objects.equals(fileNameField.getText(), "")) {
-            if (!Objects.equals(fileLocation, "")) {
+        //Check for empty fields
+        if (Objects.equals(fileNameField.getText(), "")) {
+            System.out.println("please input text");
+        } else {
+            if (Objects.equals(fileLocation, "")) {
+                System.out.println("No File location selected\n");
+            } else {
+
+                //Send information about current test to Arduino
                 switch (testString_Current) {
                     case "Tensile": {
                         int temp[] = {'T'};
@@ -299,7 +356,6 @@ public class GUI extends JPanel implements Network_iface {
                         System.out.println("Wrong Force input\n");
                         break;
                 }
-
                 switch (speedString_Current) {
                     case "10 mm/min": {
                         int temp[] = {'1'};
@@ -321,9 +377,9 @@ public class GUI extends JPanel implements Network_iface {
                         break;
                 }
 
+                // Create new text File
                 String fileName = fileNameField.getText();
                 System.out.println(fileLocation + "\\" + fileName + ".txt");
-
                 File textFile = new File(fileLocation + "\\" + fileName + ".txt");
                 FileOutputStream is = null;
                 try {
@@ -334,54 +390,60 @@ public class GUI extends JPanel implements Network_iface {
                 assert is != null;
                 OutputStreamWriter osw = new OutputStreamWriter(is);
                 Writer w = new BufferedWriter(osw);
-                try {
-                    w.write("Start!");
 
+                // Write Standard information to file
+                try {
+                    w.write("Developed by:\t\tPieter Welling & Rens Doornbusch" + System.getProperty("line.separator"));
+                    w.write("\t\t\tTU Delft" + System.getProperty("line.separator"));
+                    w.write(System.getProperty("line.separator"));
+                    w.write("Test Name:\t\t"+ fileName + System.getProperty("line.separator"));
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    Date date = new Date();
+                    w.write("Date & Time:\t\t"+ dateFormat.format(date) + System.getProperty("line.separator"));
+                    w.write("Speed:\t\t\t" + speedString_Current + System.getProperty("line.separator"));
+                    w.write("Load Cell:\t\t" + forceString_Current + System.getProperty("line.separator"));
+                    w.write("Test Type:\t\t" + testString_Current  + System.getProperty("line.separator"));
+                    // TODO: check current LETT number
+                    //w.write("LETT #:\t\t" + LETTnumber  + System.getProperty("line.separator"));
+                    w.write(System.getProperty("line.separator"));
+                    w.write("Time (s)\tDistance (mm)\tForce (N)" + System.getProperty("line.separator"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
+                //Start test
                 if (!stopNow || !Objects.equals(elongation, "a")) {
-                    // Start
                     int temp[] = {'I'};
                     network.writeSerial(1, temp);
                 }
 
-                try {
-                    w.write("Start!");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                // TODO: procedure loop!
+//                while (!stopNow || !Objects.equals(elongation, "a")) {
+//                    try {
+//                        Thread.sleep(500);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                // done or cancelled
+//                int temp[] = {'C'};
+//                network.writeSerial(1, temp);
+//                network.writeSerial("test");
+//                // TODO: reader
+//                // network.SerialReader();
+//                // Stop timer
+//                if (stopNow) {
+//                    System.out.println("cancelled");
+//                }
 
-//TODO: procedure loop!
-//        while (!stopNow || !Objects.equals(elongation, "a")) {
-//            try {
-//                Thread.sleep(500);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-                // done or cancelled
-                int temp[] = {'C'};
-                network.writeSerial(1, temp);
-                network.writeSerial("test");
-                network.SerialReader();
-                // Stop timer
-                if (stopNow) {
-                    System.out.println("cancelled");
-                }
+                // Close the file
                 try {
                     w.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else {
-                System.out.println("No File location selected\n");
             }
-        }
-        else{
-            System.out.println("please input text");
         }
 
     }
@@ -417,6 +479,18 @@ public class GUI extends JPanel implements Network_iface {
         fileNameField = new JTextField(20);
     }
 
+    private static void createCOMPopUp() {
+        //Create and set up the window.
+        JFrame frame = new JFrame("FileChooserDemo");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //Add content to the window.
+        frame.add(new GUI());
+
+        //Display the window.
+        frame.pack();
+        frame.setVisible(true);
+    }
 }
 
 

@@ -9,9 +9,14 @@ import javax.swing.*;
 import java.util.Objects;
 import java.util.Vector;
 
+//import java.io.BufferedReader;
+//import java.io.IOException;
+//import java.io.InputStreamReader;
+//import java.io.InputStream;
+
 /**
  * Created by Rens Doornbusch on 2-6-2016. *
- * Inspired by the LETT Visual Basic code of Pieter Welling *
+ * Inspired by the "LETT" project Visual Basic code of Pieter Welling *
  * Created to enable cross platform (X) usage of application for LETT Desktop tests *
  * Extends the functionality with compression test *
  */
@@ -51,6 +56,7 @@ public class GUI extends JPanel implements Network_iface {
     private JFileChooser fc;
     private JTextArea log;
 
+
     public static void main(String[] args) {
 
         network = new Network(0, new GUI(), 255);
@@ -63,10 +69,10 @@ public class GUI extends JPanel implements Network_iface {
 
         // Schedule a job for the event dispatch thread:
         // creating and showing this application's GUI.
-        SwingUtilities.invokeLater(() -> {
-            // Turn off metal's use of bold fonts
-            UIManager.put("swing.boldMetal", Boolean.FALSE);
-        });
+//        SwingUtilities.invokeLater(() -> {
+//            // Turn off metal's use of bold fonts
+//            UIManager.put("swing.boldMetal", Boolean.FALSE);
+//        });
 
         // initializing reader from command line
         int i, inp_num = 0;
@@ -260,6 +266,7 @@ public class GUI extends JPanel implements Network_iface {
     }
 
     private void start() {
+
         if(!Objects.equals(fileNameField.getText(), "")) {
             if (!Objects.equals(fileLocation, "")) {
                 switch (testString_Current) {
@@ -354,9 +361,12 @@ public class GUI extends JPanel implements Network_iface {
 //                e.printStackTrace();
 //            }
 //        }
+
                 // done or cancelled
                 int temp[] = {'C'};
                 network.writeSerial(1, temp);
+                network.writeSerial("test");
+                network.SerialReader();
                 // Stop timer
                 if (stopNow) {
                     System.out.println("cancelled");

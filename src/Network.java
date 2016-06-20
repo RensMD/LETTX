@@ -108,7 +108,7 @@ public class Network {
 	 * 
 	 * @see #Network(int, Network_iface, int)
 	 */
-	private Network(int id, Network_iface contact) {
+	public Network(int id, Network_iface contact) {
 		this(id, contact, 255);
 	}
 
@@ -166,7 +166,7 @@ public class Network {
 	 *         <b>false</b> otherwise.
 	 * @see #connect(String, int)
 	 */
-	private boolean connect(String portName) {
+	public boolean connect(String portName) {
 		return connect(portName, 115200);
 	}
 
@@ -224,7 +224,7 @@ public class Network {
 	 * {@link Network_iface#parseInput(int, int, int[])}.
 	 * 
 	 */
-	private class SerialReader implements Runnable {
+	public class SerialReader implements Runnable {
 		InputStream in;
 
 		SerialReader(InputStream in) {
@@ -304,10 +304,10 @@ public class Network {
 	}
 
 	/**
-	 * @return Whether this instance of {@link net.Network} has currently an
+	 * @return Whether this instance of {@link Network} has currently an
 	 *         open connection of not.
 	 */
-	private boolean isConnected() {
+	public boolean isConnected() {
 		return connected;
 	}
 
@@ -319,13 +319,13 @@ public class Network {
 	 * If a connection is open, a {@link String} can be sent over the Serial
 	 * port using this function. If no connection is available, <b>false</b> is
 	 * returned and a message is sent using
-	 * {@link net.Network_iface#writeLog(int, String)}.
+	 * {@link Network_iface#writeLog(int, String)}.
 	 * 
 	 * @param message
 	 *            The {@link String} to be sent over the Serial connection.
 	 * @return <b>true</b> if the message could be sent, <b>false</b> otherwise.
 	 */
-	private boolean writeSerial(String message) {
+	public boolean writeSerial(String message) {
 		boolean success = false;
 		if (isConnected()) {
 			try {
@@ -385,7 +385,7 @@ public class Network {
 		return success;
 	}
 
-	private byte changeToByte(int num) {
+	public byte changeToByte(int num) {
 		byte number;
 		int temp;
 		temp = num;

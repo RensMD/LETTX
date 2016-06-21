@@ -1,5 +1,3 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.nio.file.Paths;
 
@@ -21,102 +19,84 @@ import java.util.Vector;
 
 /**
  * Created by Rens Doornbusch on 2-6-2016. *
- * Inspired by the "LETT" project Visual Basic code of Pieter Welling *
- * Created to enable cross platform (X) usage of application for LETT Desktop tests *
- * Extends the functionality with compression test *
+ * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
+ * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
+ * - Extends the functionality of the LETT with compression test *
  */
 
 public class GUI extends JPanel implements Network_iface {
 
     //String elongationPrint;
+    //Double pwmSignal = null;
     //String force = null;
     //Double time = null;
-    //Double pwmSignal = null;
     //Float velocity = null;
+    private static String elongation;
 
-    static private final String newline = "\n";
     private static Network network;
-    private static java.lang.String idinput;
-    private static boolean closed = false;
 
     private JPanel LettxJpanel;
-
+    private static JFrame frame = new JFrame("GUI");
+    private JButton fileLocationButton;
+    private JFileChooser fc;
+    private static String fileLocation = null;
+    private JTextField fileNameField;
     private JButton gripUpButton;
     private JButton gripDownButton;
-    private JButton startButton;
-
-    private boolean startButtonStop = false;
-    private static Boolean stopNow = false;
-    private static String elongation; //TODO: VBFixedString
-
-    private static String testString_Current;
-    private static String forceString_Current;
-    private static String speedString_Current;
     JComboBox<String> forceComboBox;
     JComboBox<String> speedComboBox;
     JComboBox<String> testComboBox;
-
-    private JButton fileLocationButton;
-    JTextField fileNameField;
-    private static String fileLocation = null;
-
-    private JFileChooser fc;
+    private static String testString_Current;
+    private static String forceString_Current;
+    private static String speedString_Current;
+    private JButton startButton;
+    private boolean startButtonStop = false;
+    private static Boolean stopNow = false;
+    private static JFrame frame2 = new JFrame("Serial Pop-Up");
     private static JTextArea log;
-    private static JButton COMButton;
     private static JTextField COMField;
+    private static JButton COMButton;
+    private static boolean closed = false;
+
 
     public static void main(String[] args) {
 
-        log = new JTextArea(5,50);
+        log = new JTextArea(5,31);
         log.setMargin(new Insets(5,5,5,5));
         log.setEditable(false);
 
         COMButton = new JButton("Choose Port");
         COMField = new JTextField("");
-        COMField.setPreferredSize( new Dimension( 200, 24 ) );
-        COMButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                closed = true;
-            }
-        });
+        COMField.setPreferredSize( new Dimension(200, 24));
+        COMButton.addActionListener(actionEvent -> closed = true);
 
-
-        network = new Network(0, new GUI(), 255);
-
-        JFrame frame = new JFrame("GUI");
         frame.setContentPane(new GUI().LettxJpanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        // Schedule a job for the event dispatch thread:
-        // creating and showing this application's GUI.
-//        SwingUtilities.invokeLater(() -> {
-//            // Turn off metal's use of bold fonts
-//            UIManager.put("swing.boldMetal", Boolean.FALSE);
-//        });
+        network = new Network(0, new GUI(), 255);
 
         // initializing reader from command line
         int i, inp_num = 0;
         String input;
-        BufferedReader in_stream = new BufferedReader(new InputStreamReader(System.in));
+        // BufferedReader in_stream = new BufferedReader(new InputStreamReader(System.in));
+        // BufferedReader in_stream = new BufferedReader(new InputStreamReader(Network.inputStream));
 
         // getting a list of the available serial ports
         Vector<String> ports = network.getPortList();
 
-
-        //TODO: Create arduino choice window
         boolean valid_answer = false;
         if(ports.size()!=1) {
+            frame.setVisible(false);
             createCOMPopUp();
-
             // choosing the port to connect to
             if (ports.size() > 0) {
-                System.out.println("Multiple serial ports have been detected:");
                 log.append("Multiple serial ports have been detected:\n");
             } else {
-                System.out.println("sorry, no serial ports were found on your computer\n");
+                COMField.setVisible(false);
+                COMButton.setVisible(false);
                 log.append("Sorry, no serial ports were found on your computer.\n");
                 log.append("Program will exit soon...");
                 try {
@@ -129,10 +109,8 @@ public class GUI extends JPanel implements Network_iface {
             for (i = 0; i < ports.size(); ++i) {
                 log.append("    " + Integer.toString(i + 1) + ":  " + ports.elementAt(i) + "\n");
             }
-
-            // TODO: make dependent on button press
             while (!valid_answer) {
-                log.append("Enter the number (1,2,...) of the port to connect to: \n");
+                log.append("\n Please, enter the number in front of the port name to choose.");
                 try {
                     input = textFieldInput();
                     inp_num = Integer.parseInt(input);
@@ -157,51 +135,6 @@ public class GUI extends JPanel implements Network_iface {
             System.out.println("sorry, there was an error connecting\n");
             System.exit(1);
         }
-
-//        //TODO: Get rid of 0-254
-//        // reading in numbers (bytes) to be sent over the serial port
-//        System.out.println("type 'q' to end the example");
-//        while (true) {
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException ignored) {
-//            }
-//
-//            System.out.println("\nenter a number between 0 and 254 to be sent ('q' to exit): ");
-//            try {
-//                input = in_stream.readLine();
-//                if (input.equals("q")) {
-//                    System.out.println("example terminated\n");
-//                    network.disconnect();
-//                    System.exit(0);
-//                }
-//                inp_num = Integer.parseInt(input);
-//                if ((inp_num > 255) || (inp_num < 0)) {
-//                    System.out.println("the number you entered is not valid");
-//                } else {
-//                    int temp[] = { inp_num };
-//                    network.writeSerial(1, temp);
-//                    System.out.println("sent " + inp_num + " over the serial port");
-//                }
-//            } catch (NumberFormatException ex) {
-//                System.out.println("please enter a correct number");
-//            } catch (IOException e) {
-//                System.out.println("there was an input error");
-//            }
-//        }
-    }
-
-    private static String textFieldInput() {
-        while(!closed){
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        idinput = COMField.getText();
-        //TODO: close frame
-        return idinput;
     }
 
     private GUI() {
@@ -234,9 +167,9 @@ public class GUI extends JPanel implements Network_iface {
                     File file = fc.getSelectedFile();
                     fileLocation = Paths.get(String.valueOf(fc.getSelectedFile())).normalize().toString();
 
-                    log.append("Opening: " + file.getName() + "." + newline);
+                    log.append("Opening: " + file.getName() + ". \n");
                 } else {
-                    log.append("Open command cancelled by user." + newline);
+                    log.append("Open command cancelled by user.\n");
                 }
                 log.setCaretPosition(log.getDocument().getLength());
                 System.out.println("Current Path:");
@@ -303,12 +236,11 @@ public class GUI extends JPanel implements Network_iface {
                 super.mouseClicked(mouseEvent);
                 if (startButtonStop) {
                     stopNow = true;
-                    startButton.setText("Stopped!");
+                    startButton.setText("STOPPED!");
                 }
                 else{
-
                     startButtonStop = true;
-                    startButton.setText("Stop");
+                    startButton.setText("STOP");
                     start();
                 }
             }
@@ -316,7 +248,6 @@ public class GUI extends JPanel implements Network_iface {
     }
 
     private void start() {
-
         //Check for empty fields
         if (Objects.equals(fileNameField.getText(), "")) {
             System.out.println("please input text");
@@ -448,6 +379,49 @@ public class GUI extends JPanel implements Network_iface {
 
     }
 
+    private static String textFieldInput() {
+        while(!closed){
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        String idInput = COMField.getText();
+        frame.setVisible(true);
+        frame2.dispose();
+        frame.setVisible(true);
+        return idInput;
+    }
+
+    private void createUIComponents() {
+        String[] testStrings = {"Tensile", "Compression"};
+        String[] forceStrings = {"100Kg", "500Kg"};
+        String[] speedStrings = {"10 mm/min", "50 mm/min", "100 mm/min"};
+        testComboBox = new JComboBox<>(testStrings);
+        forceComboBox = new JComboBox<>(forceStrings);
+        speedComboBox = new JComboBox<>(speedStrings);
+        testString_Current = testStrings[0];
+        forceString_Current = forceStrings[0];
+        speedString_Current = speedStrings[0];
+        fileNameField = new JTextField(20);
+    }
+
+    private static void createCOMPopUp() {
+        //Create and set up the window.
+        frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //Add content to the window.
+        frame2.add(new GUI());
+
+        //Display the window.
+        frame2.pack();
+        frame2.setLocationRelativeTo(null);
+        frame2.setVisible(true);
+    }
+
+
+    // Network_iface Methods
     public void writeLog(int id, String text) {
         System.out.println("   log:  |" + text + "|");
     }
@@ -466,31 +440,6 @@ public class GUI extends JPanel implements Network_iface {
         System.exit(0);
     }
 
-    private void createUIComponents() {
-        String[] testStrings = {"Tensile", "Compression"};
-        String[] forceStrings = {"100Kg", "500Kg"};
-        String[] speedStrings = {"10 mm/min", "50 mm/min", "100 mm/min"};
-        testComboBox = new JComboBox<>(testStrings);
-        forceComboBox = new JComboBox<>(forceStrings);
-        speedComboBox = new JComboBox<>(speedStrings);
-        testString_Current = testStrings[0];
-        forceString_Current = forceStrings[0];
-        speedString_Current = speedStrings[0];
-        fileNameField = new JTextField(20);
-    }
-
-    private static void createCOMPopUp() {
-        //Create and set up the window.
-        JFrame frame = new JFrame("FileChooserDemo");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        //Add content to the window.
-        frame.add(new GUI());
-
-        //Display the window.
-        frame.pack();
-        frame.setVisible(true);
-    }
 }
 
 

@@ -25,7 +25,7 @@ import java.util.Vector;
  * @author heavily using code examples from the RXTX-website (rxtx.qbang.org)
  */
 public class Network {
-	private InputStream inputStream;
+	public static InputStream inputStream;
 	private OutputStream outputStream;
 	/**
 	 * The status of the connection.
@@ -245,8 +245,7 @@ public class Network {
 									temp += 256;
 								if (temp == divider) {
 									if  (numTempBytes > 0) {
-										contact.parseInput(id, numTempBytes,
-												tempBytes);
+										contact.parseInput(id, numTempBytes, tempBytes);
 									}
 									numTempBytes = 0;
 								} else {

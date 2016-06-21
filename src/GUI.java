@@ -236,6 +236,8 @@ public class GUI extends JPanel implements Network_iface {
                 super.mouseClicked(mouseEvent);
                 if (startButtonStop) {
                     stopNow = true;
+                    int temp[] = {'C'};
+                    network.writeSerial(1, temp);
                     startButton.setText("STOPPED!");
                 }
                 else{
@@ -258,7 +260,7 @@ public class GUI extends JPanel implements Network_iface {
 
                 //Send information about current test to Arduino
                 switch (testString_Current) {
-                    case "Tensile": {
+                    case "Tension": {
                         int temp[] = {'T'};
                         network.writeSerial(1, temp);
                         break;
@@ -395,9 +397,9 @@ public class GUI extends JPanel implements Network_iface {
     }
 
     private void createUIComponents() {
-        String[] testStrings = {"Tensile", "Compression"};
-        String[] forceStrings = {"100Kg", "500Kg"};
-        String[] speedStrings = {"10 mm/min", "50 mm/min", "100 mm/min"};
+        String[] testStrings = {"Tension", "Compression"};
+        String[] forceStrings = {"500Kg", "100Kg"};
+        String[] speedStrings = {"100 mm/min", "50 mm/min", "10 mm/min"};
         testComboBox = new JComboBox<>(testStrings);
         forceComboBox = new JComboBox<>(forceStrings);
         speedComboBox = new JComboBox<>(speedStrings);

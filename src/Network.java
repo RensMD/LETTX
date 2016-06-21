@@ -193,10 +193,8 @@ public class Network {
 			if (portIdentifier.isCurrentlyOwned()) {
 				contact.writeLog(id, "Error: Port is currently in use");
 			} else {
-				serialPort = (SerialPort) portIdentifier.open("RTBug_network",
-						2000);
-				serialPort.setSerialPortParams(speed, SerialPort.DATABITS_8,
-						SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+				serialPort = (SerialPort) portIdentifier.open("RTBug_network", 2000);
+				serialPort.setSerialPortParams(speed, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 
 				inputStream = serialPort.getInputStream();
 				outputStream = serialPort.getOutputStream();

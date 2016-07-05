@@ -1,3 +1,7 @@
+import jssc.SerialPort;
+import jssc.SerialPortException;
+import jssc.SerialPortList;
+
 import java.io.*;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -11,7 +15,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Vector;
 
 
 /**
@@ -21,7 +24,7 @@ import java.util.Vector;
  * - Extends the functionality of the LETT with compression test *
  */
 
-public class GUI extends JPanel implements Network_iface {
+public class GUI extends JPanel {
 
     //String elongationPrint;
     //Double pwmSignal = null;
@@ -30,7 +33,7 @@ public class GUI extends JPanel implements Network_iface {
     //Float velocity = null;
     private static String elongation;
 
-    private static Network network;
+    //private static Network network;
 
     private JPanel LettxJpanel;
     private static JFrame frame = new JFrame("GUI");
@@ -73,7 +76,7 @@ public class GUI extends JPanel implements Network_iface {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        network = new Network(0, new GUI(), 1);
+        //network = new Network(0, new GUI(), 1);
 
         // initializing reader from command line
         int i, inp_num = 0;
@@ -82,14 +85,14 @@ public class GUI extends JPanel implements Network_iface {
         // BufferedReader in_stream = new BufferedReader(new InputStreamReader(Network.inputStream));
 
         // getting a list of the available serial ports
-        Vector<String> ports = network.getPortList();
+        String[] portNames = SerialPortList.getPortNames();
 
         boolean valid_answer = false;
-        if(ports.size()!=1) {
+        if(portNames.length !=1) {
             frame.setVisible(false);
             createCOMPopUp();
             // choosing the port to connect to
-            if (ports.size() > 0) {
+            if (portNames.length > 0) {
                 log.append("Multiple serial ports have been detected:\n");
             } else {
                 COMField.setVisible(false);
@@ -103,15 +106,15 @@ public class GUI extends JPanel implements Network_iface {
                 }
                 System.exit(0);
             }
-            for (i = 0; i < ports.size(); ++i) {
-                log.append("    " + Integer.toString(i + 1) + ":  " + ports.elementAt(i) + "\n");
+            for (i = 0; i < portNames.length; ++i) {
+                log.append("    " + Integer.toString(i + 1) + ":  " + portNames[i] + "\n");
             }
             while (!valid_answer) {
                 log.append("\n Please, enter the number in front of the port name to choose.");
                 try {
                     input = textFieldInput();
                     inp_num = Integer.parseInt(input);
-                    if ((inp_num < 1) || (inp_num >= ports.size() + 1))
+                    if ((inp_num < 1) || (inp_num >= portNames.length + 1))
                         log.append("your input is not valid");
                     else
                         valid_answer = true;
@@ -123,15 +126,26 @@ public class GUI extends JPanel implements Network_iface {
         else{
             inp_num=1;
         }
-        // connecting to the selected port
-        int speed = 19200;
-        if (network.connect(ports.elementAt(inp_num - 1), speed)) {
-            System.out.println();
-        } else {
-            System.out.println("sorry, there was an error connecting\n");
-            System.exit(1);
+        SerialPort serialPort = new SerialPort(portNames[inp_num-1]);
+        try {
+            serialPort.openPort();//Open serial port
+            serialPort.setParams(19200, 8, 1, 0);//Set params.
+            byte[] buffer = serialPort.readBytes(7);//Read 10 bytes from serial port
+            String s = new String(buffer);
+            log.append(s);
+        }
+        catch (SerialPortException ex) {
+            System.out.println(ex);
         }
     }
+        // connecting to the selected port
+//        if (network.connect(ports.elementAt(inp_num - 1), speed)) {
+//            System.out.println();
+//        } else {
+//            System.out.println("sorry, there was an error connecting\n");
+//            System.exit(1);
+//        }
+
 
     private GUI() {
 
@@ -197,7 +211,8 @@ public class GUI extends JPanel implements Network_iface {
             public void mousePressed(MouseEvent mouseEvent) {
                 super.mousePressed(mouseEvent);
                 int temp[] = { 'A' };
-                network.writeSerial(1, temp);
+//                network.writeSerial(1, temp);
+//                serialPort.writeBytes("This is a test string".getBytes());
             }
         });
         gripUpButton.addMouseListener(new MouseAdapter() {
@@ -205,7 +220,7 @@ public class GUI extends JPanel implements Network_iface {
             public void mouseReleased(MouseEvent mouseEvent) {
                 super.mouseReleased(mouseEvent);
                 int temp[] = { 'H' };
-                network.writeSerial(1, temp);
+//                network.writeSerial(1, temp);
             }
         });
         // Down
@@ -214,7 +229,7 @@ public class GUI extends JPanel implements Network_iface {
             public void mousePressed(MouseEvent mouseEvent) {
                 super.mousePressed(mouseEvent);
                 int temp[] = { 'B' };
-                network.writeSerial(1, temp);
+//                network.writeSerial(1, temp);
             }
         });
         gripDownButton.addMouseListener(new MouseAdapter() {
@@ -222,7 +237,7 @@ public class GUI extends JPanel implements Network_iface {
             public void mouseReleased(MouseEvent mouseEvent) {
                 super.mouseReleased(mouseEvent);
                 int temp[] = { 'G' };
-                network.writeSerial(1, temp);
+//                network.writeSerial(1, temp);
             }
         });
         // Start
@@ -233,7 +248,7 @@ public class GUI extends JPanel implements Network_iface {
                 if (startButtonStop) {
                     stopNow = true;
                     int temp[] = {'C'};
-                    network.writeSerial(1, temp);
+//                    network.writeSerial(1, temp);
                     startButton.setText("STOPPED!");
                 }
                 else{
@@ -258,12 +273,12 @@ public class GUI extends JPanel implements Network_iface {
                 switch (testString_Current) {
                     case "Tension": {
                         int temp[] = {'T'};
-                        network.writeSerial(1, temp);
+//                        network.writeSerial(1, temp);
                         break;
                     }
                     case "Compression": {
                         int temp[] = {'R'};
-                        network.writeSerial(1, temp);
+//                        network.writeSerial(1, temp);
                         break;
                     }
                     default:
@@ -273,12 +288,12 @@ public class GUI extends JPanel implements Network_iface {
                 switch (forceString_Current) {
                     case "100Kg": {
                         int temp[] = {'E'};
-                        network.writeSerial(1, temp);
+//                        network.writeSerial(1, temp);
                         break;
                     }
                     case "500Kg": {
                         int temp[] = {'F'};
-                        network.writeSerial(1, temp);
+//                        network.writeSerial(1, temp);
                         break;
                     }
                     default:
@@ -288,22 +303,22 @@ public class GUI extends JPanel implements Network_iface {
                 switch (speedString_Current) {
                     case "10 mm/min": {
                         int temp[] = {'1'};
-                        network.writeSerial(1, temp);
+//                        network.writeSerial(1, temp);
                         break;
                     }
                     case "20 mm/min": {
                         int temp[] = {'2'};
-                        network.writeSerial(1, temp);
+//                        network.writeSerial(1, temp);
                         break;
                     }
                     case "50 mm/min": {
                         int temp[] = {'3'};
-                        network.writeSerial(1, temp);
+//                        network.writeSerial(1, temp);
                         break;
                     }
                     case "100 mm/min": {
                         int temp[] = {'4'};
-                        network.writeSerial(1, temp);
+//                        network.writeSerial(1, temp);
                         break;
                     }
                     default:
@@ -348,7 +363,7 @@ public class GUI extends JPanel implements Network_iface {
                 //Start test
                 if (!stopNow || !Objects.equals(elongation, "a")) {
                     int temp[] = {'I'};
-                    network.writeSerial(1, temp);
+//                    network.writeSerial(1, temp);
                 }
 
 //                // TODO: procedure loop!
@@ -391,9 +406,9 @@ public class GUI extends JPanel implements Network_iface {
             }
         }
         String idInput = COMField.getText();
-        frame.setVisible(true);
-        frame2.dispose();
-        frame.setVisible(true);
+        //frame.setVisible(true);
+        //frame2.dispose();
+        //frame.setVisible(true);
         return idInput;
     }
 
@@ -424,24 +439,24 @@ public class GUI extends JPanel implements Network_iface {
     }
 
 
-    // Network_iface Methods
-    public void writeLog(int id, String text) {
-        System.out.println("   log:  |" + text + "|");
-    }
-
-    public void parseInput(int id, int numBytes, int[] message) {
-        System.out.print("received the following message: ");
-        System.out.print(message[0]);
-        for (int i = 1; i < numBytes; ++i) {
-            System.out.print(", ");
-            System.out.print(message[i]);
-        }
-        System.out.println();
-    }
-
-    public void networkDisconnected(int id) {
-        System.exit(0);
-    }
+//    // Network_iface Methods
+//    public void writeLog(int id, String text) {
+//        System.out.println("   log:  |" + text + "|");
+//    }
+//
+//    public void parseInput(int id, int numBytes, int[] message) {
+//        System.out.print("received the following message: ");
+//        System.out.print(message[0]);
+//        for (int i = 1; i < numBytes; ++i) {
+//            System.out.print(", ");
+//            System.out.print(message[i]);
+//        }
+//        System.out.println();
+//    }
+//
+//    public void networkDisconnected(int id) {
+//        System.exit(0);
+//    }
 
 //    public class SerialReader implements Runnable {
 //        InputStream in;

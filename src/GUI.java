@@ -27,8 +27,8 @@ public class GUI extends JPanel {
 
     //String elongationPrint;
     //Double pwmSignal = null;
-
     //Float velocity = null;
+
     private static String elongation;
     private static String force = null;
     private static String time = null;
@@ -130,7 +130,7 @@ public class GUI extends JPanel {
             serialPort.setParams(19200, 8, 1, 0);//Set params.
         }
         catch (SerialPortException ex) {
-            System.out.println(ex);
+//            System.out.println(ex);
         }
         parseInput();
     }
@@ -426,17 +426,23 @@ public class GUI extends JPanel {
                     }
                 }
 
-                parseInput();
-
 //                // TODO: procedure loop!
-//                while (!stopNow || !Objects.equals(elongation, "a")) {
-//                    try {
-//                        Thread.sleep(500);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
+                while(!stopNow || !Objects.equals(elongation, "a")){
+                    for(int n = 0; n < 20; n++){
+                        parseInput();
+                        try {
+                            w.write(n + ":\t" + elongation + "\t" + force + "\t" + time + "\t" + System.getProperty("line.separator"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            Thread.sleep(5);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
 //                // done or cancelled
 //                int temp[] = {'C'};
 //                network.writeSerial(1, temp);

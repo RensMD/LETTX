@@ -1,4 +1,5 @@
 import java.io.*;
+import java.io.IOException;
 import java.nio.file.Paths;
 
 import java.awt.*;
@@ -12,10 +13,6 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
 
-//import java.io.BufferedReader;
-//import java.io.IOException;
-//import java.io.InputStreamReader;
-//import java.io.InputStream;
 
 /**
  * Created by Rens Doornbusch on 2-6-2016. *
@@ -76,7 +73,7 @@ public class GUI extends JPanel implements Network_iface {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        network = new Network(0, new GUI(), 255);
+        network = new Network(0, new GUI(), 1);
 
         // initializing reader from command line
         int i, inp_num = 0;
@@ -126,7 +123,6 @@ public class GUI extends JPanel implements Network_iface {
         else{
             inp_num=1;
         }
-
         // connecting to the selected port
         int speed = 19200;
         if (network.connect(ports.elementAt(inp_num - 1), speed)) {
@@ -295,13 +291,18 @@ public class GUI extends JPanel implements Network_iface {
                         network.writeSerial(1, temp);
                         break;
                     }
-                    case "50 mm/min": {
+                    case "20 mm/min": {
                         int temp[] = {'2'};
                         network.writeSerial(1, temp);
                         break;
                     }
-                    case "100 mm/min": {
+                    case "50 mm/min": {
                         int temp[] = {'3'};
+                        network.writeSerial(1, temp);
+                        break;
+                    }
+                    case "100 mm/min": {
+                        int temp[] = {'4'};
                         network.writeSerial(1, temp);
                         break;
                     }
@@ -399,7 +400,7 @@ public class GUI extends JPanel implements Network_iface {
     private void createUIComponents() {
         String[] testStrings = {"Tension", "Compression"};
         String[] forceStrings = {"500Kg", "100Kg"};
-        String[] speedStrings = {"100 mm/min", "50 mm/min", "10 mm/min"};
+        String[] speedStrings = {"100 mm/min", "20 mm/min", "50 mm/min", "10 mm/min"};
         testComboBox = new JComboBox<>(testStrings);
         forceComboBox = new JComboBox<>(forceStrings);
         speedComboBox = new JComboBox<>(speedStrings);
@@ -441,6 +442,54 @@ public class GUI extends JPanel implements Network_iface {
     public void networkDisconnected(int id) {
         System.exit(0);
     }
+
+//    public class SerialReader implements Runnable {
+//        InputStream in;
+//
+//        SerialReader(InputStream in) {
+//            this.in = in;
+//        }
+//
+//        public void run() {
+//            byte[] buffer = new byte[1024];
+//            int len = -1, i, temp;
+//            try {
+//                while (!end) {
+//                    if ((in.available()) > 0) {
+//                        if ((len = this.in.read(buffer)) > -1) {
+//                            for (i = 0; i < len; i++) {
+//                                temp = buffer[i];
+//                                // adjust from C-Byte to Java-Byte
+//                                if (temp < 0)
+//                                    temp += 256;
+//                                if (temp == divider) {
+//                                    if  (numTempBytes > 0) {
+//                                        contact.parseInput(id, numTempBytes, tempBytes);
+//                                    }
+//                                    numTempBytes = 0;
+//                                } else {
+//                                    tempBytes[numTempBytes] = temp;
+//                                    ++numTempBytes;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            } catch (IOException e) {
+//                end = true;
+//                try {
+//                    outputStream.close();
+//                    inputStream.close();
+//                } catch (IOException e1) {
+//                    e1.printStackTrace();
+//                }
+//                serialPort.close();
+//                connected = false;
+//                contact.networkDisconnected(id);
+//                contact.writeLog(id, "connection has been interrupted");
+//            }
+//        }
+//    }
 
 }
 

@@ -167,7 +167,7 @@ public class Network {
 	 * @see #connect(String, int)
 	 */
 	public boolean connect(String portName) {
-		return connect(portName, 115200);
+		return connect(portName, 19200);
 	}
 
 	/**
@@ -237,7 +237,8 @@ public class Network {
 					if ((in.available()) > 0) {
 						if ((len = this.in.read(buffer)) > -1) {
 							for (i = 0; i < len; i++) {
-								temp = buffer[i];
+								temp = (int)buffer[i];
+//                                String s = temp.toString();
 								 // adjust from C-Byte to Java-Byte
 								if (temp < 0)
 									temp += 256;
@@ -247,8 +248,8 @@ public class Network {
 									}
 									numTempBytes = 0;
 								} else {
-									tempBytes[numTempBytes] = temp;
-									++numTempBytes;
+//									tempBytes[numTempBytes] = temp;
+//									++numTempBytes;
 								}
 							}
 						}

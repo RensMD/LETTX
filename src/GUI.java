@@ -27,10 +27,11 @@ public class GUI extends JPanel {
 
     //String elongationPrint;
     //Double pwmSignal = null;
-    //String force = null;
-    //Double time = null;
+
     //Float velocity = null;
     private static String elongation;
+    private static String force = null;
+    private static String time = null;
 
     private JPanel LettxJpanel;
     private static JFrame frame = new JFrame("GUI");
@@ -56,6 +57,9 @@ public class GUI extends JPanel {
     private static boolean closed = false;
 
     private static SerialPort serialPort;
+
+    private static boolean stopReading= false;
+    private static String LETTnumber;
 
 
     public static void main(String[] args) {
@@ -124,16 +128,45 @@ public class GUI extends JPanel {
         try {
             serialPort.openPort();//Open serial port
             serialPort.setParams(19200, 8, 1, 0);//Set params.
-
-            //TODO: remove
-            byte[] buffer = serialPort.readBytes(7);//Read 10 bytes from serial port
-            String s = new String(buffer);
-            log.append(s);
         }
         catch (SerialPortException ex) {
             System.out.println(ex);
         }
+        parseInput();
     }
+
+    private static void parseInput() {
+
+        while (!stopReading) {
+            byte[] buffer = new byte[0];//Read 10 bytes from serial port
+            try {
+                buffer = serialPort.readBytes(200);
+            } catch (SerialPortException e) {
+                e.printStackTrace();
+            }
+            String message = new String(buffer);
+            String[] splitMessage = message.split("\n");
+            for (int i = 0; i < splitMessage.length; i++) splitMessage[i] = splitMessage[i].trim(); // Trim message
+            if(Objects.equals(splitMessage[0], "start")) {
+//                log.append(splitMessage[0] + '\n');
+//                log.append(splitMessage[1] + '\n');
+//                log.append(splitMessage[2] + '\n');
+//                log.append(splitMessage[3] + '\n');
+//                log.append(splitMessage[4] + '\n');
+
+                LETTnumber = splitMessage[1];
+                elongation = splitMessage[2];
+                force = splitMessage[3];
+                time = splitMessage[4];
+                stopReading=true;
+            }
+            else{
+                // TODO: solve problem with repetitive error
+            }
+        }
+        stopReading=false;
+    }
+
 
     private GUI() {
         super(new BorderLayout());
@@ -350,6 +383,7 @@ public class GUI extends JPanel {
                 }
 
                 // Create new text File
+
                 String fileName = fileNameField.getText();
                 System.out.println(fileLocation + "\\" + fileName + ".txt");
                 File textFile = new File(fileLocation + "\\" + fileName + ".txt");
@@ -364,6 +398,7 @@ public class GUI extends JPanel {
                 Writer w = new BufferedWriter(osw);
 
                 // Write Standard information to file
+                parseInput();
                 try {
                     w.write("Developed by:\t\tPieter Welling & Rens Doornbusch" + System.getProperty("line.separator"));
                     w.write("\t\t\tTU Delft" + System.getProperty("line.separator"));
@@ -375,8 +410,7 @@ public class GUI extends JPanel {
                     w.write("Speed:\t\t\t" + speedString_Current + System.getProperty("line.separator"));
                     w.write("Load Cell:\t\t" + forceString_Current + System.getProperty("line.separator"));
                     w.write("Test Type:\t\t" + testString_Current  + System.getProperty("line.separator"));
-                    // TODO: check current LETT number
-                    //w.write("LETT #:\t\t" + LETTnumber  + System.getProperty("line.separator"));
+                    w.write("LETT #:\t\t" + LETTnumber  + System.getProperty("line.separator"));
                     w.write(System.getProperty("line.separator"));
                     w.write("Time (s)\tDistance (mm)\tForce (N)" + System.getProperty("line.separator"));
                 } catch (IOException e) {
@@ -391,6 +425,8 @@ public class GUI extends JPanel {
                         e.printStackTrace();
                     }
                 }
+
+                parseInput();
 
 //                // TODO: procedure loop!
 //                while (!stopNow || !Objects.equals(elongation, "a")) {

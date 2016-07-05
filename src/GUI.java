@@ -16,7 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-
 /**
  * Created by Rens Doornbusch on 2-6-2016. *
  * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
@@ -32,8 +31,6 @@ public class GUI extends JPanel {
     //Double time = null;
     //Float velocity = null;
     private static String elongation;
-
-    //private static Network network;
 
     private JPanel LettxJpanel;
     private static JFrame frame = new JFrame("GUI");
@@ -58,6 +55,8 @@ public class GUI extends JPanel {
     private static JButton COMButton;
     private static boolean closed = false;
 
+    private static SerialPort serialPort;
+
 
     public static void main(String[] args) {
 
@@ -76,13 +75,8 @@ public class GUI extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        //network = new Network(0, new GUI(), 1);
-
-        // initializing reader from command line
         int i, inp_num = 0;
         String input;
-        // BufferedReader in_stream = new BufferedReader(new InputStreamReader(System.in));
-        // BufferedReader in_stream = new BufferedReader(new InputStreamReader(Network.inputStream));
 
         // getting a list of the available serial ports
         String[] portNames = SerialPortList.getPortNames();
@@ -126,10 +120,12 @@ public class GUI extends JPanel {
         else{
             inp_num=1;
         }
-        SerialPort serialPort = new SerialPort(portNames[inp_num-1]);
+        serialPort = new SerialPort(portNames[inp_num-1]);
         try {
             serialPort.openPort();//Open serial port
             serialPort.setParams(19200, 8, 1, 0);//Set params.
+
+            //TODO: remove
             byte[] buffer = serialPort.readBytes(7);//Read 10 bytes from serial port
             String s = new String(buffer);
             log.append(s);
@@ -138,22 +134,11 @@ public class GUI extends JPanel {
             System.out.println(ex);
         }
     }
-        // connecting to the selected port
-//        if (network.connect(ports.elementAt(inp_num - 1), speed)) {
-//            System.out.println();
-//        } else {
-//            System.out.println("sorry, there was an error connecting\n");
-//            System.exit(1);
-//        }
-
 
     private GUI() {
-
         super(new BorderLayout());
-
         JScrollPane logScrollPane = new JScrollPane(log);
-        //For layout purposes, put the buttons in a separate panel
-        JPanel buttonPanel = new JPanel(); //use FlowLayout
+        JPanel buttonPanel = new JPanel();
         buttonPanel.add(COMField);
         buttonPanel.add(COMButton);
 
@@ -187,40 +172,45 @@ public class GUI extends JPanel {
             }
         });
 
-        // Selection Boxes
-        //Test
+        /* Selection Boxes */
+        // Test Type Select
         testComboBox.addActionListener(actionEvent -> {
             JComboBox testComboBox = (JComboBox) actionEvent.getSource();
             testString_Current = (String) testComboBox.getSelectedItem();
         });
-        // Force
+        // Force Select
         forceComboBox.addActionListener(actionEvent -> {
             JComboBox forceComboBox = (JComboBox) actionEvent.getSource();
             forceString_Current = (String) forceComboBox.getSelectedItem();
         });
-        // Speed
+        // Speed Select
         speedComboBox.addActionListener(actionEvent -> {
             JComboBox speedComboBox = (JComboBox) actionEvent.getSource();
             speedString_Current = (String) speedComboBox.getSelectedItem();
         });
 
-        // Control
+        /* Control */
         // Up
         gripUpButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
                 super.mousePressed(mouseEvent);
-                int temp[] = { 'A' };
-//                network.writeSerial(1, temp);
-//                serialPort.writeBytes("This is a test string".getBytes());
+                try {
+                    serialPort.writeBytes("A".getBytes());
+                } catch (SerialPortException e) {
+                    e.printStackTrace();
+                }
             }
         });
         gripUpButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent mouseEvent) {
                 super.mouseReleased(mouseEvent);
-                int temp[] = { 'H' };
-//                network.writeSerial(1, temp);
+                try {
+                    serialPort.writeBytes("H".getBytes());
+                } catch (SerialPortException e) {
+                    e.printStackTrace();
+                }
             }
         });
         // Down
@@ -228,16 +218,22 @@ public class GUI extends JPanel {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
                 super.mousePressed(mouseEvent);
-                int temp[] = { 'B' };
-//                network.writeSerial(1, temp);
+                try {
+                    serialPort.writeBytes("B".getBytes());
+                } catch (SerialPortException e) {
+                    e.printStackTrace();
+                }
             }
         });
         gripDownButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent mouseEvent) {
                 super.mouseReleased(mouseEvent);
-                int temp[] = { 'G' };
-//                network.writeSerial(1, temp);
+                try {
+                    serialPort.writeBytes("G".getBytes());
+                } catch (SerialPortException e) {
+                    e.printStackTrace();
+                }
             }
         });
         // Start
@@ -247,8 +243,11 @@ public class GUI extends JPanel {
                 super.mouseClicked(mouseEvent);
                 if (startButtonStop) {
                     stopNow = true;
-                    int temp[] = {'C'};
-//                    network.writeSerial(1, temp);
+                    try {
+                        serialPort.writeBytes("C".getBytes());
+                    } catch (SerialPortException e) {
+                        e.printStackTrace();
+                    }
                     startButton.setText("STOPPED!");
                 }
                 else{
@@ -272,13 +271,19 @@ public class GUI extends JPanel {
                 //Send information about current test to Arduino
                 switch (testString_Current) {
                     case "Tension": {
-                        int temp[] = {'T'};
-//                        network.writeSerial(1, temp);
+                        try {
+                            serialPort.writeBytes("T".getBytes());
+                        } catch (SerialPortException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     }
                     case "Compression": {
-                        int temp[] = {'R'};
-//                        network.writeSerial(1, temp);
+                        try {
+                            serialPort.writeBytes("R".getBytes());
+                        } catch (SerialPortException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     }
                     default:
@@ -287,13 +292,19 @@ public class GUI extends JPanel {
                 }
                 switch (forceString_Current) {
                     case "100Kg": {
-                        int temp[] = {'E'};
-//                        network.writeSerial(1, temp);
+                        try {
+                            serialPort.writeBytes("E".getBytes());
+                        } catch (SerialPortException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     }
                     case "500Kg": {
-                        int temp[] = {'F'};
-//                        network.writeSerial(1, temp);
+                        try {
+                            serialPort.writeBytes("F".getBytes());
+                        } catch (SerialPortException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     }
                     default:
@@ -302,23 +313,35 @@ public class GUI extends JPanel {
                 }
                 switch (speedString_Current) {
                     case "10 mm/min": {
-                        int temp[] = {'1'};
-//                        network.writeSerial(1, temp);
+                        try {
+                            serialPort.writeBytes("1".getBytes());
+                        } catch (SerialPortException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     }
                     case "20 mm/min": {
-                        int temp[] = {'2'};
-//                        network.writeSerial(1, temp);
+                        try {
+                            serialPort.writeBytes("2".getBytes());
+                        } catch (SerialPortException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     }
                     case "50 mm/min": {
-                        int temp[] = {'3'};
-//                        network.writeSerial(1, temp);
+                        try {
+                            serialPort.writeBytes("3".getBytes());
+                        } catch (SerialPortException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     }
                     case "100 mm/min": {
-                        int temp[] = {'4'};
-//                        network.writeSerial(1, temp);
+                        try {
+                            serialPort.writeBytes("4".getBytes());
+                        } catch (SerialPortException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     }
                     default:
@@ -362,8 +385,11 @@ public class GUI extends JPanel {
 
                 //Start test
                 if (!stopNow || !Objects.equals(elongation, "a")) {
-                    int temp[] = {'I'};
-//                    network.writeSerial(1, temp);
+                    try {
+                        serialPort.writeBytes("I".getBytes());
+                    } catch (SerialPortException e) {
+                        e.printStackTrace();
+                    }
                 }
 
 //                // TODO: procedure loop!
@@ -406,9 +432,9 @@ public class GUI extends JPanel {
             }
         }
         String idInput = COMField.getText();
-        //frame.setVisible(true);
+        frame.setVisible(true);
+        //TODO: reenter dispose after tests
         //frame2.dispose();
-        //frame.setVisible(true);
         return idInput;
     }
 
@@ -437,74 +463,6 @@ public class GUI extends JPanel {
         frame2.setLocationRelativeTo(null);
         frame2.setVisible(true);
     }
-
-
-//    // Network_iface Methods
-//    public void writeLog(int id, String text) {
-//        System.out.println("   log:  |" + text + "|");
-//    }
-//
-//    public void parseInput(int id, int numBytes, int[] message) {
-//        System.out.print("received the following message: ");
-//        System.out.print(message[0]);
-//        for (int i = 1; i < numBytes; ++i) {
-//            System.out.print(", ");
-//            System.out.print(message[i]);
-//        }
-//        System.out.println();
-//    }
-//
-//    public void networkDisconnected(int id) {
-//        System.exit(0);
-//    }
-
-//    public class SerialReader implements Runnable {
-//        InputStream in;
-//
-//        SerialReader(InputStream in) {
-//            this.in = in;
-//        }
-//
-//        public void run() {
-//            byte[] buffer = new byte[1024];
-//            int len = -1, i, temp;
-//            try {
-//                while (!end) {
-//                    if ((in.available()) > 0) {
-//                        if ((len = this.in.read(buffer)) > -1) {
-//                            for (i = 0; i < len; i++) {
-//                                temp = buffer[i];
-//                                // adjust from C-Byte to Java-Byte
-//                                if (temp < 0)
-//                                    temp += 256;
-//                                if (temp == divider) {
-//                                    if  (numTempBytes > 0) {
-//                                        contact.parseInput(id, numTempBytes, tempBytes);
-//                                    }
-//                                    numTempBytes = 0;
-//                                } else {
-//                                    tempBytes[numTempBytes] = temp;
-//                                    ++numTempBytes;
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            } catch (IOException e) {
-//                end = true;
-//                try {
-//                    outputStream.close();
-//                    inputStream.close();
-//                } catch (IOException e1) {
-//                    e1.printStackTrace();
-//                }
-//                serialPort.close();
-//                connected = false;
-//                contact.networkDisconnected(id);
-//                contact.writeLog(id, "connection has been interrupted");
-//            }
-//        }
-//    }
 
 }
 

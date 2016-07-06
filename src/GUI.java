@@ -1,82 +1,66 @@
 import jssc.*;
 
-import java.io.*;
-import java.io.IOException;
-import java.nio.file.Paths;
-
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.*;
+import java.io.*;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
 /**
+ * Lettx application GUI.
+ *
  * Created by Rens Doornbusch on 2-6-2016. *
- * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
- * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
- * - Extends the functionality of the LETT with compression test *
  */
 
 public class GUI extends JPanel {
 
     private JPanel LettxJpanel;
+
     private static JFrame frame = new JFrame("GUI");
     private JButton fileLocationButton;
     private JFileChooser fc;
-    private static String fileLocation = null;
-    private static JTextField fileNameField;
+    private String fileLocation = "";
+    private JTextField fileNameField;
     private JButton gripUpButton;
     private JButton gripDownButton;
-    JComboBox<String> forceComboBox;
-    JComboBox<String> speedComboBox;
-    JComboBox<String> testComboBox;
-    private static String testString_Current;
-    private static String forceString_Current;
-    private static String speedString_Current;
+    private JComboBox<String> forceComboBox;
+    private JComboBox<String> speedComboBox;
+    private JComboBox<String> testComboBox;
+    private String testString_Current;
+    private String forceString_Current;
+    private String speedString_Current;
     private JButton startButton;
     private boolean stopButton = false;
-    private static JFrame frame2 = new JFrame("Serial Pop-Up");
-    private static JTextArea log;
-    private static JTextField COMField;
-    private static JButton COMButton;
-    private static boolean closed = false;
+    private JFrame frame2 = new JFrame("Serial Pop-Up");
+    private JTextArea log;
+    private JTextField COMField;
+    private JButton COMButton;
+    private boolean closed = false;
 
     private static SerialPort serialPort;
 
-    private static String fileName;
-    private static Writer w;
+    private String fileName;
+    private Writer w;
 
-    private static boolean stopNow = false;
-    private static boolean startReceived;
-    private static String timeOld;
-    private static String elongation;
-    private static String force = null;
-    private static String time = null;
-    private static String LETTNumber;
-    private static int lineNumber = 0;
+    private boolean stopNow = false;
+    private boolean startReceived;
+    private String timeOld;
+    private String elongation;
+    private String force = null;
+    private String time = null;
+    private String LETTNumber;
+    private int lineNumber = 0;
     private boolean cancelled = false;
+    private String selectedPort;
 
 
-    public static void main(String[] args) {
+    private void selectComPort() {
 
-        log = new JTextArea(5,31);
-        log.setMargin(new Insets(5,5,5,5));
-        log.setEditable(false);
-
-        COMButton = new JButton("Choose Port");
-        COMField = new JTextField("");
-        COMField.setPreferredSize( new Dimension(200, 24));
-        COMButton.addActionListener(actionEvent -> closed = true);
-
-        frame.setContentPane(new GUI().LettxJpanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
 
         int i, inp_num = 0;
         String input;
@@ -85,44 +69,45 @@ public class GUI extends JPanel {
         String[] portNames = SerialPortList.getPortNames();
 
         boolean valid_answer = false;
-        if(portNames.length !=1) {
-            frame.setVisible(false);
-            createCOMPopUp();
+        if(portNames.length == 1) {
+//            frame.setVisible(false);
+//            createCOMPopUp();
             // choosing the port to connect to
-            if (portNames.length > 0) {
+            inp_num = 1;
+        } else if (portNames.length > 1) {
                 log.append("Multiple serial ports have been detected:\n");
-            } else {
-                COMField.setVisible(false);
-                COMButton.setVisible(false);
+            } else if (portNames.length == 0) {
+//                COMField.setVisible(false);
+//                COMButton.setVisible(false);
                 log.append("Sorry, no serial ports were found on your computer.\n");
-                log.append("Program will exit soon...");
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.exit(0);
+//                log.append("Program will exit soon...");
+//                try {
+//                    Thread.sleep(5000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                System.exit(0);
             }
-            for (i = 0; i < portNames.length; ++i) {
-                log.append("\t" + Integer.toString(i + 1) + ":  " + portNames[i] + "\n");
-            }
-            while (!valid_answer) {
-                log.append("\n Please, enter the number in front of the port name to choose.");
-                try {
-                    input = textFieldInput();
-                    inp_num = Integer.parseInt(input);
-                    if ((inp_num < 1) || (inp_num >= portNames.length + 1))
-                        log.append("your input is not valid");
-                    else
-                        valid_answer = true;
-                } catch (NumberFormatException ex) {
-                    log.append("please enter a correct number");
-                }
-            }
-        }
-        else{
-            inp_num=1;
-        }
+//            for (i = 0; i < portNames.length; ++i) {
+//                log.append("\t" + Integer.toString(i + 1) + ":  " + portNames[i] + "\n");
+//            }
+//            while (!valid_answer) {
+//                log.append("\n Please, enter the number in front of the port name to choose.");
+//                try {
+//                    input = textFieldInput();
+//                    inp_num = Integer.parseInt(input);
+//                    if ((inp_num < 1) || (inp_num >= portNames.length + 1))
+//                        log.append("your input is not valid");
+//                    else
+//                        valid_answer = true;
+//                } catch (NumberFormatException ex) {
+//                    log.append("please enter a correct number");
+//                }
+//            }
+//        }
+//        else{
+//            inp_num=1;
+//        }
         serialPort = new SerialPort(portNames[inp_num-1]);
         try {
             serialPort.openPort();//Open serial port
@@ -137,8 +122,8 @@ public class GUI extends JPanel {
 
         // Create new text File
         fileName = fileNameField.getText();
-        System.out.println(fileLocation + "\\" + fileName + ".txt");
-        File textFile = new File(fileLocation + "\\" + fileName + ".txt");
+        System.out.println(fileLocation + fileName + ".txt");
+        File textFile = new File(fileLocation + fileName + ".txt");
         FileOutputStream is = null;
         try {
             is = new FileOutputStream(textFile);
@@ -150,75 +135,21 @@ public class GUI extends JPanel {
         w = new BufferedWriter(osw);
     }
 
-    private static class SerialPortReader implements SerialPortEventListener {
+    private void initGui() {
 
-        public void serialEvent(SerialPortEvent event) {
-            if(event.isRXCHAR()){//If data is available
-                if(event.getEventValue() > 7) {//Check bytes count in the input buffer
-                    //Read data, if 10 bytes available
-                    byte[] buffer = new byte[0];
-                    try {
-                        // TODO: fixed buffer size -> should be adapting to incoming string size?
-                        buffer = serialPort.readBytes(50);
-                    } catch (SerialPortException ex) {
-//                        System.out.println(ex);
-                    }
-                    String message = new String(buffer);
-                    String[] splitMessage = message.split("\n");
-                    for (int i = 0; i < splitMessage.length; i++) splitMessage[i] = splitMessage[i].trim(); // Trim message
-
-                    boolean beginFound = false;
-                    int n=0;
-                    while(!beginFound){
-                        if (Objects.equals(splitMessage[n], "stop")) {
-                            stopNow=true;
-                        }
-                        else if (Objects.equals(splitMessage[n], "data")) {
-                            elongation = splitMessage[n+1];
-                            force = splitMessage[n+2];
-                            time = splitMessage[n+3];
-                            beginFound=true;
-                            if(!Objects.equals(timeOld, time)){
-                                try {
-                                    w.write(lineNumber + ":\t" + elongation + "\t" + force + "\t" + time + "\t" + System.getProperty("line.separator"));
-
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                try {
-                                    serialPort.writeBytes(String.valueOf(lineNumber).getBytes());
-                                } catch (SerialPortException e) {
-                                    e.printStackTrace();
-                                }
-                                lineNumber++;
-                                timeOld=time;
-                            }
-
-                        }
-                        else if(Objects.equals(splitMessage[n], "start")){
-                            LETTNumber = splitMessage[n+1];
-                            startReceived=true;
-                            try {
-                                serialPort.writeBytes("O".getBytes());
-                            } catch (SerialPortException e) {
-                                e.printStackTrace();
-                            }
-                            beginFound=true;
-                        }
-                        else{
-                            n++;
-                        }
-                    }
-
-                }
-            }
-        }
-    }
-
-    private GUI() {
-        super(new BorderLayout());
         JScrollPane logScrollPane = new JScrollPane(log);
+
         JPanel buttonPanel = new JPanel();
+
+        log = new JTextArea(5,31);
+        log.setMargin(new Insets(5,5,5,5));
+        log.setEditable(false);
+
+        COMButton = new JButton("Choose Port");
+        COMField = new JTextField("");
+        COMField.setPreferredSize( new Dimension(200, 24));
+        COMButton.addActionListener(actionEvent -> closed = true);
+
         buttonPanel.add(COMField);
         buttonPanel.add(COMButton);
 
@@ -337,16 +268,97 @@ public class GUI extends JPanel {
                 }
             }
         });
+
+
+    }
+
+    private class SerialPortReader implements SerialPortEventListener {
+
+        public void serialEvent(SerialPortEvent event) {
+            if(event.isRXCHAR()){//If data is available
+                if(event.getEventValue() > 7) {//Check bytes count in the input buffer
+                    //Read data, if 10 bytes available
+                    byte[] buffer = new byte[0];
+                    try {
+                        // TODO: fixed buffer size -> should be adapting to incoming string size?
+                        buffer = serialPort.readBytes(50);
+                    } catch (SerialPortException ex) {
+//                        System.out.println(ex);
+                    }
+                    String message = new String(buffer);
+                    String[] splitMessage = message.split("\n");
+                    for (int i = 0; i < splitMessage.length; i++) splitMessage[i] = splitMessage[i].trim(); // Trim message
+
+                    boolean beginFound = false;
+                    int n=0;
+                    while(!beginFound){
+                        if (Objects.equals(splitMessage[n], "stop")) {
+                            stopNow=true;
+                        }
+                        else if (Objects.equals(splitMessage[n], "data")) {
+                            elongation = splitMessage[n+1];
+                            force = splitMessage[n+2];
+                            time = splitMessage[n+3];
+                            beginFound=true;
+                            if(!Objects.equals(timeOld, time)){
+                                try {
+                                    w.write(lineNumber + ":\t" + elongation + "\t" + force + "\t" + time + "\t" + System.getProperty("line.separator"));
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                try {
+                                    serialPort.writeBytes(String.valueOf(lineNumber).getBytes());
+                                } catch (SerialPortException e) {
+                                    e.printStackTrace();
+                                }
+                                lineNumber++;
+                                timeOld=time;
+                            }
+
+                        }
+                        else if(Objects.equals(splitMessage[n], "start")){
+                            LETTNumber = splitMessage[n+1];
+                            startReceived=true;
+                            try {
+                                serialPort.writeBytes("O".getBytes());
+                            } catch (SerialPortException e) {
+                                e.printStackTrace();
+                            }
+                            beginFound=true;
+                        }
+                        else{
+                            n++;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    GUI() {
+        super(new BorderLayout());
+        frame.setContentPane(LettxJpanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        initGui();
     }
 
     private void start() {
+        // TODO - replace setting filename and filelocation with default choice on textfields
         //Check for empty fields
         if (Objects.equals(fileNameField.getText(), "")) {
-            System.out.println("please input text");
-        } else {
-            if (Objects.equals(fileLocation, "")) {
-                System.out.println("No File location selected\n");
-            } else {
+            fileNameField.setText("test");
+//            System.out.println("please input text");
+        }
+        if (Objects.equals(fileLocation, "")) {
+                fileLocation = "C:";
+//                System.out.println("No File location selected\n");
+         }
+        selectComPort();
 
                 //Send information about current test to Arduino
                 switch (testString_Current) {
@@ -467,13 +479,13 @@ public class GUI extends JPanel {
                 }
 
                 // TODO: Right way of waiting on events to finish?
-                while(!stopNow){
-                    try {
-                        this.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+//                while(!stopNow){
+//                    try {
+//                        this.wait();
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 
                 if(!cancelled){
                     startButton.setText("Finished!");
@@ -489,11 +501,11 @@ public class GUI extends JPanel {
                     e.printStackTrace();
                 }
             }
-        }
+//        }
 
-    }
+//    }
 
-    private static String textFieldInput() {
+    private String textFieldInput() {
         while(!closed){
             try {
                 Thread.sleep(500);
@@ -520,18 +532,19 @@ public class GUI extends JPanel {
         fileNameField = new JTextField(20);
     }
 
-    private static void createCOMPopUp() {
-        //Create and set up the window.
-        frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        //Add content to the window.
-        frame2.add(new GUI());
-
-        //Display the window.
-        frame2.pack();
-        frame2.setLocationRelativeTo(null);
-        frame2.setVisible(true);
-    }
+    // TODO - choose COM port from comboBox
+//    private void createCOMPopUp() {
+//        //Create and set up the window.
+//        frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//        //Add content to the window.
+//        frame2.add(new GUI());
+//
+//        //Display the window.
+//        frame2.pack();
+//        frame2.setLocationRelativeTo(null);
+//        frame2.setVisible(true);
+//    }
 
 }
 

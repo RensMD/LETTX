@@ -1,6 +1,4 @@
-import jssc.SerialPort;
-import jssc.SerialPortException;
-import jssc.SerialPortList;
+import jssc.*;
 
 import java.io.*;
 import java.io.IOException;
@@ -32,6 +30,7 @@ public class GUI extends JPanel {
     private static String elongation;
     private static String force = null;
     private static String time = null;
+    private static String LETTnumber;
 
     private JPanel LettxJpanel;
     private static JFrame frame = new JFrame("GUI");
@@ -57,9 +56,6 @@ public class GUI extends JPanel {
     private static boolean closed = false;
 
     private static SerialPort serialPort;
-
-    private static boolean stopReading= false;
-    private static String LETTnumber;
 
 
     public static void main(String[] args) {
@@ -128,44 +124,89 @@ public class GUI extends JPanel {
         try {
             serialPort.openPort();//Open serial port
             serialPort.setParams(19200, 8, 1, 0);//Set params.
+            int mask = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;//Prepare mask
+            serialPort.setEventsMask(mask);//Set mask
+            serialPort.addEventListener(new SerialPortReader());//Add SerialPortEventListener
         }
         catch (SerialPortException ex) {
 //            System.out.println(ex);
         }
-        parseInput();
     }
 
-    private static void parseInput() {
-
-        while (!stopReading) {
-            byte[] buffer = new byte[0];//Read 10 bytes from serial port
-            try {
-                buffer = serialPort.readBytes(200);
-            } catch (SerialPortException e) {
-                e.printStackTrace();
+    private static class SerialPortReader implements SerialPortEventListener {
+        public void serialEvent(SerialPortEvent event) {
+            if(event.isRXCHAR()){//If data is available
+                if(event.getEventValue() > 10) {//Check bytes count in the input buffer
+                    //Read data, if 10 bytes available
+                    byte[] buffer = new byte[0];
+                    try {
+                        buffer = serialPort.readBytes(30);
+                    } catch (SerialPortException ex) {
+//                        System.out.println(ex);
+                    }
+                    String message = new String(buffer);
+                    String[] splitMessage = message.split("\n");
+                    for (int i = 0; i < splitMessage.length; i++)
+                        splitMessage[i] = splitMessage[i].trim(); // Trim message
+                    if (Objects.equals(splitMessage[0], "start")) {
+                        LETTnumber = splitMessage[1];
+                        elongation = splitMessage[2];
+                        force = splitMessage[3];
+                        time = splitMessage[4];
+                    }
+                }
             }
-            String message = new String(buffer);
-            String[] splitMessage = message.split("\n");
-            for (int i = 0; i < splitMessage.length; i++) splitMessage[i] = splitMessage[i].trim(); // Trim message
-            if(Objects.equals(splitMessage[0], "start")) {
-//                log.append(splitMessage[0] + '\n');
-//                log.append(splitMessage[1] + '\n');
-//                log.append(splitMessage[2] + '\n');
-//                log.append(splitMessage[3] + '\n');
-//                log.append(splitMessage[4] + '\n');
-
-                LETTnumber = splitMessage[1];
-                elongation = splitMessage[2];
-                force = splitMessage[3];
-                time = splitMessage[4];
-                stopReading=true;
-            }
-            else{
-                // TODO: solve problem with repetitive error
-            }
+//            else if(event.isCTS()){//If CTS line has changed state
+//                if(event.getEventValue() == 1){//If line is ON
+//                    System.out.println("CTS - ON");
+//                }
+//                else {
+//                    System.out.println("CTS - OFF");
+//                }
+//            }
+//            else if(event.isDSR()){///If DSR line has changed state
+//                if(event.getEventValue() == 1){//If line is ON
+//                    System.out.println("DSR - ON");
+//                }
+//                else {
+//                    System.out.println("DSR - OFF");
+//                }
+//            }
         }
-        stopReading=false;
     }
+
+
+//    private static void parseInput() {
+//
+//        while (!stopReading) {
+//            byte[] buffer = new byte[0];//Read 10 bytes from serial port
+//            try {
+//                buffer = serialPort.readBytes(200);
+//            } catch (SerialPortException e) {
+//                e.printStackTrace();
+//            }
+//            String message = new String(buffer);
+//            String[] splitMessage = message.split("\n");
+//            for (int i = 0; i < splitMessage.length; i++) splitMessage[i] = splitMessage[i].trim(); // Trim message
+//            if(Objects.equals(splitMessage[0], "start")) {
+////                log.append(splitMessage[0] + '\n');
+////                log.append(splitMessage[1] + '\n');
+////                log.append(splitMessage[2] + '\n');
+////                log.append(splitMessage[3] + '\n');
+////                log.append(splitMessage[4] + '\n');
+//
+//                LETTnumber = splitMessage[1];
+//                elongation = splitMessage[2];
+//                force = splitMessage[3];
+//                time = splitMessage[4];
+//                stopReading=true;
+//            }
+//            else{
+//
+//            }
+//        }
+//        stopReading=false;
+//    }
 
 
     private GUI() {
@@ -398,7 +439,7 @@ public class GUI extends JPanel {
                 Writer w = new BufferedWriter(osw);
 
                 // Write Standard information to file
-                parseInput();
+                //parseInput();
                 try {
                     w.write("Developed by:\t\tPieter Welling & Rens Doornbusch" + System.getProperty("line.separator"));
                     w.write("\t\t\tTU Delft" + System.getProperty("line.separator"));
@@ -429,7 +470,7 @@ public class GUI extends JPanel {
 //                // TODO: procedure loop!
                 while(!stopNow || !Objects.equals(elongation, "a")){
                     for(int n = 0; n < 20; n++){
-                        parseInput();
+                        //parseInput();
                         try {
                             w.write(n + ":\t" + elongation + "\t" + force + "\t" + time + "\t" + System.getProperty("line.separator"));
                         } catch (IOException e) {

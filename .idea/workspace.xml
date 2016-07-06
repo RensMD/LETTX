@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f34c0a99-5d67-4a63-94f1-2ac7bd269974" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/LETTX/Network$SerialReader.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/LETTX/Network.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/LETTX/Network_iface.class" afterPath="" />
+    <list default="true" id="f34c0a99-5d67-4a63-94f1-2ac7bd269974" name="Default" comment="Reading of input added&#10;Need to fix issue when splitmessage[0] does not equal &quot;start&quot;&#10;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/LETTX/GUI$1.class" afterPath="$PROJECT_DIR$/out/production/LETTX/GUI$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/LETTX/GUI$2.class" afterPath="$PROJECT_DIR$/out/production/LETTX/GUI$2.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/LETTX/GUI$3.class" afterPath="$PROJECT_DIR$/out/production/LETTX/GUI$3.class" />
@@ -25,7 +22,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="ChangesViewManager" flattened_view="false" show_ignored="true" />
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
@@ -48,16 +45,17 @@
       <file leaf-file-name="GUI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="152" column="53" selection-start-line="152" selection-start-column="53" selection-end-line="152" selection-end-column="53" />
+            <state relative-caret-position="353">
+              <caret line="78" column="31" selection-start-line="78" selection-start-column="31" selection-end-line="78" selection-end-column="31" />
               <folding>
-                <element signature="docComment;class#GUI#0" expanded="false" />
-                <element signature="class#6505:7320" expanded="false" />
-                <element signature="class#8165:8527" expanded="false" />
-                <element signature="class#8572:8936" expanded="false" />
-                <element signature="class#8999:9361" expanded="false" />
-                <element signature="class#9408:9772" expanded="false" />
-                <element signature="class#9833:10523" expanded="false" />
+                <element signature="class#SerialPortReader#0;class#GUI#0" expanded="false" />
+                <element signature="method#GUI#0;class#GUI#0" expanded="false" />
+                <element signature="class#8961:9776" expanded="false" />
+                <element signature="class#10621:10983" expanded="false" />
+                <element signature="class#11028:11392" expanded="false" />
+                <element signature="class#11455:11817" expanded="false" />
+                <element signature="class#11864:12228" expanded="false" />
+                <element signature="class#12289:12952" expanded="false" />
                 <element signature="method#textFieldInput#0;class#GUI#0" expanded="false" />
                 <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
                 <element signature="method#createCOMPopUp#0;class#GUI#0" expanded="false" />
@@ -148,6 +146,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -193,6 +192,10 @@
               <option name="myItemId" value="out" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="production" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -236,7 +239,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -251,7 +254,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -685,7 +687,28 @@
       <option name="project" value="LOCAL" />
       <updated>1467722181469</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Reading of input added&#10;Need to fix issue when splitmessage[0] does not equal &quot;start&quot;&#10;">
+      <created>1467728300878</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1467728300878</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Start of processing of incoming data and writing to file">
+      <created>1467730880218</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1467730880218</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Input Reading now with serialEventListener&#10;Need to fix loss of data">
+      <created>1467793414583</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1467793414583</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TodoView">
@@ -705,9 +728,9 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33932585" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33370787" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39978212" sideWeight="0.50208336" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3988764" sideWeight="0.5032189" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33715597" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33670035" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2977528" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921347" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -717,7 +740,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3988764" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3988764" sideWeight="0.4967811" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -779,40 +802,17 @@
     <MESSAGE value="Minor Changes &#10;4th speedstring option&#10;" />
     <MESSAGE value="Library Overhaul&#10;Start of replacing RxTx by JSSC library" />
     <MESSAGE value="Library Overhaul&#10;replacing RxTx by JSSC library&#10;- Replaced all the write funtions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Library Overhaul&#10;replacing RxTx by JSSC library&#10;- Replaced all the write funtions" />
+    <MESSAGE value="Reading of input added&#10;Need to fix issue when splitmessage[0] does not equal &quot;start&quot;&#10;" />
+    <MESSAGE value="Start of processing of incoming data and writing to file" />
+    <MESSAGE value="Input Reading now with serialEventListener&#10;Need to fix loss of data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Input Reading now with serialEventListener&#10;Need to fix loss of data" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GUI.java</url>
-          <line>149</line>
-          <properties />
-          <option name="timeStamp" value="71" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GUI.java</url>
-          <line>142</line>
-          <properties />
-          <option name="timeStamp" value="72" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GUI.java</url>
-          <line>146</line>
-          <properties />
-          <option name="timeStamp" value="74" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GUI.java</url>
-          <line>160</line>
-          <properties />
-          <option name="timeStamp" value="75" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="77" />
+      <option name="time" value="100" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -826,13 +826,14 @@
         <state relative-caret-position="1848">
           <caret line="84" column="55" selection-start-line="84" selection-start-column="55" selection-end-line="84" selection-end-column="55" />
           <folding>
-            <element signature="docComment;class#GUI#0" expanded="false" />
-            <element signature="class#6505:7320" expanded="false" />
-            <element signature="class#8165:8527" expanded="false" />
-            <element signature="class#8572:8936" expanded="false" />
-            <element signature="class#8999:9361" expanded="false" />
-            <element signature="class#9408:9772" expanded="false" />
-            <element signature="class#9833:10523" expanded="false" />
+            <element signature="class#SerialPortReader#0;class#GUI#0" expanded="false" />
+            <element signature="method#GUI#0;class#GUI#0" expanded="false" />
+            <element signature="class#8961:9776" expanded="false" />
+            <element signature="class#10621:10983" expanded="false" />
+            <element signature="class#11028:11392" expanded="false" />
+            <element signature="class#11455:11817" expanded="false" />
+            <element signature="class#11864:12228" expanded="false" />
+            <element signature="class#12289:12952" expanded="false" />
             <element signature="method#textFieldInput#0;class#GUI#0" expanded="false" />
             <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
             <element signature="method#createCOMPopUp#0;class#GUI#0" expanded="false" />
@@ -840,26 +841,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Network.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Network.java" />
     <entry file="file://$PROJECT_DIR$/src/GUI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2662">
           <caret line="121" column="13" selection-start-line="121" selection-start-column="13" selection-end-line="121" selection-end-column="13" />
           <folding>
-            <element signature="docComment;class#GUI#0" expanded="false" />
-            <element signature="class#6505:7320" expanded="false" />
-            <element signature="class#8165:8527" expanded="false" />
-            <element signature="class#8572:8936" expanded="false" />
-            <element signature="class#8999:9361" expanded="false" />
-            <element signature="class#9408:9772" expanded="false" />
-            <element signature="class#9833:10523" expanded="false" />
+            <element signature="class#SerialPortReader#0;class#GUI#0" expanded="false" />
+            <element signature="method#GUI#0;class#GUI#0" expanded="false" />
+            <element signature="class#8961:9776" expanded="false" />
+            <element signature="class#10621:10983" expanded="false" />
+            <element signature="class#11028:11392" expanded="false" />
+            <element signature="class#11455:11817" expanded="false" />
+            <element signature="class#11864:12228" expanded="false" />
+            <element signature="class#12289:12952" expanded="false" />
             <element signature="method#textFieldInput#0;class#GUI#0" expanded="false" />
             <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
             <element signature="method#createCOMPopUp#0;class#GUI#0" expanded="false" />
@@ -867,26 +862,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Network.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Network.java" />
     <entry file="file://$PROJECT_DIR$/src/GUI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="docComment;class#GUI#0" expanded="false" />
-            <element signature="class#6505:7320" expanded="false" />
-            <element signature="class#8165:8527" expanded="false" />
-            <element signature="class#8572:8936" expanded="false" />
-            <element signature="class#8999:9361" expanded="false" />
-            <element signature="class#9408:9772" expanded="false" />
-            <element signature="class#9833:10523" expanded="false" />
+            <element signature="class#SerialPortReader#0;class#GUI#0" expanded="false" />
+            <element signature="method#GUI#0;class#GUI#0" expanded="false" />
+            <element signature="class#8961:9776" expanded="false" />
+            <element signature="class#10621:10983" expanded="false" />
+            <element signature="class#11028:11392" expanded="false" />
+            <element signature="class#11455:11817" expanded="false" />
+            <element signature="class#11864:12228" expanded="false" />
+            <element signature="class#12289:12952" expanded="false" />
             <element signature="method#textFieldInput#0;class#GUI#0" expanded="false" />
             <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
             <element signature="method#createCOMPopUp#0;class#GUI#0" expanded="false" />
@@ -894,26 +883,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Network.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3608">
-          <caret line="168" column="22" selection-start-line="168" selection-start-column="22" selection-end-line="168" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Network.java" />
     <entry file="file://$PROJECT_DIR$/src/GUI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="docComment;class#GUI#0" expanded="false" />
-            <element signature="class#6505:7320" expanded="false" />
-            <element signature="class#8165:8527" expanded="false" />
-            <element signature="class#8572:8936" expanded="false" />
-            <element signature="class#8999:9361" expanded="false" />
-            <element signature="class#9408:9772" expanded="false" />
-            <element signature="class#9833:10523" expanded="false" />
+            <element signature="class#SerialPortReader#0;class#GUI#0" expanded="false" />
+            <element signature="method#GUI#0;class#GUI#0" expanded="false" />
+            <element signature="class#8961:9776" expanded="false" />
+            <element signature="class#10621:10983" expanded="false" />
+            <element signature="class#11028:11392" expanded="false" />
+            <element signature="class#11455:11817" expanded="false" />
+            <element signature="class#11864:12228" expanded="false" />
+            <element signature="class#12289:12952" expanded="false" />
             <element signature="method#textFieldInput#0;class#GUI#0" expanded="false" />
             <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
             <element signature="method#createCOMPopUp#0;class#GUI#0" expanded="false" />
@@ -926,13 +909,14 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="docComment;class#GUI#0" expanded="false" />
-            <element signature="class#6505:7320" expanded="false" />
-            <element signature="class#8165:8527" expanded="false" />
-            <element signature="class#8572:8936" expanded="false" />
-            <element signature="class#8999:9361" expanded="false" />
-            <element signature="class#9408:9772" expanded="false" />
-            <element signature="class#9833:10523" expanded="false" />
+            <element signature="class#SerialPortReader#0;class#GUI#0" expanded="false" />
+            <element signature="method#GUI#0;class#GUI#0" expanded="false" />
+            <element signature="class#8961:9776" expanded="false" />
+            <element signature="class#10621:10983" expanded="false" />
+            <element signature="class#11028:11392" expanded="false" />
+            <element signature="class#11455:11817" expanded="false" />
+            <element signature="class#11864:12228" expanded="false" />
+            <element signature="class#12289:12952" expanded="false" />
             <element signature="method#textFieldInput#0;class#GUI#0" expanded="false" />
             <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
             <element signature="method#createCOMPopUp#0;class#GUI#0" expanded="false" />
@@ -945,13 +929,14 @@
         <state relative-caret-position="286">
           <caret line="22" column="25" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
           <folding>
-            <element signature="docComment;class#GUI#0" expanded="false" />
-            <element signature="class#6505:7320" expanded="false" />
-            <element signature="class#8165:8527" expanded="false" />
-            <element signature="class#8572:8936" expanded="false" />
-            <element signature="class#8999:9361" expanded="false" />
-            <element signature="class#9408:9772" expanded="false" />
-            <element signature="class#9833:10523" expanded="false" />
+            <element signature="class#SerialPortReader#0;class#GUI#0" expanded="false" />
+            <element signature="method#GUI#0;class#GUI#0" expanded="false" />
+            <element signature="class#8961:9776" expanded="false" />
+            <element signature="class#10621:10983" expanded="false" />
+            <element signature="class#11028:11392" expanded="false" />
+            <element signature="class#11455:11817" expanded="false" />
+            <element signature="class#11864:12228" expanded="false" />
+            <element signature="class#12289:12952" expanded="false" />
             <element signature="method#textFieldInput#0;class#GUI#0" expanded="false" />
             <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
             <element signature="method#createCOMPopUp#0;class#GUI#0" expanded="false" />
@@ -969,13 +954,14 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="docComment;class#GUI#0" expanded="false" />
-            <element signature="class#6505:7320" expanded="false" />
-            <element signature="class#8165:8527" expanded="false" />
-            <element signature="class#8572:8936" expanded="false" />
-            <element signature="class#8999:9361" expanded="false" />
-            <element signature="class#9408:9772" expanded="false" />
-            <element signature="class#9833:10523" expanded="false" />
+            <element signature="class#SerialPortReader#0;class#GUI#0" expanded="false" />
+            <element signature="method#GUI#0;class#GUI#0" expanded="false" />
+            <element signature="class#8961:9776" expanded="false" />
+            <element signature="class#10621:10983" expanded="false" />
+            <element signature="class#11028:11392" expanded="false" />
+            <element signature="class#11455:11817" expanded="false" />
+            <element signature="class#11864:12228" expanded="false" />
+            <element signature="class#12289:12952" expanded="false" />
             <element signature="method#textFieldInput#0;class#GUI#0" expanded="false" />
             <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
             <element signature="method#createCOMPopUp#0;class#GUI#0" expanded="false" />
@@ -988,13 +974,14 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="docComment;class#GUI#0" expanded="false" />
-            <element signature="class#6505:7320" expanded="false" />
-            <element signature="class#8165:8527" expanded="false" />
-            <element signature="class#8572:8936" expanded="false" />
-            <element signature="class#8999:9361" expanded="false" />
-            <element signature="class#9408:9772" expanded="false" />
-            <element signature="class#9833:10523" expanded="false" />
+            <element signature="class#SerialPortReader#0;class#GUI#0" expanded="false" />
+            <element signature="method#GUI#0;class#GUI#0" expanded="false" />
+            <element signature="class#8961:9776" expanded="false" />
+            <element signature="class#10621:10983" expanded="false" />
+            <element signature="class#11028:11392" expanded="false" />
+            <element signature="class#11455:11817" expanded="false" />
+            <element signature="class#11864:12228" expanded="false" />
+            <element signature="class#12289:12952" expanded="false" />
             <element signature="method#textFieldInput#0;class#GUI#0" expanded="false" />
             <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
             <element signature="method#createCOMPopUp#0;class#GUI#0" expanded="false" />
@@ -1002,14 +989,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Network.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Network.java" />
     <entry file="file://$PROJECT_DIR$/LETTX.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
@@ -1027,13 +1007,14 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="docComment;class#GUI#0" expanded="false" />
-            <element signature="class#6505:7320" expanded="false" />
-            <element signature="class#8165:8527" expanded="false" />
-            <element signature="class#8572:8936" expanded="false" />
-            <element signature="class#8999:9361" expanded="false" />
-            <element signature="class#9408:9772" expanded="false" />
-            <element signature="class#9833:10523" expanded="false" />
+            <element signature="class#SerialPortReader#0;class#GUI#0" expanded="false" />
+            <element signature="method#GUI#0;class#GUI#0" expanded="false" />
+            <element signature="class#8961:9776" expanded="false" />
+            <element signature="class#10621:10983" expanded="false" />
+            <element signature="class#11028:11392" expanded="false" />
+            <element signature="class#11455:11817" expanded="false" />
+            <element signature="class#11864:12228" expanded="false" />
+            <element signature="class#12289:12952" expanded="false" />
             <element signature="method#textFieldInput#0;class#GUI#0" expanded="false" />
             <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
             <element signature="method#createCOMPopUp#0;class#GUI#0" expanded="false" />
@@ -1041,14 +1022,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Network.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Network.java" />
     <entry file="file://$PROJECT_DIR$/LETTX.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
@@ -1067,13 +1041,14 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="docComment;class#GUI#0" expanded="false" />
-            <element signature="class#6505:7320" expanded="false" />
-            <element signature="class#8165:8527" expanded="false" />
-            <element signature="class#8572:8936" expanded="false" />
-            <element signature="class#8999:9361" expanded="false" />
-            <element signature="class#9408:9772" expanded="false" />
-            <element signature="class#9833:10523" expanded="false" />
+            <element signature="class#SerialPortReader#0;class#GUI#0" expanded="false" />
+            <element signature="method#GUI#0;class#GUI#0" expanded="false" />
+            <element signature="class#8961:9776" expanded="false" />
+            <element signature="class#10621:10983" expanded="false" />
+            <element signature="class#11028:11392" expanded="false" />
+            <element signature="class#11455:11817" expanded="false" />
+            <element signature="class#11864:12228" expanded="false" />
+            <element signature="class#12289:12952" expanded="false" />
             <element signature="method#textFieldInput#0;class#GUI#0" expanded="false" />
             <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
             <element signature="method#createCOMPopUp#0;class#GUI#0" expanded="false" />
@@ -1095,13 +1070,14 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="docComment;class#GUI#0" expanded="false" />
-            <element signature="class#6505:7320" expanded="false" />
-            <element signature="class#8165:8527" expanded="false" />
-            <element signature="class#8572:8936" expanded="false" />
-            <element signature="class#8999:9361" expanded="false" />
-            <element signature="class#9408:9772" expanded="false" />
-            <element signature="class#9833:10523" expanded="false" />
+            <element signature="class#SerialPortReader#0;class#GUI#0" expanded="false" />
+            <element signature="method#GUI#0;class#GUI#0" expanded="false" />
+            <element signature="class#8961:9776" expanded="false" />
+            <element signature="class#10621:10983" expanded="false" />
+            <element signature="class#11028:11392" expanded="false" />
+            <element signature="class#11455:11817" expanded="false" />
+            <element signature="class#11864:12228" expanded="false" />
+            <element signature="class#12289:12952" expanded="false" />
             <element signature="method#textFieldInput#0;class#GUI#0" expanded="false" />
             <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
             <element signature="method#createCOMPopUp#0;class#GUI#0" expanded="false" />
@@ -1132,13 +1108,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/package-info.java" />
     <entry file="file://$PROJECT_DIR$/src/Main.java" />
-    <entry file="file://$PROJECT_DIR$/out/production/LETTX/Network_iface.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/out/production/LETTX/Network_iface.class" />
     <entry file="file://$PROJECT_DIR$/../RXTX_example/src/net/Network.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22">
@@ -1173,14 +1143,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Network_iface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-774">
-          <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Network_iface.java" />
     <entry file="file://$PROJECT_DIR$/../RXTX_example/src/net/Example.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
@@ -1196,26 +1159,20 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SerialTest.java" />
-    <entry file="file://$PROJECT_DIR$/src/Network.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5258">
-          <caret line="247" column="37" selection-start-line="247" selection-start-column="37" selection-end-line="247" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Network.java" />
     <entry file="file://$PROJECT_DIR$/src/GUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="152" column="53" selection-start-line="152" selection-start-column="53" selection-end-line="152" selection-end-column="53" />
+        <state relative-caret-position="353">
+          <caret line="78" column="31" selection-start-line="78" selection-start-column="31" selection-end-line="78" selection-end-column="31" />
           <folding>
-            <element signature="docComment;class#GUI#0" expanded="false" />
-            <element signature="class#6505:7320" expanded="false" />
-            <element signature="class#8165:8527" expanded="false" />
-            <element signature="class#8572:8936" expanded="false" />
-            <element signature="class#8999:9361" expanded="false" />
-            <element signature="class#9408:9772" expanded="false" />
-            <element signature="class#9833:10523" expanded="false" />
+            <element signature="class#SerialPortReader#0;class#GUI#0" expanded="false" />
+            <element signature="method#GUI#0;class#GUI#0" expanded="false" />
+            <element signature="class#8961:9776" expanded="false" />
+            <element signature="class#10621:10983" expanded="false" />
+            <element signature="class#11028:11392" expanded="false" />
+            <element signature="class#11455:11817" expanded="false" />
+            <element signature="class#11864:12228" expanded="false" />
+            <element signature="class#12289:12952" expanded="false" />
             <element signature="method#textFieldInput#0;class#GUI#0" expanded="false" />
             <element signature="method#createUIComponents#0;class#GUI#0" expanded="false" />
             <element signature="method#createCOMPopUp#0;class#GUI#0" expanded="false" />

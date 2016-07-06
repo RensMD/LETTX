@@ -158,6 +158,7 @@ public class GUI extends JPanel {
                     //Read data, if 10 bytes available
                     byte[] buffer = new byte[0];
                     try {
+                        // TODO: fixed buffer size -> should be adapting to incoming string size?
                         buffer = serialPort.readBytes(50);
                     } catch (SerialPortException ex) {
 //                        System.out.println(ex);

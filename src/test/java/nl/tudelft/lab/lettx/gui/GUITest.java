@@ -1,19 +1,19 @@
-//package lettx;
-//
-//import org.junit.Test;
-//
-//import static org.junit.Assert.assertTrue;
-//
-///**
-// * Created by Bert on 22-6-2016.
-// */
-//public class GUITest {
-//
-//    @Test
-//    public void parseInput() {
-//        GUI gui = new GUI();
-//        int[] message = new int[]{1, 2, 3};
-//        gui.parseInput(1, 10, message);
-//        assertTrue(1 == message[0]);
-//    }
-//}
+package nl.tudelft.lab.lettx.gui;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+/**
+ * Created by Rens Doornbusch on 7-7-2016.
+ */
+public class GUITest {
+
+    /**
+     * Test that GUI class can be started.
+     */
+    @Test
+    public void startGUI() {
+        GUI gui = new GUI();
+        Assert.assertNotNull(gui);
+    }
+}

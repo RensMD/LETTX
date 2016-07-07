@@ -18,7 +18,7 @@ dependencies {
 }
 
 sourceSets {
-    testLocal {
+    test {
         java.srcDir file('src/test/java')
         resources.srcDir file('src/test/resources')
     }

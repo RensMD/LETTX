@@ -133,8 +133,6 @@ public class SerialPortCommDao implements SerialPortEventListener {
 
     public void createTestLog() {
         // Create new text File
-//        fileName = fileNameField.getText();
-//        System.out.println(fileLocation + fileName + ".txt");
         File dir = new File(fileLocation + "\\lettx");
         if (!dir.isDirectory()) {
             dir.mkdir();
@@ -146,16 +144,6 @@ public class SerialPortCommDao implements SerialPortEventListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        FileOutputStream is = null;
-//        try {
-//            is = new FileOutputStream(textFile);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        assert is != null;
-//        OutputStreamWriter osw = new OutputStreamWriter(is);
-//            w = new BufferedWriter(osw);
 
         // Write Standard information to file
         try {

@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.Writer;
 import java.nio.file.Paths;
 import java.util.Objects;
 
@@ -41,16 +40,22 @@ public class GUI extends JPanel {
     private JButton COMButton;
     private boolean closed = false;
 
-
-    private String fileName;
-    private Writer w;
-
     private boolean stopNow = false;
     private boolean cancelled = false;
     private String selectedPort;
     private String LETTNumber;
 
     SerialPortCommDao serialCommDao;
+
+    public GUI() {
+        super(new BorderLayout());
+        frame.setContentPane(LettxJpanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        initGui();
+    }
 
     private void initGui() {
 
@@ -168,16 +173,6 @@ public class GUI extends JPanel {
         });
     }
 
-    public GUI() {
-        super(new BorderLayout());
-        frame.setContentPane(LettxJpanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        initGui();
-    }
-
     private void start() {
         // TODO - replace setting filename and filelocation with default choice on textfields
         serialCommDao = new SerialPortCommDao();
@@ -249,7 +244,6 @@ public class GUI extends JPanel {
                     break;
             }
 
-
 //            // Write Standard information to file
             serialCommDao.setSpeedString_Current(speedString_Current);
             serialCommDao.setTestString_Current(testString_Current);
@@ -268,9 +262,7 @@ public class GUI extends JPanel {
                 startButton.setText("CANCELLED, please restart application!");
             }
         }
-
-        }
-
+    }
 
     private void createUIComponents() {
         String[] testStrings = {"Tension", "Compression"};

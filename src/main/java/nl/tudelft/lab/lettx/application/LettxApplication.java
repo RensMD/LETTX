@@ -1,3 +1,7 @@
+package nl.tudelft.lab.lettx.application;
+
+import nl.tudelft.lab.lettx.gui.GUI;
+
 /**
  * Lettx application
  /**

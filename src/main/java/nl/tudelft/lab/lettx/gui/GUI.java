@@ -1,3 +1,5 @@
+package nl.tudelft.lab.lettx.gui;
+
 import jssc.*;
 
 import javax.swing.*;
@@ -337,7 +339,7 @@ public class GUI extends JPanel {
         }
     }
 
-    GUI() {
+    public GUI() {
         super(new BorderLayout());
         frame.setContentPane(LettxJpanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -351,7 +353,7 @@ public class GUI extends JPanel {
         // TODO - replace setting filename and filelocation with default choice on textfields
         //Check for empty fields
         if (Objects.equals(fileNameField.getText(), "")) {
-            fileNameField.setText("test");
+            fileNameField.setText("");
 //            System.out.println("please input text");
         }
         if (Objects.equals(fileLocation, "")) {

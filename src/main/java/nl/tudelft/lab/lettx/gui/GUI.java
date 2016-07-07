@@ -1,16 +1,14 @@
 package nl.tudelft.lab.lettx.gui;
 
-import jssc.*;
+import nl.tudelft.lab.lettx.dao.SerialPortCommDao;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.*;
+import java.io.File;
+import java.io.Writer;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -38,50 +36,45 @@ public class GUI extends JPanel {
     private String speedString_Current;
     private JButton startButton;
     private boolean stopButton = false;
-    private JFrame frame2 = new JFrame("Serial Pop-Up");
+//    private JFrame frame2 = new JFrame("Serial Pop-Up");
     private JTextArea log;
     private JTextField COMField;
     private JButton COMButton;
     private boolean closed = false;
 
-    private static SerialPort serialPort;
 
     private String fileName;
     private Writer w;
 
     private boolean stopNow = false;
-    private boolean startReceived;
-    private String timeOld;
-    private String elongation;
-    private String force = null;
-    private String time = null;
-    private String LETTNumber;
-    private int lineNumber = 0;
     private boolean cancelled = false;
     private String selectedPort;
+    private String LETTNumber;
+
+    SerialPortCommDao serialCommDao;
 
 
-    private void selectComPort() {
-
-
-        int i, inp_num = 0;
-        String input;
+//    private void selectComPort() {
+//
+//
+//        int i, inp_num = 0;
+//        String input;
 
         // getting a list of the available serial ports
-        String[] portNames = SerialPortList.getPortNames();
+//        String[] portNames = SerialPortList.getPortNames();
 
-        boolean valid_answer = false;
-        if(portNames.length == 1) {
+//        boolean valid_answer = false;
+//        if(portNames.length == 1) {
 //            frame.setVisible(false);
 //            createCOMPopUp();
             // choosing the port to connect to
-            inp_num = 1;
-        } else if (portNames.length > 1) {
-                log.append("Multiple serial ports have been detected:\n");
-            } else if (portNames.length == 0) {
+//            inp_num = 1;
+//        } else if (portNames.length > 1) {
+//                log.append("Multiple serial ports have been detected:\n");
+//            } else if (portNames.length == 0) {
 //                COMField.setVisible(false);
 //                COMButton.setVisible(false);
-                log.append("Sorry, no serial ports were found on your computer.\n");
+//                log.append("Sorry, no serial ports were found on your computer.\n");
 //                log.append("Program will exit soon...");
 //                try {
 //                    Thread.sleep(5000);
@@ -89,7 +82,7 @@ public class GUI extends JPanel {
 //                    e.printStackTrace();
 //                }
 //                System.exit(0);
-            }
+//            }
 //            for (i = 0; i < portNames.length; ++i) {
 //                log.append("\t" + Integer.toString(i + 1) + ":  " + portNames[i] + "\n");
 //            }
@@ -110,32 +103,32 @@ public class GUI extends JPanel {
 //        else{
 //            inp_num=1;
 //        }
-        serialPort = new SerialPort(portNames[inp_num-1]);
-        try {
-            serialPort.openPort();//Open serial port
-            serialPort.setParams(19200, 8, 1, 0);//Set params.
-            int mask = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;//Prepare mask
-            serialPort.setEventsMask(mask);//Set mask
-            serialPort.addEventListener(new SerialPortReader());//Add SerialPortEventListener
-        }
-        catch (SerialPortException ex) {
-//            System.out.println(ex);
-        }
-
-        // Create new text File
-        fileName = fileNameField.getText();
-        System.out.println(fileLocation + fileName + ".txt");
-        File textFile = new File(fileLocation + fileName + ".txt");
-        FileOutputStream is = null;
-        try {
-            is = new FileOutputStream(textFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        assert is != null;
-        OutputStreamWriter osw = new OutputStreamWriter(is);
-        w = new BufferedWriter(osw);
-    }
+//        serialPort = new SerialPort(portNames[inp_num-1]);
+//        try {
+//            serialPort.openPort();//Open serial port
+//            serialPort.setParams(19200, 8, 1, 0);//Set params.
+//            int mask = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;//Prepare mask
+//            serialPort.setEventsMask(mask);//Set mask
+//            serialPort.addEventListener(new SerialPortCommDao());//Add SerialPortEventListener
+//        }
+//        catch (SerialPortException ex) {
+////            System.out.println(ex);
+//        }
+//
+//        // Create new text File
+//        fileName = fileNameField.getText();
+//        System.out.println(fileLocation + fileName + ".txt");
+//        File textFile = new File(fileLocation + fileName + ".txt");
+//        FileOutputStream is = null;
+//        try {
+//            is = new FileOutputStream(textFile);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        assert is != null;
+//        OutputStreamWriter osw = new OutputStreamWriter(is);
+//        w = new BufferedWriter(osw);
+//    }
 
     private void initGui() {
 
@@ -208,22 +201,24 @@ public class GUI extends JPanel {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
                 super.mousePressed(mouseEvent);
-                try {
-                    serialPort.writeBytes("A".getBytes());
-                } catch (SerialPortException e) {
-                    e.printStackTrace();
-                }
+                serialCommDao.writeCommand("A");
+//                try {
+//                    serialPort.writeBytes("A".getBytes());
+//                } catch (SerialPortException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
         gripUpButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent mouseEvent) {
                 super.mouseReleased(mouseEvent);
-                try {
-                    serialPort.writeBytes("H".getBytes());
-                } catch (SerialPortException e) {
-                    e.printStackTrace();
-                }
+                serialCommDao.writeCommand("H");
+//                try {
+//                    serialPort.writeBytes("H".getBytes());
+//                } catch (SerialPortException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
         // Down
@@ -231,22 +226,24 @@ public class GUI extends JPanel {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
                 super.mousePressed(mouseEvent);
-                try {
-                    serialPort.writeBytes("B".getBytes());
-                } catch (SerialPortException e) {
-                    e.printStackTrace();
-                }
+                serialCommDao.writeCommand("B");
+//                try {
+//                    serialPort.writeBytes("B".getBytes());
+//                } catch (SerialPortException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
         gripDownButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent mouseEvent) {
                 super.mouseReleased(mouseEvent);
-                try {
-                    serialPort.writeBytes("G".getBytes());
-                } catch (SerialPortException e) {
-                    e.printStackTrace();
-                }
+                serialCommDao.writeCommand("G");
+//                try {
+//                    serialPort.writeBytes("G".getBytes());
+//                } catch (SerialPortException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
         // Start
@@ -257,15 +254,17 @@ public class GUI extends JPanel {
                 if (stopButton) {
                     stopNow = true;
                     cancelled=true;
-                    try {
-                        serialPort.writeBytes("C".getBytes());
-                    } catch (SerialPortException e) {
-                        e.printStackTrace();
+                    if (serialCommDao != null) {
+                        serialCommDao.writeCommand("C");
                     }
+//                    try {
+//                        serialPort.writeBytes("C".getBytes());
+//                    } catch (SerialPortException e) {
+//                        e.printStackTrace();
+//                    }
                 }
                 else{
                     stopButton = true;
-                    startButton.setText("STOP");
                     start();
                 }
             }
@@ -274,70 +273,70 @@ public class GUI extends JPanel {
 
     }
 
-    private class SerialPortReader implements SerialPortEventListener {
-
-        public void serialEvent(SerialPortEvent event) {
-            if(event.isRXCHAR()){//If data is available
-                if(event.getEventValue() > 7) {//Check bytes count in the input buffer
-                    //Read data, if 10 bytes available
-                    byte[] buffer = new byte[0];
-                    try {
-                        // TODO: fixed buffer size -> should be adapting to incoming string size?
-                        buffer = serialPort.readBytes(50);
-                    } catch (SerialPortException ex) {
-//                        System.out.println(ex);
-                    }
-                    String message = new String(buffer);
-                    String[] splitMessage = message.split("\n");
-                    for (int i = 0; i < splitMessage.length; i++) splitMessage[i] = splitMessage[i].trim(); // Trim message
-
-                    boolean beginFound = false;
-                    int n=0;
-                    while(!beginFound){
-                        if (Objects.equals(splitMessage[n], "stop")) {
-                            stopNow=true;
-                        }
-                        else if (Objects.equals(splitMessage[n], "data")) {
-                            elongation = splitMessage[n+1];
-                            force = splitMessage[n+2];
-                            time = splitMessage[n+3];
-                            beginFound=true;
-                            if(!Objects.equals(timeOld, time)){
-                                try {
-                                    w.write(lineNumber + ":\t" + elongation + "\t" + force + "\t" + time + "\t" + System.getProperty("line.separator"));
-
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                try {
-                                    serialPort.writeBytes(String.valueOf(lineNumber).getBytes());
-                                } catch (SerialPortException e) {
-                                    e.printStackTrace();
-                                }
-                                lineNumber++;
-                                timeOld=time;
-                            }
-
-                        }
-                        else if(Objects.equals(splitMessage[n], "start")){
-                            LETTNumber = splitMessage[n+1];
-                            startReceived=true;
-                            try {
-                                serialPort.writeBytes("O".getBytes());
-                            } catch (SerialPortException e) {
-                                e.printStackTrace();
-                            }
-                            beginFound=true;
-                        }
-                        else{
-                            n++;
-                        }
-                    }
-
-                }
-            }
-        }
-    }
+//    private class SerialPortCommDao implements SerialPortEventListener {
+//
+//        public void serialEvent(SerialPortEvent event) {
+//            if(event.isRXCHAR()){//If data is available
+//                if(event.getEventValue() > 7) {//Check bytes count in the input buffer
+//                    //Read data, if 10 bytes available
+//                    byte[] buffer = new byte[0];
+//                    try {
+//                        // TODO: fixed buffer size -> should be adapting to incoming string size?
+//                        buffer = serialPort.readBytes(50);
+//                    } catch (SerialPortException ex) {
+////                        System.out.println(ex);
+//                    }
+//                    String message = new String(buffer);
+//                    String[] splitMessage = message.split("\n");
+//                    for (int i = 0; i < splitMessage.length; i++) splitMessage[i] = splitMessage[i].trim(); // Trim message
+//
+//                    boolean beginFound = false;
+//                    int n=0;
+//                    while(!beginFound){
+//                        if (Objects.equals(splitMessage[n], "stop")) {
+//                            stopNow=true;
+//                        }
+//                        else if (Objects.equals(splitMessage[n], "data")) {
+//                            elongation = splitMessage[n+1];
+//                            force = splitMessage[n+2];
+//                            time = splitMessage[n+3];
+//                            beginFound=true;
+//                            if(!Objects.equals(timeOld, time)){
+//                                try {
+//                                    w.write(lineNumber + ":\t" + elongation + "\t" + force + "\t" + time + "\t" + System.getProperty("line.separator"));
+//
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                try {
+//                                    serialPort.writeBytes(String.valueOf(lineNumber).getBytes());
+//                                } catch (SerialPortException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                lineNumber++;
+//                                timeOld=time;
+//                            }
+//
+//                        }
+//                        else if(Objects.equals(splitMessage[n], "start")){
+//                            LETTNumber = splitMessage[n+1];
+//                            startReceived=true;
+//                            try {
+//                                serialPort.writeBytes("O".getBytes());
+//                            } catch (SerialPortException e) {
+//                                e.printStackTrace();
+//                            }
+//                            beginFound=true;
+//                        }
+//                        else{
+//                            n++;
+//                        }
+//                    }
+//
+//                }
+//            }
+//        }
+//    }
 
     public GUI() {
         super(new BorderLayout());
@@ -351,136 +350,158 @@ public class GUI extends JPanel {
 
     private void start() {
         // TODO - replace setting filename and filelocation with default choice on textfields
-        //Check for empty fields
-        if (Objects.equals(fileNameField.getText(), "")) {
-            fileNameField.setText("");
-//            System.out.println("please input text");
+        serialCommDao = new SerialPortCommDao();
+        String[] serialPorts = serialCommDao.getAvailablePorts();
+        if (serialPorts.length == 0) {
+            COMField.setText("no comport available");
+        } else {
+            COMField.setText(serialPorts[0]);
         }
-        if (Objects.equals(fileLocation, "")) {
+        if (!COMField.getText().equalsIgnoreCase("no comport available")) {
+            startButton.setText("STOP");
+            //Check for empty fields
+            if (Objects.equals(fileNameField.getText(), "")) {
+                fileNameField.setText("test");
+//            System.out.println("please input text");
+            }
+            serialCommDao.setFileName(fileNameField.getText());
+            if (Objects.equals(fileLocation, "")) {
                 fileLocation = "C:";
+
 //                System.out.println("No File location selected\n");
-         }
-        selectComPort();
+            }
+            serialCommDao.setFileLocation(fileLocation);
+            serialCommDao.setPortNumber(COMField.getText());
+//        selectComPort();
 
-                //Send information about current test to Arduino
-                switch (testString_Current) {
-                    case "Tension": {
-                        try {
-                            serialPort.writeBytes("T".getBytes());
-                        } catch (SerialPortException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
-                    case "Compression": {
-                        try {
-                            serialPort.writeBytes("R".getBytes());
-                        } catch (SerialPortException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
-                    default:
-                        System.out.println("Wrong Test input\n");
-                        break;
+            //Send information about current test to Arduino
+            switch (testString_Current) {
+                case "Tension": {
+                    serialCommDao.writeCommand("T");
+//                    try {
+//                        serialPort.writeBytes("T".getBytes());
+//                    } catch (SerialPortException e) {
+//                        e.printStackTrace();
+//                    }
+                    break;
                 }
-                switch (forceString_Current) {
-                    case "100Kg": {
-                        try {
-                            serialPort.writeBytes("E".getBytes());
-                        } catch (SerialPortException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
-                    case "500Kg": {
-                        try {
-                            serialPort.writeBytes("F".getBytes());
-                        } catch (SerialPortException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
-                    default:
-                        System.out.println("Wrong Force input\n");
-                        break;
+                case "Compression": {
+                    serialCommDao.writeCommand("R");
+//                    try {
+//                        serialPort.writeBytes("R".getBytes());
+//                    } catch (SerialPortException e) {
+//                        e.printStackTrace();
+//                    }
+                    break;
                 }
-                switch (speedString_Current) {
-                    case "10 mm/min": {
-                        try {
-                            serialPort.writeBytes("1".getBytes());
-                        } catch (SerialPortException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
-                    case "20 mm/min": {
-                        try {
-                            serialPort.writeBytes("2".getBytes());
-                        } catch (SerialPortException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
-                    case "50 mm/min": {
-                        try {
-                            serialPort.writeBytes("3".getBytes());
-                        } catch (SerialPortException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
-                    case "100 mm/min": {
-                        try {
-                            serialPort.writeBytes("4".getBytes());
-                        } catch (SerialPortException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
-                    default:
-                        System.out.println("Wrong Speed input\n");
-                        break;
+                default:
+                    System.out.println("Wrong Test input\n");
+                    break;
+            }
+            switch (forceString_Current) {
+                case "100Kg": {
+                    serialCommDao.writeCommand("E");
+//                    try {
+//                        serialPort.writeBytes("E".getBytes());
+//                    } catch (SerialPortException e) {
+//                        e.printStackTrace();
+//                    }
+                    break;
                 }
+                case "500Kg": {
+                    serialCommDao.writeCommand("F");
+//                    try {
+//                        serialPort.writeBytes("F".getBytes());
+//                    } catch (SerialPortException e) {
+//                        e.printStackTrace();
+//                    }
+                    break;
+                }
+                default:
+                    System.out.println("Wrong Force input\n");
+                    break;
+            }
+            switch (speedString_Current) {
+                case "10 mm/min": {
+                    serialCommDao.writeCommand("1");
+//                    try {
+//                        serialPort.writeBytes("1".getBytes());
+//                    } catch (SerialPortException e) {
+//                        e.printStackTrace();
+//                    }
+                    break;
+                }
+                case "20 mm/min": {
+                    serialCommDao.writeCommand("2");
+//                    try {
+//                        serialPort.writeBytes("2".getBytes());
+//                    } catch (SerialPortException e) {
+//                        e.printStackTrace();
+//                    }
+                    break;
+                }
+                case "50 mm/min": {
+                    serialCommDao.writeCommand("3");
+//                    try {
+//                        serialPort.writeBytes("3".getBytes());
+//                    } catch (SerialPortException e) {
+//                        e.printStackTrace();
+//                    }
+                    break;
+                }
+                case "100 mm/min": {
+                    serialCommDao.writeCommand("4");
+//                    try {
+//                        serialPort.writeBytes("4".getBytes());
+//                    } catch (SerialPortException e) {
+//                        e.printStackTrace();
+//                    }
+                    break;
+                }
+                default:
+                    System.out.println("Wrong Speed input\n");
+                    break;
+            }
 
-                // TODO: Right way of waiting on events to finish?
-                while(!startReceived){
-                    try {
-                        this.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+            // TODO: Right way of waiting on events to finish?
+//                while(!startReceived){
+//                    try {
+//                        this.wait();
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 
-                // Write Standard information to file
-                try {
-                    w.write("Developed by:\t\tPieter Welling & Rens Doornbusch" + System.getProperty("line.separator"));
-                    w.write("\t\t\tTU Delft" + System.getProperty("line.separator"));
-                    w.write(System.getProperty("line.separator"));
-                    w.write("Test Name:\t\t"+ fileName + System.getProperty("line.separator"));
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                    Date date = new Date();
-                    w.write("Date & Time:\t\t"+ dateFormat.format(date) + System.getProperty("line.separator"));
-                    w.write("Speed:\t\t\t" + speedString_Current + System.getProperty("line.separator"));
-                    w.write("Load Cell:\t\t" + forceString_Current + System.getProperty("line.separator"));
-                    w.write("Test Type:\t\t" + testString_Current  + System.getProperty("line.separator"));
-                    w.write("LETT #:\t\t" + LETTNumber + System.getProperty("line.separator"));
-                    w.write(System.getProperty("line.separator"));
-                    w.write("Time (s)\tDistance (mm)\tForce (N)" + System.getProperty("line.separator"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//            // Write Standard information to file
+            serialCommDao.setSpeedString_Current(speedString_Current);
+            serialCommDao.setTestString_Current(testString_Current);
+            serialCommDao.setForceString_Current(forceString_Current);
+            serialCommDao.createTestLog();
 
-                //Start test
-                if (!stopNow) {
-                    try {
-                        serialPort.writeBytes("I".getBytes());
-                    } catch (SerialPortException e) {
-                        e.printStackTrace();
-                    }
-                }
+//            try {
+//                w.write("Developed by:\t\tPieter Welling & Rens Doornbusch" + System.getProperty("line.separator"));
+//                w.write("\t\t\tTU Delft" + System.getProperty("line.separator"));
+//                w.write(System.getProperty("line.separator"));
+//                w.write("Test Name:\t\t"+ fileName + System.getProperty("line.separator"));
+//                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//                Date date = new Date();
+//                w.write("Date & Time:\t\t"+ dateFormat.format(date) + System.getProperty("line.separator"));
+//                w.write("Speed:\t\t\t" + speedString_Current + System.getProperty("line.separator"));
+//                w.write("Load Cell:\t\t" + forceString_Current + System.getProperty("line.separator"));
+//                w.write("Test Type:\t\t" + testString_Current  + System.getProperty("line.separator"));
+//                w.write("LETT #:\t\t" + LETTNumber + System.getProperty("line.separator"));
+//                w.write(System.getProperty("line.separator"));
+//                w.write("Time (s)\tDistance (mm)\tForce (N)" + System.getProperty("line.separator"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
-                // TODO: Right way of waiting on events to finish?
+            //Start test
+            if (!stopNow) {
+                serialCommDao.writeCommand("I");
+            }
+
+            // TODO: Right way of waiting on events to finish?
 //                while(!stopNow){
 //                    try {
 //                        this.wait();
@@ -489,37 +510,47 @@ public class GUI extends JPanel {
 //                    }
 //                }
 
-                if(!cancelled){
-                    startButton.setText("Finished!");
-                }
-                else{
-                    startButton.setText("CANCELLED, please restart application!");
-                }
-
-                // Close the file
-                try {
-                    w.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            if(!cancelled){
+                startButton.setText("Finished!");
             }
+            else{
+                startButton.setText("CANCELLED, please restart application!");
+            }
+
+//            // Close the file
+//            try {
+//                w.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+        }
+
+        }
+
+//    private void writeCommand(String command) {
+//        try {
+//            serialPort.writeBytes(command.getBytes());
+//        } catch (SerialPortException e) {
+//            e.printStackTrace();
+//        }
+//    }
 //        }
 
 //    }
 
-    private String textFieldInput() {
-        while(!closed){
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        String idInput = COMField.getText();
-        frame.setVisible(true);
-        frame2.dispose();
-        return idInput;
-    }
+//    private String textFieldInput() {
+//        while(!closed){
+//            try {
+//                Thread.sleep(500);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        String idInput = COMField.getText();
+//        frame.setVisible(true);
+//        frame2.dispose();
+//        return idInput;
+//    }
 
     private void createUIComponents() {
         String[] testStrings = {"Tension", "Compression"};

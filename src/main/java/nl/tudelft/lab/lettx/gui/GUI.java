@@ -158,7 +158,7 @@ public class GUI extends JPanel {
                 if (stopButton) {
                     stopNow = true;
                     cancelled=true;
-                    if (serialCommDao != null) {
+                    if (!commString_Current.equalsIgnoreCase("no comport available")) {
                         serialCommDao.writeCommand("C");
                     }
                 }

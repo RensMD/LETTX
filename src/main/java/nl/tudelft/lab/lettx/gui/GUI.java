@@ -30,14 +30,14 @@ public class GUI extends JPanel {
     private JComboBox<String> forceComboBox;
     private JComboBox<String> speedComboBox;
     private JComboBox<String> testComboBox;
+    private JComboBox<String> commComboBox;
     private String testString_Current;
     private String forceString_Current;
     private String speedString_Current;
+    private String commString_Current;
     private JButton startButton;
     private boolean stopButton = false;
     private JTextArea log;
-    private JTextField COMField;
-    private JButton COMButton;
     private boolean closed = false;
 
     private boolean stopNow = false;
@@ -55,7 +55,7 @@ public class GUI extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         initGui();
-    }
+     }
 
     private void initGui() {
 
@@ -66,14 +66,6 @@ public class GUI extends JPanel {
         log = new JTextArea(5,31);
         log.setMargin(new Insets(5,5,5,5));
         log.setEditable(false);
-
-        COMButton = new JButton("Choose Port");
-        COMField = new JTextField("");
-        COMField.setPreferredSize( new Dimension(200, 24));
-        COMButton.addActionListener(actionEvent -> closed = true);
-
-        buttonPanel.add(COMField);
-        buttonPanel.add(COMButton);
 
         //Add the buttons and the log to this panel.
         add(buttonPanel, BorderLayout.PAGE_END);
@@ -120,6 +112,11 @@ public class GUI extends JPanel {
         speedComboBox.addActionListener(actionEvent -> {
             JComboBox speedComboBox = (JComboBox) actionEvent.getSource();
             speedString_Current = (String) speedComboBox.getSelectedItem();
+        });
+        // serial Port Select
+        commComboBox.addActionListener(actionEvent -> {
+            JComboBox commComboBox = (JComboBox) actionEvent.getSource();
+            commString_Current = (String) commComboBox.getSelectedItem();
         });
 
         /* Control */
@@ -175,14 +172,7 @@ public class GUI extends JPanel {
 
     private void start() {
         // TODO - replace setting filename and filelocation with default choice on textfields
-        serialCommDao = new SerialPortCommDao();
-        String[] serialPorts = serialCommDao.getAvailablePorts();
-        if (serialPorts.length == 0) {
-            COMField.setText("no comport available");
-        } else {
-            COMField.setText(serialPorts[0]);
-        }
-        if (!COMField.getText().equalsIgnoreCase("no comport available")) {
+        if (!commString_Current.equalsIgnoreCase("no comport available")) {
             startButton.setText("STOP");
             //Check for empty fields
             if (Objects.equals(fileNameField.getText(), "")) {
@@ -193,7 +183,7 @@ public class GUI extends JPanel {
                 fileLocation = "C:";
             }
             serialCommDao.setFileLocation(fileLocation);
-            serialCommDao.setPortNumber(COMField.getText());
+            serialCommDao.setPortNumber(commString_Current);
 
             //Send information about current test to Arduino
             switch (testString_Current) {
@@ -265,19 +255,24 @@ public class GUI extends JPanel {
     }
 
     private void createUIComponents() {
+        serialCommDao = new SerialPortCommDao();
         String[] testStrings = {"Tension", "Compression"};
         String[] forceStrings = {"500Kg", "100Kg"};
         String[] speedStrings = {"100 mm/min", "20 mm/min", "50 mm/min", "10 mm/min"};
+        String[] commStrings = {"no comport available"};
+        if(serialCommDao.getAvailablePorts().length > 0) {
+            commStrings = serialCommDao.getAvailablePorts();
+        }
         testComboBox = new JComboBox<>(testStrings);
         forceComboBox = new JComboBox<>(forceStrings);
         speedComboBox = new JComboBox<>(speedStrings);
+        commComboBox = new JComboBox<>(commStrings);
         testString_Current = testStrings[0];
         forceString_Current = forceStrings[0];
         speedString_Current = speedStrings[0];
+        commString_Current = commStrings[0];
         fileNameField = new JTextField(20);
     }
-
-    // TODO - choose COM port from comboBox
 
 }
 

@@ -34,7 +34,7 @@ public class SerialPortCommDao implements SerialPortEventListener {
     private String testString_Current;
     private String forceString_Current;
     private String speedString_Current;
-
+    private int countBufferRead = 0;
 
    /**
      * Write command to SerialPort.
@@ -56,17 +56,24 @@ public class SerialPortCommDao implements SerialPortEventListener {
         if (serialPort == null) {
             initSerialPort();
         }
-        if(event.isRXCHAR()){//If data is available
-            if(event.getEventValue() > 7) {//Check bytes count in the input buffer
-                //Read data, if 10 bytes available
+        // If data is available
+        if(event.isRXCHAR()){
+            //Read data, if there are at least 7 bytes available in the input buffer for start and some data
+            if(event.getEventValue() > 7) {
+                //
                 byte[] buffer = new byte[0];
                 try {
                     // TODO: fixed buffer size -> should be adapting to incoming string size?
-                    buffer = serialPort.readBytes(50);
+                    countBufferRead += 1;
+                    System.out.println("read input buffer count: " + countBufferRead);
+                    System.out.println("EventValue: " + event.getEventValue());
+                    // read all
+                    buffer = serialPort.readBytes(event.getEventValue());
                 } catch (SerialPortException ex) {
 //                        System.out.println(ex);
                 }
                 String message = new String(buffer);
+                System.out.println("Message from buffer: " + message);
                 String[] splitMessage = message.split("\n");
                 for (int i = 0; i < splitMessage.length; i++) splitMessage[i] = splitMessage[i].trim(); // Trim message
 

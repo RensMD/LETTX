@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LETTX.iml" filepath="$PROJECT_DIR$/LETTX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lettx.iml" filepath="$PROJECT_DIR$/.idea/modules/lettx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lettx_main.iml" filepath="$PROJECT_DIR$/.idea/modules/lettx_main.iml" group="lettx" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lettx_test.iml" filepath="$PROJECT_DIR$/.idea/modules/lettx_test.iml" group="lettx" />
     </modules>
   </component>
 </project>

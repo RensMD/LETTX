@@ -18,5 +18,10 @@
         <processorPath useClasspath="true" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lettx_main" target="1.8" />
+      <module name="lettx_test" target="1.8" />
+      <module name="lettx_testLocal" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

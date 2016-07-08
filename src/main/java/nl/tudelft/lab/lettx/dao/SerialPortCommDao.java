@@ -60,22 +60,13 @@ public class SerialPortCommDao implements SerialPortEventListener {
         if(event.isRXCHAR()){
             //Read data, if there are at least 7 bytes available in the input buffer for start and some data
             if(event.getEventValue() > 7) {
-                //
-                byte[] buffer = new byte[0];
-                try {
-                    // TODO: fixed buffer size -> should be adapting to incoming string size?
-                    countBufferRead += 1;
-                    System.out.println("read input buffer count: " + countBufferRead);
-                    System.out.println("EventValue: " + event.getEventValue());
-                    // read all
-                    buffer = serialPort.readBytes(event.getEventValue());
-                } catch (SerialPortException ex) {
-//                        System.out.println(ex);
-                }
-                String message = new String(buffer);
+                String message = extractMessageFromBuffer(event);
                 System.out.println("Message from buffer: " + message);
+
                 String[] splitMessage = message.split("\n");
-                for (int i = 0; i < splitMessage.length; i++) splitMessage[i] = splitMessage[i].trim(); // Trim message
+                for (int i = 0; i < splitMessage.length; i++) {
+                    splitMessage[i] = splitMessage[i].trim(); // Trim message
+                }
 
                 boolean beginFound = false;
                 int n=0;
@@ -89,30 +80,16 @@ public class SerialPortCommDao implements SerialPortEventListener {
                         time = splitMessage[n+3];
                         beginFound=true;
                         if(!Objects.equals(timeOld, time)){
-                            try {
-                                w.write(lineNumber + ":\t" + elongation + "\t" + force + "\t" + time + "\t" + System.getProperty("line.separator"));
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                serialPort.writeBytes(String.valueOf(lineNumber).getBytes());
-                            } catch (SerialPortException e) {
-                                e.printStackTrace();
-                            }
+                            addDataLineToLogfile();
+                            writeCommand(String.valueOf(lineNumber));
                             lineNumber++;
                             timeOld=time;
                         }
-
                     }
                     else if(Objects.equals(splitMessage[n], "start")){
                         LETTNumber = splitMessage[n+1];
                         startReceived=true;
-                        try {
-                            serialPort.writeBytes("O".getBytes());
-                        } catch (SerialPortException e) {
-                            e.printStackTrace();
-                        }
+                        writeCommand("O");
                         beginFound=true;
                     }
                     else{
@@ -123,6 +100,30 @@ public class SerialPortCommDao implements SerialPortEventListener {
             }
         }
 
+    }
+
+    private void addDataLineToLogfile() {
+        try {
+            w.write(lineNumber + ":\t" + elongation + "\t" + force + "\t" + time + "\t" + System.getProperty("line.separator"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String extractMessageFromBuffer(SerialPortEvent event) {
+         countBufferRead += 1;
+         System.out.println("read input buffer count: " + countBufferRead);
+         System.out.println("EventValue: " + event.getEventValue());
+
+         // read all bytes from buffer
+        byte[]  buffer = new byte[0];
+        try {
+            buffer = serialPort.readBytes(event.getEventValue());
+        } catch (SerialPortException ex){
+            System.out.println(ex);
+        }
+        return new String(buffer);
     }
 
     private void initSerialPort() {

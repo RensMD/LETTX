@@ -183,7 +183,7 @@ public class GUI extends JPanel {
                 fileLocation = "C:";
             }
             serialCommDao.setFileLocation(fileLocation);
-            serialCommDao.setPortNumber(commString_Current);
+            serialCommDao.setSerialPortNumber(commString_Current);
 
             //Send information about current test to Arduino
             switch (testString_Current) {

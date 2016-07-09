@@ -13,6 +13,12 @@ import java.util.Objects;
  */
 public class SerialPortCommDao implements SerialPortEventListener {
 
+    // Communication parameters
+    public static final int BAUD_RATE = 19200;
+    public static final int DATA_BITS = 8;
+    public static final int STOP_BITS = 1;
+    public static final int PARITY = 0;
+
     private static SerialPort serialPort;
 
     private boolean startReceived;
@@ -22,11 +28,13 @@ public class SerialPortCommDao implements SerialPortEventListener {
     private String time = null;
     private int lineNumber = 0;
     private Writer w;
+
+    // number of test-workstation
     private String LETTNumber;
 
     private boolean stopNow = false;
 
-    private String portNumber;
+    private String serialPortNumber;
     private String fileLocation;
     private String fileName;
 
@@ -42,7 +50,7 @@ public class SerialPortCommDao implements SerialPortEventListener {
      */
     public void writeCommand(String command) {
         if (serialPort == null) {
-            initSerialPort();
+            openSerialPort();
         }
         try {
             serialPort.writeBytes(command.getBytes());
@@ -54,7 +62,7 @@ public class SerialPortCommDao implements SerialPortEventListener {
     @Override
     public void serialEvent(SerialPortEvent event) {
         if (serialPort == null) {
-            initSerialPort();
+            openSerialPort();
         }
         // If data is available
         if(event.isRXCHAR()){
@@ -126,16 +134,19 @@ public class SerialPortCommDao implements SerialPortEventListener {
         return new String(buffer);
     }
 
-    private void initSerialPort() {
-        serialPort = new SerialPort(portNumber);
+    /**
+     * Initialize and open the serial communication port.
+     */
+    private void openSerialPort() {
+        serialPort = new SerialPort(serialPortNumber);
         try {
-            serialPort.openPort();//Open serial port
-            serialPort.setParams(19200, 8, 1, 0);//Set params.
-            int mask = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;//Prepare mask
-            serialPort.setEventsMask(mask);//Set mask
-            serialPort.addEventListener(this);//Add SerialPortEventListener
+            serialPort.setParams(BAUD_RATE, DATA_BITS, STOP_BITS, PARITY);
+            int mask = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;
+            serialPort.setEventsMask(mask);
+            serialPort.addEventListener(this);
+            serialPort.openPort();
         } catch (SerialPortException ex) {
-//            System.out.println(ex);
+            System.out.println(ex);
         }
     }
 
@@ -180,8 +191,8 @@ public class SerialPortCommDao implements SerialPortEventListener {
         return SerialPortList.getPortNames();
     }
 
-    public void setPortNumber(String portNumber) {
-        this.portNumber = portNumber;
+    public void setSerialPortNumber(String serialPortNumber) {
+        this.serialPortNumber = serialPortNumber;
     }
 
     public void setFileLocation(String fileLocation) {

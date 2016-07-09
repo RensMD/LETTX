@@ -26,7 +26,7 @@ public class SerialPortCommDaoTest extends SerialPortCommDao {
     @Test
     public void writeCommand() throws Exception {
 //        Mockito.when(new SerialPort("COM3")).thenCallRealMethod();
-//        serialCommDao.setPortNumber("COM3");
+//        serialCommDao.setSerialPortNumber("COM3");
 //        serialCommDao.writeCommand("W");
     }
 

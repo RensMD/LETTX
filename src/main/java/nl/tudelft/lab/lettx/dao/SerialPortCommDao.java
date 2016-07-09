@@ -63,7 +63,7 @@ public class SerialPortCommDao implements SerialPortEventListener {
                 String message = extractMessageFromBuffer(event);
                 System.out.println("Message from buffer: " + message);
 
-                String[] splitMessage = message.split("\n");
+                String[] splitMessage = message.split(":");
                 for (int i = 0; i < splitMessage.length; i++) {
                     splitMessage[i] = splitMessage[i].trim(); // Trim message
                 }
@@ -86,11 +86,16 @@ public class SerialPortCommDao implements SerialPortEventListener {
                             timeOld=time;
                         }
                     }
-                    else if(Objects.equals(splitMessage[n], "start")){
-                        LETTNumber = splitMessage[n+1];
-                        startReceived=true;
-                        writeCommand("O");
-                        beginFound=true;
+                    else if(Objects.equals(splitMessage[n], "@")){
+                        if(Objects.equals(splitMessage[n+2], "#")) {
+                            LETTNumber = splitMessage[n+1];
+                            startReceived = true;
+                            writeCommand("O");
+                            beginFound = true;
+                        }
+                        else{
+                            n++;
+                        }
                     }
                     else{
                         n++;
@@ -137,6 +142,7 @@ public class SerialPortCommDao implements SerialPortEventListener {
         } catch (SerialPortException ex) {
 //            System.out.println(ex);
         }
+
     }
 
     public void createTestLog() {
@@ -166,7 +172,7 @@ public class SerialPortCommDao implements SerialPortEventListener {
             w.write("Speed:\t\t\t" + speedString_Current + System.getProperty("line.separator"));
             w.write("Load Cell:\t\t" + forceString_Current + System.getProperty("line.separator"));
             w.write("Test Type:\t\t" + testString_Current  + System.getProperty("line.separator"));
-            w.write("LETT #:\t\t" + LETTNumber + System.getProperty("line.separator"));
+            w.write("LETT #:\t\t\t" + LETTNumber + System.getProperty("line.separator"));
             w.write(System.getProperty("line.separator"));
             w.write("Time (s)\tDistance (mm)\tForce (N)" + System.getProperty("line.separator"));
             w.close();

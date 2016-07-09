@@ -10,7 +10,7 @@
 Hx711 scale(A1, A0);
 
 // LETT dependent variables. Check Excel sheet for right values.
-int LETTNumber = 9;
+int LETTNumber = 19;
 float gain100 = 0.466;
 float gain500 = 2.239;
 
@@ -79,6 +79,11 @@ unsigned long timeSinceStart = 0;
 unsigned long timeSincesLastStep = 0;
 unsigned long timeAtLastStep = 0;
 
+char start_char = '@';
+char end_char = '#';
+char sep_char = ':';
+String temp;
+
 
 void setup(){                                                                                      
   pinMode(actuatorUp,OUTPUT);                                                              
@@ -128,7 +133,7 @@ void loop(){
     else if (incomingByte == 'T' || incomingByte == 'R') {
       setTestType();
     } 
-    //Check to move top grip up
+    
     else if(incomingByte == 'O') {
       startReceived=true;
     }
@@ -139,13 +144,33 @@ void loop(){
     //Reset incomingbyte value
     incomingByte=' ';
 
-    if(!startReceived){
-      //Write LETT number to UI
-      Serial.print("start");
-      Serial.print('\n');
-      Serial.print(19);                                                    
-      Serial.print('\n');
-    }
+  startStream();
+  writeStream(LETTNumber);
+  endStream();
+
+
+//      if(n=20){
+//      //Write LETT number to UI
+//      Serial.print("startL");
+//      Serial.print('\n');
+//      Serial.print(LETTNumber);
+//      Serial.print('\n');
+//      Serial.print("stop");
+//      Serial.print('\n');
+//      write("start");
+//      Serial.flush();
+//    }
+//    n++;
+
+//    if(!startReceived){
+//      //Write LETT number to UI
+//      Serial.print("startL");
+//      Serial.print('\n');
+//      Serial.print(LETTNumber);
+//      Serial.print('\n');
+//      Serial.print("stop");
+//      Serial.print('\n');
+//    }
   }
   else{
     //Check for stop signal
@@ -252,6 +277,11 @@ void startTest(){
 
 //Write values to computer
 void writevalues(){  
+  //Write values to UI
+  //String combineddata="startD"+absolutDistance+"-"+force+"-"+timeSinceStart+"stop";
+  
+  //Serial.print(combineddata);
+  
 // TODO: Solution with receive check
 //  oldByte = incomingByte;
 //  while(incomingByte == oldByte){
@@ -270,7 +300,8 @@ void writevalues(){
 //    }
 //  }
 
-  //Write values to UI
+  Serial.print("startD");  
+  Serial.print('\n');
   Serial.print(absolutDistance);                                                    
   Serial.print('\n');
     
@@ -279,6 +310,7 @@ void writevalues(){
          
   Serial.print(timeSinceStart);          
   Serial.print('\n');
+  Serial.print("stop");
 }
 
 /*----- Read Data Functions -----*/
@@ -522,10 +554,7 @@ void stopAtFail(){
 //Stop test 
 void forceSTOP(){
   //Write stop command to UI
-  for(int i=0;i<10;i++){
-    Serial.print('stop');
-    Serial.print('\n');
-  }         
+  // TODO: wat hier?   
   STOP();
 }
 
@@ -564,4 +593,63 @@ void  topGripDown_ButtonUp(){
   digitalWrite(actuatorDown,LOW);
   digitalWrite(actuatorUp,LOW);
   analogWrite(actuatorSpeed,0);
+}
+
+//Methods to Convert Everything to String
+//Then Send out through Serial Port
+void startStream(){
+ Serial.write(start_char);
+ Serial.write(sep_char);
+ Serial.flush();
+}
+ 
+void endStream(){
+ Serial.write(end_char);
+ Serial.write(sep_char);
+ Serial.flush();
+}
+ 
+void sepStream(){
+ Serial.write(sep_char);
+ Serial.flush();
+}
+ 
+void writeStream(float data){
+ temp = String(data);
+ 
+ byte charBuf[temp.length()];
+ temp.getBytes(charBuf,temp.length()+1);
+ 
+ Serial.write(charBuf,temp.length());
+ Serial.flush();
+ sepStream();
+ 
+}
+
+void writeStream(int data){
+ temp = String(data);
+ 
+ byte charBuf[temp.length()];
+ temp.getBytes(charBuf,temp.length()+1);
+ 
+ Serial.write(charBuf,temp.length());
+ Serial.flush();
+ sepStream();
+}
+ 
+void writeStream(unsigned long data){
+ temp = String(data);
+ 
+ byte charBuf[temp.length()];
+ temp.getBytes(charBuf,temp.length()+1);
+ 
+ Serial.write(charBuf,temp.length());
+ Serial.flush();
+ sepStream();
+}
+ 
+void writeStream(char string[]){
+ Serial.write(string);
+ Serial.flush();
+ sepStream();
 }

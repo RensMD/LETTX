@@ -35,7 +35,7 @@ public class GUI extends JPanel {
     private String forceString_Current;
     private String speedString_Current;
     private String commString_Current;
-    private JButton startButton;
+    public JButton startButton;
     private boolean stopButton = false;
     private JTextArea log;
     private boolean closed = false;
@@ -243,13 +243,6 @@ public class GUI extends JPanel {
             //Start test
             if (!stopNow) {
                 serialCommDao.writeCommand("I");
-            }
-
-            if(!cancelled){
-                startButton.setText("Finished!");
-            }
-            else{
-                startButton.setText("CANCELLED, please restart application!");
             }
         }
     }

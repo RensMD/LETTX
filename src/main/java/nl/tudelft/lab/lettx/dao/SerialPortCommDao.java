@@ -44,75 +44,68 @@ public class SerialPortCommDao implements SerialPortEventListener {
     private String speedString_Current;
     private int countBufferRead = 0;
 
-   /**
+    /**
      * Write command to SerialPort.
+     *
      * @param command
      */
     public void writeCommand(String command) {
-        if (serialPort == null) {
-            openSerialPort();
-        }
-        try {
-            serialPort.writeBytes(command.getBytes());
-        } catch (SerialPortException e) {
-            e.printStackTrace();
+        if (serialPort != null) {
+            try {
+                serialPort.writeBytes(command.getBytes());
+            } catch (SerialPortException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
     @Override
     public void serialEvent(SerialPortEvent event) {
-        if (serialPort == null) {
-            openSerialPort();
-        }
-        // If data is available
-        if(event.isRXCHAR()){
-            //Read data, if there are at least 7 bytes available in the input buffer for start and some data
-            if(event.getEventValue() > 7) {
-                String message = extractMessageFromBuffer(event);
-                System.out.println("Message from buffer: " + message);
+        if (serialPort != null) {
+            // If data is available
+            if (event.isRXCHAR()) {
+                //Read data, if there are at least 7 bytes available in the input buffer for start and some data
+                if (event.getEventValue() > 7) {
+                    String message = extractMessageFromBuffer(event);
+                    System.out.println("Message from buffer: " + message);
 
-                String[] splitMessage = message.split(":");
-                for (int i = 0; i < splitMessage.length; i++) {
-                    splitMessage[i] = splitMessage[i].trim(); // Trim message
-                }
+                    String[] splitMessage = message.split(":");
+                    for (int i = 0; i < splitMessage.length; i++) {
+                        splitMessage[i] = splitMessage[i].trim(); // Trim message
+                    }
 
-                boolean beginFound = false;
-                int n=0;
-                while(!beginFound){
-                    if (Objects.equals(splitMessage[n], "stop")) {
-                        stopNow=true;
-                    }
-                    else if (Objects.equals(splitMessage[n], "data")) {
-                        elongation = splitMessage[n+1];
-                        force = splitMessage[n+2];
-                        time = splitMessage[n+3];
-                        beginFound=true;
-                        if(!Objects.equals(timeOld, time)){
-                            addDataLineToLogfile();
-                            writeCommand(String.valueOf(lineNumber));
-                            lineNumber++;
-                            timeOld=time;
-                        }
-                    }
-                    else if(Objects.equals(splitMessage[n], "@")){
-                        if(Objects.equals(splitMessage[n+2], "#")) {
-                            LETTNumber = splitMessage[n+1];
+                    boolean beginFound = false;
+                    int n = 0;
+                    while (!beginFound) {
+                        if (Objects.equals(splitMessage[n], "stop")) {
+                            stopNow = true;
+                        } else if (Objects.equals(splitMessage[n], "data")) {
+                            elongation = splitMessage[n + 1];
+                            force = splitMessage[n + 2];
+                            time = splitMessage[n + 3];
+                            beginFound = true;
+                            if (!Objects.equals(timeOld, time)) {
+                                addDataLineToLogfile();
+                                writeCommand(String.valueOf(lineNumber));
+                                lineNumber++;
+                                timeOld = time;
+                            }
+                        } else if (Objects.equals(splitMessage[n], "start")) {
+                            LETTNumber = splitMessage[n + 1];
+                            n++;
+                        } else if (Objects.equals(splitMessage[n], "start")) {
+                            LETTNumber = splitMessage[n + 1];
                             startReceived = true;
                             writeCommand("O");
                             beginFound = true;
-                        }
-                        else{
+                        } else {
                             n++;
                         }
                     }
-                    else{
-                        n++;
-                    }
                 }
-
             }
         }
-
     }
 
     private void addDataLineToLogfile() {
@@ -125,35 +118,55 @@ public class SerialPortCommDao implements SerialPortEventListener {
     }
 
     private String extractMessageFromBuffer(SerialPortEvent event) {
-         countBufferRead += 1;
-         System.out.println("read input buffer count: " + countBufferRead);
-         System.out.println("EventValue: " + event.getEventValue());
+        countBufferRead += 1;
+        System.out.println("read input buffer count: " + countBufferRead);
+        System.out.println("EventValue: " + event.getEventValue());
 
-         // read all bytes from buffer
-        byte[]  buffer = new byte[0];
+        // read all bytes from buffer
+        byte[] buffer = new byte[0];
         try {
             buffer = serialPort.readBytes(event.getEventValue());
-        } catch (SerialPortException ex){
+        } catch (SerialPortException ex) {
             System.out.println(ex);
         }
         return new String(buffer);
     }
 
     /**
+     * Start communication with serial port.
+     */
+    public boolean startCommunication(String portNumber) {
+        this.serialPortNumber = portNumber;
+        if (isSelectedPortValid()) {
+            openSerialPort();
+        }
+        return serialPort != null;
+    }
+
+    /**
      * Initialize and open the serial communication port.
      */
-    private void openSerialPort() {
+    private boolean openSerialPort() {
+        boolean succes = false;
         serialPort = new SerialPort(serialPortNumber);
         try {
+            serialPort.openPort();
             serialPort.setParams(BAUD_RATE, DATA_BITS, STOP_BITS, PARITY);
             int mask = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;
             serialPort.setEventsMask(mask);
             serialPort.addEventListener(this);
-            serialPort.openPort();
+            succes = true;
         } catch (SerialPortException ex) {
             System.out.println(ex);
         }
+        return succes;
+    }
 
+    /**
+     * Validate selected input for serial port.
+     */
+    private boolean isSelectedPortValid() {
+        return this.serialPortNumber.contains("COM");
     }
 
     public void createTestLog() {
@@ -176,13 +189,13 @@ public class SerialPortCommDao implements SerialPortEventListener {
             w.write("Developed by:\t\tPieter Welling & Rens Doornbusch" + System.getProperty("line.separator"));
             w.write("\t\t\tTU Delft" + System.getProperty("line.separator"));
             w.write(System.getProperty("line.separator"));
-            w.write("Test Name:\t\t"+ fileName + System.getProperty("line.separator"));
+            w.write("Test Name:\t\t" + fileName + System.getProperty("line.separator"));
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
-            w.write("Date & Time:\t\t"+ dateFormat.format(date) + System.getProperty("line.separator"));
+            w.write("Date & Time:\t\t" + dateFormat.format(date) + System.getProperty("line.separator"));
             w.write("Speed:\t\t\t" + speedString_Current + System.getProperty("line.separator"));
             w.write("Load Cell:\t\t" + forceString_Current + System.getProperty("line.separator"));
-            w.write("Test Type:\t\t" + testString_Current  + System.getProperty("line.separator"));
+            w.write("Test Type:\t\t" + testString_Current + System.getProperty("line.separator"));
             w.write("LETT #:\t\t\t" + LETTNumber + System.getProperty("line.separator"));
             w.write(System.getProperty("line.separator"));
             w.write("Time (s)\tDistance (mm)\tForce (N)" + System.getProperty("line.separator"));
@@ -195,10 +208,6 @@ public class SerialPortCommDao implements SerialPortEventListener {
     /* getting a list of the available serial ports */
     public String[] getAvailablePorts() {
         return SerialPortList.getPortNames();
-    }
-
-    public void setSerialPortNumber(String serialPortNumber) {
-        this.serialPortNumber = serialPortNumber;
     }
 
     public void setFileLocation(String fileLocation) {

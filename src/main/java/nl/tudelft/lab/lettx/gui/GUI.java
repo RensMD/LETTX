@@ -22,10 +22,11 @@ public class GUI extends JPanel {
     public static final String ARDUINO_START_TEST = "I";
 
     // Arduino commands for Grip
-    public static final String ARDUINO_GRIP_DOWN_STOP = "G";
     public static final String ARDUINO_GRIP_DOWN_START = "B";
-    public static final String ARDUINO_GRIP_UP_STOP = "H";
+    public static final String ARDUINO_GRIP_DOWN_STOP = "G";
     public static final String ARDUINO_GRIP_UP_START = "A";
+    public static final String ARDUINO_GRIP_UP_STOP = "H";
+
     public static final String ARDUINO_STOP = "C";
 
     private JPanel LettxJpanel;
@@ -52,11 +53,10 @@ public class GUI extends JPanel {
 
     private boolean stopNow = false;
     private boolean cancelled = false;
-    private String selectedPort;
     private String LETTNumber;
 
-    SerialPortCommDao serialCommDao;
-    private boolean isComActive;
+    private SerialPortCommDao serialCommDao;
+    private boolean isComActive = false;
 
     public GUI() {
         super(new BorderLayout());
@@ -255,7 +255,6 @@ public class GUI extends JPanel {
             serialCommDao.setSpeedString_Current(speedString_Current);
             serialCommDao.setTestString_Current(testString_Current);
             serialCommDao.setForceString_Current(forceString_Current);
-            serialCommDao.createTestLog();
 
             //Start test
             if (!stopNow) {
@@ -267,6 +266,7 @@ public class GUI extends JPanel {
             } else {
                 startButton.setText("CANCELLED, please restart application!");
             }
+            serialCommDao.createTestReport();
         }
     }
 

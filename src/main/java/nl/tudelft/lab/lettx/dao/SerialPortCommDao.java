@@ -23,7 +23,7 @@ public class SerialPortCommDao implements SerialPortEventListener {
     public static final String LETT_START_DATA = "%";
     public static final String LETT_MESSAGE_SPLIT = ":";
     public static final String LETT_MESSAGE_END = "#";
-    public static final String LETT_MESSAGE_START = "$";
+    public static final String LETT_NUMBER_START = "$";
     public static final String LETT_STOP_TEST = "&";
 
     private static SerialPort serialPort;
@@ -65,7 +65,6 @@ public class SerialPortCommDao implements SerialPortEventListener {
             } catch (SerialPortException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -86,7 +85,7 @@ public class SerialPortCommDao implements SerialPortEventListener {
                 boolean beginFound = false;
                 int n = 0;
                 while (!beginFound) {
-                    if (Objects.equals(splitMessage[n], LETT_MESSAGE_END)) {
+                    if (Objects.equals(splitMessage[n], LETT_STOP_TEST)) {
                         stopNow = true;
                     } else if (Objects.equals(splitMessage[n], LETT_START_DATA)) {
                         elongation = splitMessage[n + 1];
@@ -99,10 +98,10 @@ public class SerialPortCommDao implements SerialPortEventListener {
                             lineNumber++;
                             timeOld = time;
                         }
-                    } else if (Objects.equals(splitMessage[n], LETT_MESSAGE_START)) {
+                    } else if (Objects.equals(splitMessage[n], LETT_NUMBER_START)) {
                         LETTNumber = splitMessage[n + 1];
                         startReceived = true;
-                        writeCommand("O");
+                        //writeCommand("O");
                         beginFound = true;
                     } else {
                         n++;

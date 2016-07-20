@@ -35,7 +35,7 @@ public class GUI extends JPanel {
     private String forceString_Current;
     private String speedString_Current;
     private String commString_Current;
-    public JButton startButton;
+    private JButton startButton;
     private boolean stopButton = false;
     private JTextArea log;
     private boolean closed = false;

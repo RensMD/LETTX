@@ -12,11 +12,22 @@ import java.util.Objects;
 
 /**
  * Lettx application GUI.
- *
+ * <p>
  * Created by Rens Doornbusch on 2-6-2016. *
  */
 
 public class GUI extends JPanel {
+
+    // Arduino command for test
+    public static final String ARDUINO_START_TEST = "I";
+
+    // Arduino commands for Grip
+    public static final String ARDUINO_GRIP_DOWN_START = "B";
+    public static final String ARDUINO_GRIP_DOWN_STOP = "G";
+    public static final String ARDUINO_GRIP_UP_START = "A";
+    public static final String ARDUINO_GRIP_UP_STOP = "H";
+
+    public static final String ARDUINO_STOP = "C";
 
     private JPanel LettxJpanel;
 
@@ -42,10 +53,10 @@ public class GUI extends JPanel {
 
     private boolean stopNow = false;
     private boolean cancelled = false;
-    private String selectedPort;
     private String LETTNumber;
 
-    SerialPortCommDao serialCommDao;
+    private SerialPortCommDao serialCommDao;
+    private boolean isComActive = false;
 
     public GUI() {
         super(new BorderLayout());
@@ -55,7 +66,7 @@ public class GUI extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         initGui();
-     }
+    }
 
     private void initGui() {
 
@@ -63,8 +74,8 @@ public class GUI extends JPanel {
 
         JPanel buttonPanel = new JPanel();
 
-        log = new JTextArea(5,31);
-        log.setMargin(new Insets(5,5,5,5));
+        log = new JTextArea(5, 31);
+        log.setMargin(new Insets(5, 5, 5, 5));
         log.setEditable(false);
 
         //Add the buttons and the log to this panel.
@@ -113,41 +124,50 @@ public class GUI extends JPanel {
             JComboBox speedComboBox = (JComboBox) actionEvent.getSource();
             speedString_Current = (String) speedComboBox.getSelectedItem();
         });
-        // serial Port Select
+        // Serial Port Select
         commComboBox.addActionListener(actionEvent -> {
             JComboBox commComboBox = (JComboBox) actionEvent.getSource();
             commString_Current = (String) commComboBox.getSelectedItem();
         });
 
-        /* Control */
-        // Up
+        /* Controls for Grip */
+
+        // Grip Up when pressed.
         gripUpButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
                 super.mousePressed(mouseEvent);
-                serialCommDao.writeCommand("A");
+                if(!isComActive) {
+                    isComActive = serialCommDao.startCommunication(commString_Current);
+                }
+                serialCommDao.writeCommand(ARDUINO_GRIP_UP_START);
             }
         });
+        // Stop Grip Up when released.
         gripUpButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent mouseEvent) {
                 super.mouseReleased(mouseEvent);
-                serialCommDao.writeCommand("H");
+                serialCommDao.writeCommand(ARDUINO_GRIP_UP_STOP);
             }
         });
-        // Down
+        // Grip Down when pressed.
         gripDownButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
                 super.mousePressed(mouseEvent);
-                serialCommDao.writeCommand("B");
+                if(!isComActive) {
+                    isComActive = serialCommDao.startCommunication(commString_Current);
+                }
+                serialCommDao.writeCommand(ARDUINO_GRIP_DOWN_START);
             }
         });
+        // Stop Grip Down when released
         gripDownButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent mouseEvent) {
                 super.mouseReleased(mouseEvent);
-                serialCommDao.writeCommand("G");
+                serialCommDao.writeCommand(ARDUINO_GRIP_DOWN_STOP);
             }
         });
         // Start
@@ -157,12 +177,9 @@ public class GUI extends JPanel {
                 super.mouseClicked(mouseEvent);
                 if (stopButton) {
                     stopNow = true;
-                    cancelled=true;
-                    if (!commString_Current.equalsIgnoreCase("no comport available")) {
-                        serialCommDao.writeCommand("C");
-                    }
-                }
-                else{
+                    cancelled = true;
+                    serialCommDao.writeCommand(ARDUINO_STOP);
+                } else {
                     stopButton = true;
                     start();
                 }
@@ -183,7 +200,7 @@ public class GUI extends JPanel {
                 fileLocation = "C:";
             }
             serialCommDao.setFileLocation(fileLocation);
-            serialCommDao.setSerialPortNumber(commString_Current);
+            isComActive = serialCommDao.startCommunication(commString_Current);
 
             //Send information about current test to Arduino
             switch (testString_Current) {
@@ -238,22 +255,28 @@ public class GUI extends JPanel {
             serialCommDao.setSpeedString_Current(speedString_Current);
             serialCommDao.setTestString_Current(testString_Current);
             serialCommDao.setForceString_Current(forceString_Current);
-            serialCommDao.createTestLog();
 
             //Start test
             if (!stopNow) {
-                serialCommDao.writeCommand("I");
+                serialCommDao.writeCommand(ARDUINO_START_TEST);
             }
+
+            if (!cancelled) {
+                startButton.setText("Finished!");
+            } else {
+                startButton.setText("CANCELLED, please restart application!");
+            }
+            serialCommDao.createTestReport();
         }
     }
 
     private void createUIComponents() {
-        serialCommDao = new SerialPortCommDao();
         String[] testStrings = {"Tension", "Compression"};
         String[] forceStrings = {"500Kg", "100Kg"};
         String[] speedStrings = {"100 mm/min", "20 mm/min", "50 mm/min", "10 mm/min"};
         String[] commStrings = {"no comport available"};
-        if(serialCommDao.getAvailablePorts().length > 0) {
+        serialCommDao = new SerialPortCommDao();
+        if (serialCommDao.getAvailablePorts().length > 0) {
             commStrings = serialCommDao.getAvailablePorts();
         }
         testComboBox = new JComboBox<>(testStrings);

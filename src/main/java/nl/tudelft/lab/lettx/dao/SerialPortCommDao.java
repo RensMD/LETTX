@@ -164,7 +164,8 @@ public class SerialPortCommDao implements SerialPortEventListener {
      * Validate selected input for serial port.
      */
     private boolean isSelectedPortValid() {
-        return this.serialPortNumber.contains("COM");
+        //TODO: could provide problem on apple in current state
+        return this.serialPortNumber.contains("COM") || this.serialPortNumber.contains("tty");
     }
 
     public void createTestReport() {

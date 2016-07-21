@@ -32,6 +32,7 @@ public class GUI extends JPanel {
     private JPanel LettxJpanel;
 
     private static JFrame frame = new JFrame("GUI");
+    private JButton refreshButton;
     private JButton fileLocationButton;
     private JFileChooser fc;
     private String fileLocation = "";
@@ -47,6 +48,7 @@ public class GUI extends JPanel {
     private String speedString_Current;
     private String commString_Current;
     private JButton startButton;
+
     private boolean stopButton = false;
     private JTextArea log;
     private boolean closed = false;
@@ -57,6 +59,7 @@ public class GUI extends JPanel {
 
     private SerialPortCommDao serialCommDao;
     private boolean isComActive = false;
+    private String[] noneAvailableString = {"No port available"};
 
     public GUI() {
         super(new BorderLayout());
@@ -66,6 +69,7 @@ public class GUI extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         initGui();
+
     }
 
     private void initGui() {
@@ -130,6 +134,20 @@ public class GUI extends JPanel {
             commString_Current = (String) commComboBox.getSelectedItem();
         });
 
+        refreshButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+                //TODO: reset connection when disconnected
+                if (serialCommDao.getAvailablePorts().length > 0) {
+                    commComboBox.setModel(new DefaultComboBoxModel (serialCommDao.getAvailablePorts()));
+                }
+                else{
+                    commComboBox.setModel(new DefaultComboBoxModel (noneAvailableString));
+                }
+            }
+        });
+
         /* Controls for Grip */
 
         // Grip Up when pressed.
@@ -189,7 +207,10 @@ public class GUI extends JPanel {
 
     private void start() {
         // TODO - replace setting filename and filelocation with default choice on textfields
-        if (!commString_Current.equalsIgnoreCase("no comport available")) {
+        if (!commString_Current.equalsIgnoreCase("No port available")) {
+            if(!isComActive) {
+                isComActive = serialCommDao.startCommunication(commString_Current);
+            }
             startButton.setText("STOP");
             //Check for empty fields
             if (Objects.equals(fileNameField.getText(), "")) {
@@ -200,8 +221,9 @@ public class GUI extends JPanel {
                 fileLocation = "C:";
             }
             serialCommDao.setFileLocation(fileLocation);
-            isComActive = serialCommDao.startCommunication(commString_Current);
-
+            if(!isComActive) {
+                isComActive = serialCommDao.startCommunication(commString_Current);
+            }
             //Send information about current test to Arduino
             switch (testString_Current) {
                 case "Tension": {
@@ -274,7 +296,7 @@ public class GUI extends JPanel {
         String[] testStrings = {"Tension", "Compression"};
         String[] forceStrings = {"500Kg", "100Kg"};
         String[] speedStrings = {"100 mm/min", "20 mm/min", "50 mm/min", "10 mm/min"};
-        String[] commStrings = {"no comport available"};
+        String[] commStrings = noneAvailableString;
         serialCommDao = new SerialPortCommDao();
         if (serialCommDao.getAvailablePorts().length > 0) {
             commStrings = serialCommDao.getAvailablePorts();
@@ -289,7 +311,6 @@ public class GUI extends JPanel {
         commString_Current = commStrings[0];
         fileNameField = new JTextField(20);
     }
-
 }
 
 

@@ -20,6 +20,7 @@ public class GUI extends JPanel {
 
     // Arduino command for test
     public static final String ARDUINO_START_TEST = "I";
+    public static final String ARDUINO_STOP = "C";
 
     // Arduino commands for Grip
     public static final String ARDUINO_GRIP_DOWN_START = "B";
@@ -27,10 +28,7 @@ public class GUI extends JPanel {
     public static final String ARDUINO_GRIP_UP_START = "A";
     public static final String ARDUINO_GRIP_UP_STOP = "H";
 
-    public static final String ARDUINO_STOP = "C";
-
     private JPanel LettxJpanel;
-
     private static JFrame frame = new JFrame("GUI");
     private JButton refreshButton;
     private JButton fileLocationButton;
@@ -48,18 +46,18 @@ public class GUI extends JPanel {
     private String speedString_Current;
     private String commString_Current;
     private JButton startButton;
+    private JLabel resultsLabel;
+    private JTextArea log;
 
     private boolean stopButton = false;
-    private JTextArea log;
     private boolean closed = false;
-
     private boolean stopNow = false;
     private boolean cancelled = false;
-    private String LETTNumber;
 
     private SerialPortCommDao serialCommDao;
     public static boolean isComActive = false;
-    private String[] noneAvailableString = {"No port available"};
+
+    private String LETTNumber;
 
     public GUI() {
         super(new BorderLayout());
@@ -69,13 +67,11 @@ public class GUI extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         initGui();
-
     }
 
     private void initGui() {
 
         JScrollPane logScrollPane = new JScrollPane(log);
-
         JPanel buttonPanel = new JPanel();
 
         log = new JTextArea(5, 31);
@@ -109,6 +105,7 @@ public class GUI extends JPanel {
                 log.setCaretPosition(log.getDocument().getLength());
                 System.out.println("Current Path:");
                 System.out.println(fileLocation);
+                fileLocationButton.setText(fileLocation+"\\lettxResults");
             }
         });
 
@@ -146,9 +143,11 @@ public class GUI extends JPanel {
                 if (serialCommDao.getAvailablePorts().length > 0) {
                     commComboBox.setModel(new DefaultComboBoxModel (serialCommDao.getAvailablePorts()));
                     commString_Current = (String) commComboBox.getSelectedItem();
+                    startButton.setEnabled(true);
                 }
                 else{
-                    commComboBox.setModel(new DefaultComboBoxModel (noneAvailableString));
+                    commComboBox.setModel(new DefaultComboBoxModel (new String[]{"No port available"}));
+                    startButton.setEnabled(false);
                 }
                 SerialPortCommDao.refreshSerialPort();
                 isComActive = serialCommDao.startCommunication(commString_Current);
@@ -156,7 +155,6 @@ public class GUI extends JPanel {
         });
 
         /* Controls for Grip */
-
         // Grip Up when pressed.
         gripUpButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -200,6 +198,7 @@ public class GUI extends JPanel {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 super.mouseClicked(mouseEvent);
+                //TODO: not a stop button after finished
                 if (stopButton) {
                     stopNow = true;
                     cancelled = true;
@@ -210,10 +209,13 @@ public class GUI extends JPanel {
                 }
             }
         });
+        if (serialCommDao.getAvailablePorts().length == 0) {
+            startButton.setEnabled(false);
+        }
     }
 
     private void start() {
-        // TODO - replace setting filename and filelocation with default choice on textfields
+        resultsLabel.setText("Sending Information");
         if (!commString_Current.equalsIgnoreCase("No port available")) {
             if(!isComActive) {
                 isComActive = serialCommDao.startCommunication(commString_Current);
@@ -224,8 +226,10 @@ public class GUI extends JPanel {
                 fileNameField.setText("test");
             }
             serialCommDao.setFileName(fileNameField.getText());
+            //TODO: default location for mac OS
             if (Objects.equals(fileLocation, "")) {
                 fileLocation = "C:";
+                fileLocationButton.setText(fileLocation+"\\lettxResults");
             }
             serialCommDao.setFileLocation(fileLocation);
             if(!isComActive) {
@@ -280,7 +284,7 @@ public class GUI extends JPanel {
                     break;
             }
 
-//            // Write Standard information to file
+            // Write Standard information to file
             serialCommDao.setSpeedString_Current(speedString_Current);
             serialCommDao.setTestString_Current(testString_Current);
             serialCommDao.setForceString_Current(forceString_Current);
@@ -289,13 +293,18 @@ public class GUI extends JPanel {
             if (!stopNow) {
                 serialCommDao.writeCommand(ARDUINO_START_TEST);
             }
+            resultsLabel.setText("Conducting test...");
 
             if (!cancelled) {
                 startButton.setText("Finished!");
+                resultsLabel.setText("Finished!");
             } else {
-                startButton.setText("CANCELLED, please restart application!");
+                resultsLabel.setText("CANCELLED, please restart application!");
             }
             serialCommDao.createTestReport();
+        }
+        else{
+            resultsLabel.setText("No port available!");
         }
     }
 
@@ -303,7 +312,8 @@ public class GUI extends JPanel {
         String[] testStrings = {"Tension", "Compression"};
         String[] forceStrings = {"500Kg", "100Kg"};
         String[] speedStrings = {"100 mm/min", "20 mm/min", "50 mm/min", "10 mm/min"};
-        String[] commStrings = noneAvailableString;
+        String[] commStrings = {"No port available"};
+
         serialCommDao = new SerialPortCommDao();
         if (serialCommDao.getAvailablePorts().length > 0) {
             commStrings = serialCommDao.getAvailablePorts();
@@ -320,8 +330,5 @@ public class GUI extends JPanel {
         fileNameField = new JTextField(20);
     }
 }
-
-
-
 
 

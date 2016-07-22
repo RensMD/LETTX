@@ -20,6 +20,8 @@ public class SerialPortCommDao implements SerialPortEventListener {
     private static final int STOP_BITS = 1;
     private static final int PARITY = 0;
 
+    private static SerialPort serialPort;
+
     // LETT test parameters
     private static final String LETT_START_DATA = "%";
     private static final String LETT_MESSAGE_SPLIT = ":";
@@ -27,30 +29,26 @@ public class SerialPortCommDao implements SerialPortEventListener {
     private static final String LETT_NUMBER_START = "$";
     private static final String LETT_STOP_TEST = "&";
 
-    private static SerialPort serialPort;
-
     private boolean startReceived;
+
+    private String LETTNumber;
     private String timeOld;
     private String elongation;
     private String force = null;
     private String time = null;
     private int lineNumber = 0;
-    private PrintWriter w;
-
-    // number of test-workstation
-    private String LETTNumber;
-
-    private boolean stopNow = false;
-
-    private String serialPortNumber;
-    private String fileLocation;
-    private String fileName;
-
 
     private String testString_Current;
     private String forceString_Current;
     private String speedString_Current;
     private int countBufferRead = 0;
+
+    private String serialPortNumber;
+    private String fileLocation;
+    private String fileName;
+    private PrintWriter w;
+
+    private boolean stopNow = false;
 
     /**
      * Write command to SerialPort.
@@ -174,9 +172,7 @@ public class SerialPortCommDao implements SerialPortEventListener {
             serialPort = null;
             GUI.isComActive=false;
         }
-
     }
-
 
     /**
      * Validate selected input for serial port.
@@ -188,7 +184,7 @@ public class SerialPortCommDao implements SerialPortEventListener {
 
     public void createTestReport() {
         // Create new text File
-        File dir = new File(fileLocation + "\\lettx");
+        File dir = new File(fileLocation + "\\lettxResults");
         if (!dir.isDirectory()) {
             dir.mkdir();
         }

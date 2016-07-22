@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="LettxJpanel" layout-manager="GridLayoutManager" row-count="11" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
-      <xy x="20" y="20" width="1032" height="428"/>
+      <xy x="20" y="20" width="1032" height="429"/>
     </constraints>
     <properties>
       <background color="-14057287"/>
@@ -81,14 +81,28 @@
       <grid id="527ff" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="9" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="9" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="-1" height="30"/>
+          </grid>
         </constraints>
         <properties>
           <background color="-1249039"/>
           <focusable value="false"/>
         </properties>
         <border type="none"/>
-        <children/>
+        <children>
+          <component id="aa268" class="javax.swing.JLabel" binding="resultsLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-15125439"/>
+              <font name="Century Gothic" size="14" style="0"/>
+              <foreground color="-15125439"/>
+              <text value="Complete the steps and press start."/>
+            </properties>
+          </component>
+        </children>
       </grid>
       <component id="2b1a1" class="javax.swing.JLabel">
         <constraints>
@@ -97,7 +111,7 @@
         <properties>
           <font name="Century Gothic" size="14" style="0"/>
           <foreground color="-13877680"/>
-          <text value="Result"/>
+          <text value="Log"/>
         </properties>
       </component>
       <component id="ac28a" class="javax.swing.JComboBox" binding="testComboBox" custom-create="true">
@@ -158,6 +172,7 @@
           <font name="Century Gothic" size="14" style="0"/>
           <foreground color="-13877680"/>
           <text value="Step 8"/>
+          <toolTipText value="Once the other steps have been completed, click the start button to start the test. Once the test is started, the button will change to a stop button which cancels the test if any problem arises."/>
         </properties>
       </component>
       <component id="c0179" class="javax.swing.JLabel">
@@ -168,7 +183,7 @@
           <font name="Century Gothic" size="14" style="0"/>
           <foreground color="-13877680"/>
           <text value="Step 1"/>
-          <toolTipText value="Select the port at which the LETT is connected. If the LETT doesn't show up, make sure the LETT is finished with installing the driver software and click the refresh button. Otherwise reconnect the LETT to the computer. "/>
+          <toolTipText value="Select the port at which the LETT is connected. If the LETT doesn't show up, make sure the LETT is finished with installing the driver software and click refresh. Otherwise reconnect the LETT to the computer and refresh. "/>
         </properties>
       </component>
       <component id="87215" class="javax.swing.JLabel">
@@ -179,6 +194,7 @@
           <font name="Century Gothic" size="14" style="0"/>
           <foreground color="-13877680"/>
           <text value="Step 2"/>
+          <toolTipText value="Select the location at which the file with the test results will be saved."/>
         </properties>
       </component>
       <component id="e0bc4" class="javax.swing.JLabel">
@@ -189,6 +205,7 @@
           <font name="Century Gothic" size="14" style="0"/>
           <foreground color="-13877680"/>
           <text value="Step 3"/>
+          <toolTipText value="Choose a name for the file with the test results."/>
         </properties>
       </component>
       <component id="38bd1" class="javax.swing.JLabel">
@@ -199,6 +216,7 @@
           <font name="Century Gothic" size="14" style="0"/>
           <foreground color="-13877680"/>
           <text value="Step 4"/>
+          <toolTipText value="Select which type of test you want to execute. "/>
         </properties>
       </component>
       <component id="1819e" class="javax.swing.JLabel">
@@ -209,6 +227,7 @@
           <font name="Century Gothic" size="14" style="0"/>
           <foreground color="-13877680"/>
           <text value="Step 5"/>
+          <toolTipText value="Select which loadcell is currently in use. The loadcell is the big sensor connected to the lower clamp. It should tell you the maximum force. "/>
         </properties>
       </component>
       <component id="1474c" class="javax.swing.JLabel">
@@ -219,6 +238,7 @@
           <font name="Century Gothic" size="14" style="0"/>
           <foreground color="-13877680"/>
           <text value="Step 6"/>
+          <toolTipText value="Select the speed at which the test will be executed. Slower tests improve the quality of the results."/>
         </properties>
       </component>
       <component id="dccd9" class="javax.swing.JLabel">
@@ -229,6 +249,7 @@
           <font name="Century Gothic" size="14" style="0"/>
           <foreground color="-13877680"/>
           <text value="Step 7"/>
+          <toolTipText value="These buttons aloow you to take control of the upper grip. Just like the joystick on the LETT."/>
         </properties>
       </component>
       <component id="6fbae" class="javax.swing.JLabel">
@@ -250,7 +271,7 @@
           <foreground color="-13877680"/>
           <inheritsPopupMenu value="false"/>
           <lightWeightPopupEnabled value="true"/>
-          <toolTipText value="Select the port at which the LETT is connected. If the LETT doesn't show up, make sure the LETT is finished with installing the driver software and click the refresh button. Otherwise reconnect the LETT to the computer. "/>
+          <toolTipText value=""/>
         </properties>
       </component>
       <hspacer id="18ca8">

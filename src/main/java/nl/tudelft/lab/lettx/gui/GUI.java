@@ -1,5 +1,6 @@
 package nl.tudelft.lab.lettx.gui;
 
+import nl.tudelft.lab.lettx.dao.SerialComJsscDaoImpl;
 import nl.tudelft.lab.lettx.dao.SerialPortCommDao;
 
 import javax.swing.*;
@@ -314,7 +315,7 @@ public class GUI extends JPanel {
         String[] speedStrings = {"100 mm/min", "20 mm/min", "50 mm/min", "10 mm/min"};
         String[] commStrings = {"No port available"};
 
-        serialCommDao = new SerialPortCommDao();
+        serialCommDao = new SerialComJsscDaoImpl();
         if (serialCommDao.getAvailablePorts().length > 0) {
             commStrings = serialCommDao.getAvailablePorts();
         }

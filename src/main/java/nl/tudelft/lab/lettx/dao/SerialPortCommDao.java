@@ -1,6 +1,7 @@
 package nl.tudelft.lab.lettx.dao;
 
 import jssc.*;
+import nl.tudelft.lab.lettx.gui.GUI;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -14,17 +15,17 @@ import java.util.Objects;
 public class SerialPortCommDao implements SerialPortEventListener {
 
     // Communication parameters
-    public static final int BAUD_RATE = 19200;
-    public static final int DATA_BITS = 8;
-    public static final int STOP_BITS = 1;
-    public static final int PARITY = 0;
+    private static final int BAUD_RATE = 19200;
+    private static final int DATA_BITS = 8;
+    private static final int STOP_BITS = 1;
+    private static final int PARITY = 0;
 
     // LETT test parameters
-    public static final String LETT_START_DATA = "%";
-    public static final String LETT_MESSAGE_SPLIT = ":";
+    private static final String LETT_START_DATA = "%";
+    private static final String LETT_MESSAGE_SPLIT = ":";
     public static final String LETT_MESSAGE_END = "#";
-    public static final String LETT_NUMBER_START = "$";
-    public static final String LETT_STOP_TEST = "&";
+    private static final String LETT_NUMBER_START = "$";
+    private static final String LETT_STOP_TEST = "&";
 
     private static SerialPort serialPort;
 
@@ -154,11 +155,28 @@ public class SerialPortCommDao implements SerialPortEventListener {
             serialPort.setEventsMask(mask);
             serialPort.addEventListener(this);
             succes = true;
+            writeCommand("clear");
+            writeCommand("H");
+
         } catch (SerialPortException ex) {
             System.out.println(ex);
         }
         return succes;
     }
+
+    public static void refreshSerialPort(){
+        if(serialPort != null) {
+            try {
+                serialPort.closePort();
+            } catch (SerialPortException e) {
+                e.printStackTrace();
+            }
+            serialPort = null;
+            GUI.isComActive=false;
+        }
+
+    }
+
 
     /**
      * Validate selected input for serial port.

@@ -58,7 +58,7 @@ public class GUI extends JPanel {
     private String LETTNumber;
 
     private SerialPortCommDao serialCommDao;
-    private boolean isComActive = false;
+    public static boolean isComActive = false;
     private String[] noneAvailableString = {"No port available"};
 
     public GUI() {
@@ -131,20 +131,27 @@ public class GUI extends JPanel {
         // Serial Port Select
         commComboBox.addActionListener(actionEvent -> {
             JComboBox commComboBox = (JComboBox) actionEvent.getSource();
+            isComActive=false;
             commString_Current = (String) commComboBox.getSelectedItem();
+            SerialPortCommDao.refreshSerialPort();
+            isComActive = serialCommDao.startCommunication(commString_Current);
         });
 
         refreshButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 super.mouseClicked(mouseEvent);
+                isComActive=false;
                 //TODO: reset connection when disconnected
                 if (serialCommDao.getAvailablePorts().length > 0) {
                     commComboBox.setModel(new DefaultComboBoxModel (serialCommDao.getAvailablePorts()));
+                    commString_Current = (String) commComboBox.getSelectedItem();
                 }
                 else{
                     commComboBox.setModel(new DefaultComboBoxModel (noneAvailableString));
                 }
+                SerialPortCommDao.refreshSerialPort();
+                isComActive = serialCommDao.startCommunication(commString_Current);
             }
         });
 
@@ -301,6 +308,7 @@ public class GUI extends JPanel {
         if (serialCommDao.getAvailablePorts().length > 0) {
             commStrings = serialCommDao.getAvailablePorts();
         }
+
         testComboBox = new JComboBox<>(testStrings);
         forceComboBox = new JComboBox<>(forceStrings);
         speedComboBox = new JComboBox<>(speedStrings);

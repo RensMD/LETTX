@@ -5,6 +5,7 @@ import com.embeddedunveiled.serial.SerialComManager;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortException;
+import nl.tudelft.lab.lettx.service.DataListenerService;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -17,7 +18,7 @@ import java.util.Date;
 /**
  * Created by Rens on 22-7-2016.
  */
-public class SerialComManagerDaoImpl implements SerialPortCommDao { //implements SerialPortCommDao{
+public class SerialComManagerDaoImpl implements SerialPortCommDao {
 
     // Communication parameters
     public static final int BAUD_RATE = 19200;
@@ -59,7 +60,10 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao { //implements
     private int countBufferRead = 0;
     private long handle;
 
+    boolean isFirstCommand = true;
+
     SerialComManager serialComManager = new SerialComManager();
+    DataListenerService dataListenerService = new DataListenerService();
 
     /**
      * Write command to SerialPort.
@@ -67,69 +71,49 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao { //implements
      * @param command
      */
     public void writeCommand(String command) {
-        String data = "";
         try {
-            while (!data.contains(command)) {
-                serialComManager.writeBytes(handle, command.getBytes(), 0);
-                System.out.println("Message to arduino: " + command);
-                // try to read data from serial port
-                data = serialComManager.readString(handle);
-                System.out.println("data read is :" + data);
+            if (isFirstCommand) {
+                initializeSerialCommunication();
+                System.out.println("Communication initialized.");
+                sendCommand(command);
+                isFirstCommand = false;
+            } else {
+                sendCommand(command);
             }
         } catch (SerialComException e) {
             e.printStackTrace();
         }
     }
 
-
-
-/*
-    @Override
-    public void serialEvent(SerialPortEvent event) {
-        // If data is available
-        if (event.isRXCHAR() && event.getEventValue() > 0) {
-            //Read data
-            String message = extractMessageFromBuffer(event);
-            System.out.println("Message from buffer: " + message);
-
-            String[] splitMessage = message.split(LETT_MESSAGE_SPLIT);
-            for (int i = 0; i < splitMessage.length; i++) {
-                splitMessage[i] = splitMessage[i].trim(); // Trim message
-                isAcknowledged = splitMessage[i].contains("#$&");
-            }
-
-            boolean beginFound = false;
-            int n = 0;
-            while (!beginFound) {
-                if (Objects.equals(splitMessage[n], LETT_STOP_TEST)) {
-                    stopNow = true;
-                } else if (Objects.equals(splitMessage[n], LETT_START_DATA)) {
-                    elongation = splitMessage[n + 1];
-                    force = splitMessage[n + 2];
-                    time = splitMessage[n + 3];
-                    beginFound = true;
-                    if (!Objects.equals(timeOld, time)) {
-                        addDataLineToLogfile();
-                        writeCommand(String.valueOf(lineNumber));
-                        lineNumber++;
-                        timeOld = time;
-                    }
-                } else if (Objects.equals(splitMessage[n], LETT_NUMBER_START)) {
-                    LETTNumber = splitMessage[n + 1];
-                    startReceived = true;
-                    //writeCommand("O");
-                    beginFound = true;
-                } else {
-                    n++;
-                }
-            }
-        } else {
-            int type = event.getEventType();
-            int value = event.getEventValue();
-        }
-
+    /**
+     * Send the command to Arduino.
+     *
+     * @param command
+     * @throws SerialComException
+     */
+    private void sendCommand(String command) throws SerialComException {
+        byte[] bytesCommand = command.getBytes();
+        serialComManager.writeSingleByte(handle, bytesCommand[0]);
+        System.out.println("Message to arduino: " + command);
     }
-*/
+
+    /**
+     * Initialize communication with Arduino.
+     * On Windows 10 the communication sequence does not start without this procedure.
+     *
+     * @throws SerialComException
+     */
+    private void initializeSerialCommunication() throws SerialComException {
+        String response = "";
+        String firstCommand = "C";
+        while (!response.contains(firstCommand)) {
+            sendCommand(firstCommand);
+            // try to read data from serial port
+            response = serialComManager.readString(handle, 1);
+            System.out.println("data read is :" + response);
+        }
+    }
+
 
     private void addDataLineToLogfile() {
         w.println(lineNumber + ":\t" + elongation + "\t" + force + "\t" + time + "\t" + System.getProperty("line.separator"));
@@ -161,7 +145,6 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao { //implements
         return handle > 0;
     }
 
-
     /**
      * Initialize and open the serial communication port.
      */
@@ -171,6 +154,7 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao { //implements
             handle = serialComManager.openComPort(serialPortNumber, true, true, true);
             serialComManager.configureComPortData(handle, SerialComManager.DATABITS.DB_8, SerialComManager.STOPBITS.SB_1, SerialComManager.PARITY.P_NONE, SerialComManager.BAUDRATE.B19200, 0);
             serialComManager.configureComPortControl(handle, SerialComManager.FLOWCONTROL.NONE, 'x', 'x', false, false);
+            serialComManager.registerDataListener(handle, dataListenerService);
         } catch (SerialComException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,7 @@
 package nl.tudelft.lab.lettx.dao;
 
+import nl.tudelft.lab.lettx.domain.LettTestData;
+
 /**
  * Created by Rens Doornbusch on 7-7-2016.
  */
@@ -22,7 +24,7 @@ public interface SerialPortCommDao {
     public static void refreshSerialPort() {
     }
 
-    public void createTestReport();
+    public void createTestReport(LettTestData testData);
 
     /* getting a list of the available serial ports */
     public String[] getAvailablePorts();

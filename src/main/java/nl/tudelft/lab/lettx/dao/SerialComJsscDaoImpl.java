@@ -1,6 +1,7 @@
 package nl.tudelft.lab.lettx.dao;
 
 import jssc.*;
+import nl.tudelft.lab.lettx.domain.LettTestData;
 import nl.tudelft.lab.lettx.gui.GUI;
 
 import java.io.File;
@@ -60,10 +61,14 @@ public class SerialComJsscDaoImpl implements SerialPortCommDao, SerialPortEventL
          */
         public void writeCommand(String command) {
             if (serialPort != null) {
+                String data = "";
                 try {
-                    serialPort.writeBytes(command.getBytes());
-                    serialPort.writeString(command);
-                    System.out.println("Message to arduino: " + command);
+                    while(!data.contains(command)) {
+                        serialPort.writeBytes(command.getBytes());
+//                        serialPort.writeString(command);
+                        System.out.println("Message to arduino: " + command);
+                        data = serialPort.readString();
+                    }
                 } catch (SerialPortException e) {
                     e.printStackTrace();
                 }
@@ -185,7 +190,7 @@ public class SerialComJsscDaoImpl implements SerialPortCommDao, SerialPortEventL
             return this.serialPortNumber.contains("COM") || this.serialPortNumber.contains("tty");
         }
 
-        public void createTestReport() {
+        public void createTestReport(LettTestData testData) {
             // Create new text File
             File dir = new File(fileLocation + "\\lettxResults");
             if (!dir.isDirectory()) {

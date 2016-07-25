@@ -12,8 +12,10 @@ import java.util.List;
  * Created by Rens on 22-7-2016.
  */
 public class DataListenerService implements ISerialComDataListener {
+    public static final String LETT_TEST_END = "a";
     boolean isDataReceived = false;
     boolean isTestEndReceived = false;
+    boolean isTestAborted = false;
 
     StringBuilder message = new StringBuilder();
     LettTestData data = new LettTestData();
@@ -22,7 +24,8 @@ public class DataListenerService implements ISerialComDataListener {
     public void onNewSerialDataAvailable(SerialComDataEvent dataEvent) {
         String receivedString = extractMessage(dataEvent);
         message.append(receivedString);
-        isTestEndReceived = message.indexOf("C") > -1;
+        isTestAborted = message.indexOf("C") > -1;
+        isTestEndReceived = message.indexOf(LETT_TEST_END) > -1;
         if (isTestEndReceived) {
             MessageToTestdataConverter converter = new MessageToTestdataConverter();
 
@@ -33,6 +36,10 @@ public class DataListenerService implements ISerialComDataListener {
             data.setTestResults(testResultList);
             createTestReport();
             message = new StringBuilder();
+        }
+        if(isTestAborted) {
+            message = new StringBuilder();
+            data = new LettTestData();
         }
         System.out.println("Message from Arduino: " + dataEvent.getDataBytesLength() + " byte(s): " + receivedString);
     }

@@ -1,5 +1,6 @@
 package nl.tudelft.lab.lettx.gui;
 
+import nl.tudelft.lab.lettx.dao.SerialComManagerDaoImpl;
 import nl.tudelft.lab.lettx.dao.SerialPortCommDao;
 
 import javax.swing.*;
@@ -284,7 +285,7 @@ public class GUI extends JPanel {
                     break;
             }
 
-            // Write Standard information to file
+            // Write Standard information to file for SerialComJsscDaoImpl
             serialCommDao.setSpeedString_Current(speedString_Current);
             serialCommDao.setTestString_Current(testString_Current);
             serialCommDao.setForceString_Current(forceString_Current);
@@ -301,7 +302,6 @@ public class GUI extends JPanel {
             } else {
                 resultsLabel.setText("CANCELLED, please restart application!");
             }
-            serialCommDao.createTestReport();
         }
         else{
             resultsLabel.setText("No port available!");
@@ -314,7 +314,7 @@ public class GUI extends JPanel {
         String[] speedStrings = {"100 mm/min", "20 mm/min", "50 mm/min", "10 mm/min"};
         String[] commStrings = {"No port available"};
 
-        serialCommDao = new SerialPortCommDao();
+        serialCommDao = new SerialComManagerDaoImpl();
         if (serialCommDao.getAvailablePorts().length > 0) {
             commStrings = serialCommDao.getAvailablePorts();
         }

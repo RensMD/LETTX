@@ -1,13 +1,13 @@
 package nl.tudelft.lab.lettx.dao;
 
-import nl.tudelft.lab.lettx.domain.LettTestData;
-
 /**
  * Lettx application
- /**
+ * /**
  * Created by Rens Doornbusch on 6-7-2016. *
  * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
  * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
+ *
+ * Interface for Serial Port communication
  */
 
 public interface SerialPortCommDao {
@@ -19,17 +19,13 @@ public interface SerialPortCommDao {
      */
     void writeCommand(String command);
 
-
     /**
      * Start communication with serial port.
      */
     boolean startCommunication(String portNumber);
 
-
     static void refreshSerialPort() {
     }
-
-    void createTestReport(LettTestData testData);
 
     /* getting a list of the available serial ports */
     String[] getAvailablePorts();

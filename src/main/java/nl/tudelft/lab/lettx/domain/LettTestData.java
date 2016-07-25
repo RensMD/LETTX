@@ -9,10 +9,12 @@ import java.util.List;
 
 /**
  * Lettx application
- /**
+ * /**
  * Created by Rens Doornbusch on 6-7-2016. *
  * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
  * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
+ *
+ * Domain class holds all Lett test data
  */
 
 public class LettTestData {
@@ -22,9 +24,6 @@ public class LettTestData {
     private String speed;
     private String type;
     private String force;
-    private String time;
-    private String distance;
-
     private List<TestResult> testResults;
 
     public List<TestResult> getTestResults() {
@@ -88,20 +87,4 @@ public class LettTestData {
     public void setForce(String force) {
         this.force = force;
     }
-
-//    public String getTime() {
-//        return time;
-//    }
-//
-//    public void setTime(String time) {
-//        this.time = time;
-//    }
-//
-//    public String getDistance() {
-//        return distance;
-//    }
-//
-//    public void setDistance(String distance) {
-//        this.distance = distance;
-//    }
 }

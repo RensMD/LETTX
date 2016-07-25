@@ -9,7 +9,7 @@ import org.mockito.Mock;
 /**
  * Created by Rens Doornbusch on 7-7-2016.
  */
-public class SerialPortCommDaoTest extends SerialPortCommDao {
+public class SerialPortCommDaoTest {
 
     @Mock
     SerialPort serialPort;
@@ -20,7 +20,7 @@ public class SerialPortCommDaoTest extends SerialPortCommDao {
 
     @Before
     public void before() {
-        serialCommDao = new SerialPortCommDao();
+        serialCommDao = new SerialComJsscDaoImpl();
     }
 
     @Test

@@ -1,8 +1,11 @@
 package nl.tudelft.lab.lettx.util;
 
+import nl.tudelft.lab.lettx.domain.TestResult;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 /**
  * Created by Rens Doornbusch on 25-7-2016.
@@ -36,6 +39,13 @@ public class MessageToTestdataConverterTest {
         String[] splitMessage = converter.split(createExtraEndCharactersMessage());
         int lastDataPos = splitMessage.length - 1;
         Assert.assertEquals("2", splitMessage[lastDataPos]);
+    }
+
+    @Test
+    public void extractTesResults() {
+        String[] splitMessage = {"19", "1.60", "5.40", "0", "3.10", "10.20", "1", "6.20", "20.40", "2"};
+        List<TestResult> testResults = converter.convertTestResults(splitMessage);
+        Assert.assertEquals(3, testResults.size());
     }
 
     /**

@@ -18,6 +18,7 @@ import java.util.List;
 
 public class DataListenerService implements ISerialComDataListener {
     private static final String LETT_TEST_END = "a";
+    private static final String LETT_TEST_ABORTED = "C";
     private boolean isDataReceived = false;
     private boolean isTestEndReceived = false;
     private boolean isTestAborted = false;
@@ -29,7 +30,7 @@ public class DataListenerService implements ISerialComDataListener {
     public void onNewSerialDataAvailable(SerialComDataEvent dataEvent) {
         String receivedString = extractMessage(dataEvent);
         message.append(receivedString);
-        isTestAborted = message.indexOf("C") > -1;
+        isTestAborted = message.indexOf(LETT_TEST_ABORTED) > -1;
         isTestEndReceived = message.indexOf(LETT_TEST_END) > -1;
         if (isTestEndReceived) {
             MessageToTestdataConverter converter = new MessageToTestdataConverter();

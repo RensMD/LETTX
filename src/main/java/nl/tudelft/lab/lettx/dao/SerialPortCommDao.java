@@ -172,6 +172,7 @@ public class SerialPortCommDao implements SerialPortEventListener {
             serialPort = null;
             GUI.isComActive=false;
         }
+        //TODO: send command to request lett number
     }
 
     /**

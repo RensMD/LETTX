@@ -1,25 +1,28 @@
 package nl.tudelft.lab.lettx.domain;
 
+import nl.tudelft.lab.lettx.gui.GUI;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Rens on 24-7-2016.
+ * Created by Rens on 24-7-2016. *
  */
-public class LettTestData {
-    String fileLocation;
-    String name;
-    String lettNumber;
-    String dateTime;
-    String speed;
-    String type;
-    String force;
-    String time;
-    String distance;
 
-    List<TestResult> testResults;
+public class LettTestData {
+    private String fileLocation;
+    private String name;
+    private String lettNumber;
+    private String speed;
+    private String type;
+    private String force;
+    private String time;
+    private String distance;
+    String dateTime;
+
+    private List<TestResult> testResults;
 
     public List<TestResult> getTestResults() {
         return testResults;
@@ -33,8 +36,8 @@ public class LettTestData {
         return fileLocation;
     }
 
-    public void setFileLocation(String fileLocation) {
-        this.fileLocation = fileLocation;
+    public void setFileLocation() {
+        this.fileLocation = GUI.fileLocation;
     }
 
     public String getName() {

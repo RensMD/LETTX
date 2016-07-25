@@ -125,7 +125,7 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
     }
 
     public void setFileLocation(String fileLocation) {
-        testData.setFileLocation(fileLocation);
+        testData.setFileLocation();
     }
 
     public void setFileName(String fileName) {

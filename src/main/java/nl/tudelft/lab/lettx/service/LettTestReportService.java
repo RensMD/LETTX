@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 /**
- * Created by Rens on 24-7-2016.
+ * Created by Rens on 24-7-2016. *
  */
 public class LettTestReportService {
     private int lineNumber = 1;
@@ -18,7 +18,7 @@ public class LettTestReportService {
 
     public void createReport(LettTestData testData) {
         // Create new text File
-        File dir = new File(testData.getFileLocation() + "\\lettx");
+        File dir = new File(testData.getFileLocation() + "\\lettxResults");
         if (!dir.isDirectory()) {
             dir.mkdir();
         }

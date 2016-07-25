@@ -10,8 +10,8 @@ import nl.tudelft.lab.lettx.gui.GUI;
  * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
  * - Extends the functionality of the LETT with compression test *
  */
-public class LettxApplication {
 
+public class LettxApplication {
     public static void main(String[] args) {
         GUI gui = new GUI();
     }

@@ -69,11 +69,10 @@ public class DataListenerService implements ISerialComDataListener {
      */
     public void setLettTestData(LettTestData testData) {
         data = new LettTestData();
-        data.setFileLocation(testData.getFileLocation());
+        data.setFileLocation();
         data.setName(testData.getName());
         data.setType(testData.getType());
         data.setForce(testData.getForce());
         data.setSpeed(testData.getSpeed());
     }
-
 }

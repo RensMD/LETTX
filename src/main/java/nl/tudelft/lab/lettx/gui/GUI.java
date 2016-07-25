@@ -2,6 +2,7 @@ package nl.tudelft.lab.lettx.gui;
 
 import nl.tudelft.lab.lettx.dao.SerialComManagerDaoImpl;
 import nl.tudelft.lab.lettx.dao.SerialPortCommDao;
+import nl.tudelft.lab.lettx.domain.LettTestData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +35,7 @@ public class GUI extends JPanel {
     private JButton refreshButton;
     private JButton fileLocationButton;
     private JFileChooser fc;
-    private String fileLocation = "";
+    public static String fileLocation = "";
     private JTextField fileNameField;
     private JButton gripUpButton;
     private JButton gripDownButton;
@@ -98,7 +99,6 @@ public class GUI extends JPanel {
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
                     fileLocation = Paths.get(String.valueOf(fc.getSelectedFile())).normalize().toString();
-
                     log.append("Opening: " + file.getName() + ". \n");
                 } else {
                     log.append("Open command cancelled by user.\n");

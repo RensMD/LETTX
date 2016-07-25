@@ -6,6 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Lettx application
+ /**
+ * Created by Rens Doornbusch on 6-7-2016. *
+ * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
+ * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
+ */
+
+/**
  * Convert message from Arduino to usable data.
  * Created by Rens on 25-7-2016.
  */
@@ -44,5 +52,4 @@ public class MessageToTestdataConverter {
         }
         return testResultList;
     }
-
 }

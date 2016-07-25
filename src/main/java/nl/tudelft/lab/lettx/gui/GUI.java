@@ -2,7 +2,6 @@ package nl.tudelft.lab.lettx.gui;
 
 import nl.tudelft.lab.lettx.dao.SerialComManagerDaoImpl;
 import nl.tudelft.lab.lettx.dao.SerialPortCommDao;
-import nl.tudelft.lab.lettx.domain.LettTestData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,22 +12,24 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 /**
- * Lettx application GUI.
- * <p>
- * Created by Rens Doornbusch on 2-6-2016. *
+ * Lettx application
+ /**
+ * Created by Rens Doornbusch on 6-7-2016. *
+ * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
+ * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
  */
 
 public class GUI extends JPanel {
 
     // Arduino command for test
-    public static final String ARDUINO_START_TEST = "I";
-    public static final String ARDUINO_STOP = "C";
+    private static final String ARDUINO_START_TEST = "I";
+    private static final String ARDUINO_STOP = "C";
 
     // Arduino commands for Grip
-    public static final String ARDUINO_GRIP_DOWN_START = "B";
-    public static final String ARDUINO_GRIP_DOWN_STOP = "G";
-    public static final String ARDUINO_GRIP_UP_START = "A";
-    public static final String ARDUINO_GRIP_UP_STOP = "H";
+    private static final String ARDUINO_GRIP_DOWN_START = "B";
+    private static final String ARDUINO_GRIP_DOWN_STOP = "G";
+    private static final String ARDUINO_GRIP_UP_START = "A";
+    private static final String ARDUINO_GRIP_UP_STOP = "H";
 
     private JPanel LettxJpanel;
     private static JFrame frame = new JFrame("GUI");
@@ -52,14 +53,12 @@ public class GUI extends JPanel {
     private JTextArea log;
 
     private boolean stopButton = false;
-    private boolean closed = false;
     private boolean stopNow = false;
     private boolean cancelled = false;
 
     private SerialPortCommDao serialCommDao;
     public static boolean isComActive = false;
 
-    private String LETTNumber;
 
     public GUI() {
         super(new BorderLayout());
@@ -330,4 +329,7 @@ public class GUI extends JPanel {
         fileNameField = new JTextField(20);
     }
 }
+
+//TODO: busy...
+//TODO: close after a while
 

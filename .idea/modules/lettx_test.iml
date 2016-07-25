@@ -11,6 +11,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="lettx_main" />
     <orderEntry type="library" name="Gradle: org.scream3r:jssc:2.8.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.embeddedunveiled:scm:1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.11" level="project" />
     <orderEntry type="library" name="Gradle: org.mockito:mockito-core:1.10.19" level="project" />
     <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />

@@ -1,13 +1,18 @@
 package nl.tudelft.lab.lettx.domain;
 
 /**
- * Created by Rens on 24-7-2016.
+ * Lettx application
+ /**
+ * Created by Rens Doornbusch on 6-7-2016. *
+ * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
+ * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
  */
+
 public class TestResult {
 
-    float elongation;
-    float force;
-    long time;
+    private float elongation;
+    private float force;
+    private long time;
 
     public float getElongation() {
         return elongation;

@@ -9,16 +9,21 @@ import nl.tudelft.lab.lettx.util.MessageToTestdataConverter;
 import java.util.List;
 
 /**
- * Created by Rens on 22-7-2016.
+ * Lettx application
+ /**
+ * Created by Rens Doornbusch on 6-7-2016. *
+ * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
+ * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
  */
-public class DataListenerService implements ISerialComDataListener {
-    public static final String LETT_TEST_END = "a";
-    boolean isDataReceived = false;
-    boolean isTestEndReceived = false;
-    boolean isTestAborted = false;
 
-    StringBuilder message = new StringBuilder();
-    LettTestData data = new LettTestData();
+public class DataListenerService implements ISerialComDataListener {
+    private static final String LETT_TEST_END = "a";
+    private boolean isDataReceived = false;
+    private boolean isTestEndReceived = false;
+    private boolean isTestAborted = false;
+
+    private StringBuilder message = new StringBuilder();
+    private LettTestData data = new LettTestData();
 
     @Override
     public void onNewSerialDataAvailable(SerialComDataEvent dataEvent) {

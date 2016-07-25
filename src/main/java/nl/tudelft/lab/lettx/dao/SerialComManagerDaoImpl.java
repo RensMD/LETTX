@@ -6,13 +6,18 @@ import nl.tudelft.lab.lettx.domain.LettTestData;
 import nl.tudelft.lab.lettx.service.DataListenerService;
 
 /**
- * Created by Rens on 22-7-2016.
+ * Lettx application
+ /**
+ * Created by Rens Doornbusch on 6-7-2016. *
+ * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
+ * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
  */
+
 public class SerialComManagerDaoImpl implements SerialPortCommDao {
 
     private String serialPortNumber;
     private long handle;
-    boolean isFirstCommand = true;
+    private boolean isFirstCommand = true;
 
     private SerialComManager serialComManager = new SerialComManager();
     private DataListenerService dataListenerService = new DataListenerService();
@@ -94,7 +99,8 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
         } catch (SerialComException e) {
             e.printStackTrace();
         }
-        return succes;
+        return succes=true;
+        //TODO: Refresh
     }
 
     /**

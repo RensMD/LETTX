@@ -10,8 +10,13 @@ import java.io.PrintWriter;
 import java.util.List;
 
 /**
- * Created by Rens on 24-7-2016. *
+ * Lettx application
+ /**
+ * Created by Rens Doornbusch on 6-7-2016. *
+ * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
+ * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
  */
+
 public class LettTestReportService {
     private int lineNumber = 1;
     private PrintWriter w;
@@ -47,7 +52,7 @@ public class LettTestReportService {
 
             List<TestResult> testResultList = testData.getTestResults();
             for (TestResult testResult : testData.getTestResults()) {
-                w.println(lineNumber++ + ":\t" + testResult.getElongation() + "\t" + testResult.getForce() + "\t" + testResult.getTime() + "\t");
+                w.println(lineNumber++ + ":\t" + testResult.getElongation() + "\t\t" + testResult.getForce() + "\t\t" + testResult.getTime() + "\t\t");
             }
 
             w.close();

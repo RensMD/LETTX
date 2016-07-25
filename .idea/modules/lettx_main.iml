@@ -10,5 +10,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.scream3r:jssc:2.8.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.embeddedunveiled:scm:1.0.3" level="project" />
   </component>
 </module>

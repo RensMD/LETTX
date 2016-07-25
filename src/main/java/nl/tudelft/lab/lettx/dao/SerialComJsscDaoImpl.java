@@ -14,8 +14,13 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * Created by Rens on 22-7-2016.
+ * Lettx application
+ /**
+ * Created by Rens Doornbusch on 6-7-2016. *
+ * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
+ * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
  */
+
 public class SerialComJsscDaoImpl implements SerialPortCommDao, SerialPortEventListener {
 
         // Communication parameters
@@ -32,8 +37,6 @@ public class SerialComJsscDaoImpl implements SerialPortCommDao, SerialPortEventL
         public static final String LETT_MESSAGE_END = "#";
         private static final String LETT_NUMBER_START = "$";
         private static final String LETT_STOP_TEST = "&";
-
-        private boolean startReceived;
 
         private String LETTNumber;
         private String timeOld;
@@ -107,7 +110,6 @@ public class SerialComJsscDaoImpl implements SerialPortCommDao, SerialPortEventL
                             }
                         } else if (Objects.equals(splitMessage[n], LETT_NUMBER_START)) {
                             LETTNumber = splitMessage[n + 1];
-                            startReceived = true;
                             //writeCommand("O");
                             beginFound = true;
                         } else {

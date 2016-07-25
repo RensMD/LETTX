@@ -3,8 +3,13 @@ package nl.tudelft.lab.lettx.dao;
 import nl.tudelft.lab.lettx.domain.LettTestData;
 
 /**
- * Created by Rens Doornbusch on 7-7-2016.
+ * Lettx application
+ /**
+ * Created by Rens Doornbusch on 6-7-2016. *
+ * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
+ * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
  */
+
 public interface SerialPortCommDao {
 
     /**
@@ -12,31 +17,31 @@ public interface SerialPortCommDao {
      *
      * @param command
      */
-    public void writeCommand(String command);
+    void writeCommand(String command);
 
 
     /**
      * Start communication with serial port.
      */
-    public boolean startCommunication(String portNumber);
+    boolean startCommunication(String portNumber);
 
 
-    public static void refreshSerialPort() {
+    static void refreshSerialPort() {
     }
 
-    public void createTestReport(LettTestData testData);
+    void createTestReport(LettTestData testData);
 
     /* getting a list of the available serial ports */
-    public String[] getAvailablePorts();
+    String[] getAvailablePorts();
 
-    public void setFileLocation(String fileLocation);
+    void setFileLocation(String fileLocation);
 
-    public void setFileName(String fileName);
+    void setFileName(String fileName);
 
-    public void setTestString_Current(String testString_Current);
+    void setTestString_Current(String testString_Current);
 
-    public void setForceString_Current(String forceString_Current);
+    void setForceString_Current(String forceString_Current);
 
-    public void setSpeedString_Current(String speedString_Current);
+    void setSpeedString_Current(String speedString_Current);
 
 }

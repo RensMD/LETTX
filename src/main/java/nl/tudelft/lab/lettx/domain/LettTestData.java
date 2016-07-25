@@ -8,7 +8,11 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Rens on 24-7-2016. *
+ * Lettx application
+ /**
+ * Created by Rens Doornbusch on 6-7-2016. *
+ * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
+ * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
  */
 
 public class LettTestData {
@@ -20,7 +24,6 @@ public class LettTestData {
     private String force;
     private String time;
     private String distance;
-    String dateTime;
 
     private List<TestResult> testResults;
 
@@ -86,19 +89,19 @@ public class LettTestData {
         this.force = force;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getDistance() {
-        return distance;
-    }
-
-    public void setDistance(String distance) {
-        this.distance = distance;
-    }
+//    public String getTime() {
+//        return time;
+//    }
+//
+//    public void setTime(String time) {
+//        this.time = time;
+//    }
+//
+//    public String getDistance() {
+//        return distance;
+//    }
+//
+//    public void setDistance(String distance) {
+//        this.distance = distance;
+//    }
 }

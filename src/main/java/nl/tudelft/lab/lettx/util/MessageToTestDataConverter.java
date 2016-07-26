@@ -46,7 +46,7 @@ public class MessageToTestDataConverter {
      * @return test result list
      */
     public List<TestResult> convertTestResults(String[] splitMessage) {
-         List<TestResult> testResultList = new ArrayList<TestResult>();
+        List<TestResult> testResultList = new ArrayList<TestResult>();
         int splitMessageSize = splitMessage.length;
         for (int i = 1; i < splitMessageSize; i = i + 3) {
             TestResult testResult = new TestResult();

@@ -20,6 +20,7 @@ public class MessageToTestDataConverter {
     private static final String LETT_TEST_END = "a";
     private static final String LETT_TEST_START = "I";
     private static final String NEWLINE = "\n";
+    private static final int MESSAGE_START = 0;
 
     /**
      * Split message in single data units.
@@ -29,9 +30,7 @@ public class MessageToTestDataConverter {
     public String[] split(StringBuilder message) {
         // remove commands
         int splitPosStart = message.indexOf(LETT_TEST_START) + 1;
-        // TODO: removable?
-        // int start = 0;
-        message.delete(0, splitPosStart);
+        message.delete(MESSAGE_START, splitPosStart);
         int splitPosEnd = message.indexOf(LETT_TEST_END);
         int end = message.length();
         message.delete(splitPosEnd, end);
@@ -47,9 +46,7 @@ public class MessageToTestDataConverter {
      * @return test result list
      */
     public List<TestResult> convertTestResults(String[] splitMessage) {
-        // TODO: removable?
-        // List<TestResult> testResultList = new ArrayList<TestResult>();
-        List<TestResult> testResultList = new ArrayList<>();
+         List<TestResult> testResultList = new ArrayList<TestResult>();
         int splitMessageSize = splitMessage.length;
         for (int i = 1; i < splitMessageSize; i = i + 3) {
             TestResult testResult = new TestResult();

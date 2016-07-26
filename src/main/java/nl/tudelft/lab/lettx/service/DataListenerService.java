@@ -62,9 +62,6 @@ public class DataListenerService implements ISerialComDataListener {
      * @return
      */
     private String extractMessage(SerialComDataEvent dataEvent) {
-        //TODO: removable?
-//        int byteCount = dataEvent.getDataBytesLength();
-//        boolean isDataReceived = byteCount > 0;
         byte[] receivedData = dataEvent.getDataBytes();
         return new String(receivedData);
     }

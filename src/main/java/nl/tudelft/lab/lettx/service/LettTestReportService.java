@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 /**
  * Lettx application
@@ -24,7 +23,7 @@ class LettTestReportService {
     private int lineNumber = 1;
     private PrintWriter w;
 
-    void createReport(LettTestData testData) {
+    public void createReport(LettTestData testData) {
         // Create new text File
         File dir = new File(testData.getFileLocation() + "\\lettxResults");
         if (!dir.isDirectory()) {
@@ -53,12 +52,9 @@ class LettTestReportService {
             w.println();
             w.println("Nr\tDistance (mm)\tForce (N)\tTime (s)");
 
-            // TODO: Removable?
-            //List<TestResult> testResultList = testData.getTestResults();
             for (TestResult testResult : testData.getTestResults()) {
                 w.println(lineNumber++ + ":\t" + testResult.getElongation() + "\t\t" + testResult.getForce() + "\t\t" + testResult.getTime() + "\t\t");
             }
-
             w.close();
 
         } catch (IOException e) {

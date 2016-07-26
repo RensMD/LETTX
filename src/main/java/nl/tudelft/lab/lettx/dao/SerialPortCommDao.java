@@ -24,8 +24,8 @@ public interface SerialPortCommDao {
      */
     boolean startCommunication(String portNumber);
 
-    static void refreshSerialPort() {
-    }
+    // TODO: Fix
+    //void refreshSerialPort();
 
     /* getting a list of the available serial ports */
     String[] getAvailablePorts();

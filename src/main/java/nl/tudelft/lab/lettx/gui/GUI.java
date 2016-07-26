@@ -50,17 +50,16 @@ public class GUI extends JPanel {
     private String forceString_Current;
     private String speedString_Current;
     private String commString_Current;
-    private JButton startButton;
+    public  JButton startButton;
     private JLabel resultsLabel;
     private JTextArea log;
 
     private boolean stopButton = false;
-    private boolean stopNow = false;
     private boolean cancelled = false;
 
     private SerialPortCommDao serialCommDao;
     public static boolean isComActive = false;
-
+    public static boolean testFinished;
 
     public GUI() {
         super(new BorderLayout());
@@ -132,7 +131,8 @@ public class GUI extends JPanel {
             JComboBox commComboBox = (JComboBox) actionEvent.getSource();
             isComActive=false;
             commString_Current = (String) commComboBox.getSelectedItem();
-            SerialPortCommDao.refreshSerialPort();
+            //TODO: fix
+            //SerialPortCommDao.refreshSerialPort();
             isComActive = serialCommDao.startCommunication(commString_Current);
         });
 
@@ -141,7 +141,7 @@ public class GUI extends JPanel {
             public void mouseClicked(MouseEvent mouseEvent) {
                 super.mouseClicked(mouseEvent);
                 isComActive=false;
-                //TODO: reset connection when disconnected
+
                 if (serialCommDao.getAvailablePorts().length > 0) {
                     commComboBox.setModel(new DefaultComboBoxModel (serialCommDao.getAvailablePorts()));
                     commString_Current = (String) commComboBox.getSelectedItem();
@@ -151,7 +151,8 @@ public class GUI extends JPanel {
                     commComboBox.setModel(new DefaultComboBoxModel (new String[]{"No port available"}));
                     startButton.setEnabled(false);
                 }
-                SerialPortCommDao.refreshSerialPort();
+//                //TODO: make this work
+//                SerialPortCommDao.refreshSerialPort();
                 isComActive = serialCommDao.startCommunication(commString_Current);
             }
         });
@@ -202,11 +203,12 @@ public class GUI extends JPanel {
                 super.mouseClicked(mouseEvent);
                 //TODO: not a stop button after finished
                 if (stopButton) {
-                    stopNow = true;
-                    cancelled = true;
                     serialCommDao.writeCommand(ARDUINO_STOP);
+                    cancelled = true;
+                    startButton.setText("CANCELLED!");
                 } else {
                     stopButton = true;
+                    startButton.setText("STOP");
                     start();
                 }
             }
@@ -217,12 +219,12 @@ public class GUI extends JPanel {
     }
 
     private void start() {
-        resultsLabel.setText("Sending Information");
+
         if (!commString_Current.equalsIgnoreCase("No port available")) {
+            resultsLabel.setText("Conducting Test...");
             if(!isComActive) {
                 isComActive = serialCommDao.startCommunication(commString_Current);
             }
-            startButton.setText("STOP");
             //Check for empty fields
             if (Objects.equals(fileNameField.getText(), "")) {
                 fileNameField.setText("test");
@@ -292,22 +294,39 @@ public class GUI extends JPanel {
             serialCommDao.setForceString_Current(forceString_Current);
 
             //Start test
-            if (!stopNow) {
-                serialCommDao.writeCommand(ARDUINO_START_TEST);
-            }
-            resultsLabel.setText("Conducting test...");
-
-            if (!cancelled) {
-                startButton.setText("Finished!");
-                resultsLabel.setText("Finished!");
-            } else {
-                resultsLabel.setText("CANCELLED, please restart application!");
-            }
+            serialCommDao.writeCommand(ARDUINO_START_TEST);
         }
         else{
             resultsLabel.setText("No port available!");
         }
+
     }
+
+//    // TODO: Make this work
+//    //TODO: lett test aborted info from arduino
+//    public void testConducted(){
+//        while(!testFinished){
+//            try {
+//                Thread.sleep(100);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if(!cancelled) {
+//            startButton.setText("FINISHED!");
+//            resultsLabel.setText("Test Finished Successfully! Application will close automatically.");
+//            try {
+//                Thread.sleep(5000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//
+//            System.exit(0);
+//        }
+//        else{
+//            resultsLabel.setText("Test was cancelled! Restart the application and try again.");
+//        }
+//    }
 
     private void createUIComponents() {
         String[] testStrings = {"Tension", "Compression"};
@@ -332,6 +351,8 @@ public class GUI extends JPanel {
     }
 }
 
-//TODO: busy...
-//TODO: close after a while
+
+
+
+
 

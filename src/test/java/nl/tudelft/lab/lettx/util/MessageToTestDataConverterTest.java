@@ -10,16 +10,16 @@ import java.util.List;
 /**
  * Created by Rens Doornbusch on 25-7-2016.
  */
-public class MessageToTestdataConverterTest {
+public class MessageToTestDataConverterTest {
     // test messages
     public static final String NORMAL_LETT_TEST_MESSAGE = "TF4I19\n0.00\n0\n0\n3.10\n10.20\n1\n6.20\n20.40\n2\na\n";
     private static final String EXTRA_END_CHARS_LETT_TEST_MESSAGE = "TF4I19\n0.00\n0\n0\n3.10\n10.20\n1\n6.20\n20.40\n2\na\n24.00\n12.34\n3\n";
 
-    MessageToTestdataConverter converter;
+    MessageToTestDataConverter converter;
 
     @Before
     public void before() {
-        converter = new MessageToTestdataConverter();
+        converter = new MessageToTestDataConverter();
     }
 
     @Test

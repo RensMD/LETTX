@@ -15,7 +15,7 @@ import java.util.List;
  * Convert message from Arduino to usable data.
  * Created by Rens on 25-7-2016.
  */
-public class MessageToTestdataConverter {
+public class MessageToTestDataConverter {
 
     private static final String LETT_TEST_END = "a";
     private static final String LETT_TEST_START = "I";
@@ -24,12 +24,13 @@ public class MessageToTestdataConverter {
     /**
      * Split message in single data units.
      * @param message
-     * @return seperate data
+     * @return separate data
      */
     public String[] split(StringBuilder message) {
         // remove commands
         int splitPosStart = message.indexOf(LETT_TEST_START) + 1;
-        int start = 0;
+        // TODO: removable?
+        // int start = 0;
         message.delete(0, splitPosStart);
         int splitPosEnd = message.indexOf(LETT_TEST_END);
         int end = message.length();
@@ -46,7 +47,9 @@ public class MessageToTestdataConverter {
      * @return test result list
      */
     public List<TestResult> convertTestResults(String[] splitMessage) {
-        List<TestResult> testResultList = new ArrayList<TestResult>();
+        // TODO: removable?
+        // List<TestResult> testResultList = new ArrayList<TestResult>();
+        List<TestResult> testResultList = new ArrayList<>();
         int splitMessageSize = splitMessage.length;
         for (int i = 1; i < splitMessageSize; i = i + 3) {
             TestResult testResult = new TestResult();

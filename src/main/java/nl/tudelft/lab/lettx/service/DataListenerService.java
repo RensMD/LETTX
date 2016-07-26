@@ -4,7 +4,7 @@ import com.embeddedunveiled.serial.ISerialComDataListener;
 import com.embeddedunveiled.serial.SerialComDataEvent;
 import nl.tudelft.lab.lettx.domain.LettTestData;
 import nl.tudelft.lab.lettx.domain.TestResult;
-import nl.tudelft.lab.lettx.util.MessageToTestdataConverter;
+import nl.tudelft.lab.lettx.util.MessageToTestDataConverter;
 
 import java.util.List;
 
@@ -20,8 +20,7 @@ import java.util.List;
 
 public class DataListenerService implements ISerialComDataListener {
     private static final String LETT_TEST_END = "a";
-    private static final String LETT_TEST_ABORTED = "C";
-    private boolean isDataReceived = false;
+    private static final String LETT_TEST_ABORTED = "b";
     private boolean isTestEndReceived = false;
     private boolean isTestAborted = false;
 
@@ -35,7 +34,7 @@ public class DataListenerService implements ISerialComDataListener {
         isTestAborted = message.indexOf(LETT_TEST_ABORTED) > -1;
         isTestEndReceived = message.indexOf(LETT_TEST_END) > -1;
         if (isTestEndReceived) {
-            MessageToTestdataConverter converter = new MessageToTestdataConverter();
+            MessageToTestDataConverter converter = new MessageToTestDataConverter();
 
             String[] splitMessage = converter.split(message);
             data.setLettNumber(splitMessage[0]);
@@ -63,8 +62,9 @@ public class DataListenerService implements ISerialComDataListener {
      * @return
      */
     private String extractMessage(SerialComDataEvent dataEvent) {
-        int byteCount = dataEvent.getDataBytesLength();
-        isDataReceived = byteCount > 0;
+        //TODO: removable?
+//        int byteCount = dataEvent.getDataBytesLength();
+//        boolean isDataReceived = byteCount > 0;
         byte[] receivedData = dataEvent.getDataBytes();
         return new String(receivedData);
     }

@@ -43,6 +43,7 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
      */
     public void writeCommand(String command) {
         try {
+            //TODO unnecessary when data send directly?
             if (isFirstCommand) {
                 initializeSerialCommunication();
                 System.out.println(MESSAGE_COM_INIT);
@@ -103,6 +104,7 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
      * Initialize and open the serial communication port.
      */
     private boolean openSerialPort() {
+        // TODO: succes usable for refresh?
         boolean succes = false;
         try {
             handle = serialComManager.openComPort(serialPortNumber, true, true, true);
@@ -113,8 +115,23 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
             e.printStackTrace();
         }
         return succes=true;
-        //TODO: Refresh
     }
+
+//    // TODO: Refresh
+//    public void refreshSerialPort() {
+//        try {
+//            serialComManager.closeComPort(handle);
+//        } catch (SerialComException e) {
+//            e.printStackTrace();
+//        }
+//        if(getAvailablePorts()!=null){
+//            try {
+//                initializeSerialCommunication();
+//            } catch (SerialComException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     /**
      * Validate selected input for serial port.

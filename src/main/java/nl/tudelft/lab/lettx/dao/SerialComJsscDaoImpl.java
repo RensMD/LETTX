@@ -23,6 +23,8 @@ import java.util.Objects;
  * Implementation for Serial Port communication
  */
 
+// TODO: remove if working properly on Mac
+
 public class SerialComJsscDaoImpl implements SerialPortCommDao, SerialPortEventListener {
 
         // Communication parameters
@@ -174,7 +176,7 @@ public class SerialComJsscDaoImpl implements SerialPortCommDao, SerialPortEventL
             return succes;
         }
 
-        public static void refreshSerialPort(){
+        public  void refreshSerialPort(){
             if(serialPort != null) {
                 try {
                     serialPort.closePort();

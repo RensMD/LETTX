@@ -11,9 +11,22 @@ import nl.tudelft.lab.lettx.service.DataListenerService;
  * Created by Rens Doornbusch on 6-7-2016. *
  * Code inspired by the "LETT" project Visual Basic code of Pieter Welling *
  * - Created to enable cross-platform(X) usage of application for LETT desktop tests *
+ *
+ * Implementation for Serial Port communication
  */
 
 public class SerialComManagerDaoImpl implements SerialPortCommDao {
+
+    // Serial ports
+    private static final String WINDOWS_SERIAL_PORT = "COM";
+    private static final String APPLE_SERIAL_PORT = "tty";
+
+    // Messages
+    private static final String MESSAGE_COM_INIT = "Communication initialized.";
+
+    // Arduino commands
+    private static final String LETT_TEST_START = "I";
+    private static final String LETT_TEST_ABORT = "C";
 
     private String serialPortNumber;
     private long handle;
@@ -32,12 +45,12 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
         try {
             if (isFirstCommand) {
                 initializeSerialCommunication();
-                System.out.println("Communication initialized.");
+                System.out.println(MESSAGE_COM_INIT);
                 sendCommand(command);
                 isFirstCommand = false;
             } else {
                 sendCommand(command);
-                if (command.contains("I")) {
+                if (command.contains(LETT_TEST_START)) {
                     dataListenerService.setLettTestData(testData);
                 }
             }
@@ -47,7 +60,7 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
     }
 
     /**
-     * Send the command to Arduino.
+     * Send command to Arduino.
      *
      * @param command
      * @throws SerialComException
@@ -66,12 +79,12 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
      */
     private void initializeSerialCommunication() throws SerialComException {
         String response = "";
-        String firstCommand = "C";
+        String firstCommand = LETT_TEST_ABORT;
         while (!response.contains(firstCommand)) {
             sendCommand(firstCommand);
             // try to read data from serial port
             response = serialComManager.readString(handle, 1);
-            System.out.println("data read is :" + response);
+            System.out.println("Data read is :" + response);
         }
     }
 
@@ -108,11 +121,7 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
      */
     private boolean isSelectedPortValid() {
         //TODO: could provide problem on apple in current state
-        return this.serialPortNumber.contains("COM") || this.serialPortNumber.contains("tty");
-    }
-
-    public void createTestReport(LettTestData testdata) {
-        // no implementation needed
+        return this.serialPortNumber.contains(WINDOWS_SERIAL_PORT) || this.serialPortNumber.contains(APPLE_SERIAL_PORT);
     }
 
     /**

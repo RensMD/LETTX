@@ -12,17 +12,13 @@ import nl.tudelft.lab.lettx.gui.GUI;
  * Main Lettx application
  */
 
-// TODO: Compression test functional
+// TODO: test on Mac
 
 // TODO: send the "C" directly upon connecting and refreshing
 
 // TODO: when test cancelled better information processing on UI
 
 // TODO: Refresh working properly
-
-// TODO: millisecond to seconds
-
-// TODO: test on Mac
 
 // TODO: OPTIONAL auto reset connection when disconnected
 

@@ -303,7 +303,7 @@ public class GUI extends JPanel {
     }
 
 //    // TODO: Make this work
-//    //TODO: lett test aborted info from arduino
+//    // TODO: lett test aborted info from arduino
 //    public void testConducted(){
 //        while(!testFinished){
 //            try {

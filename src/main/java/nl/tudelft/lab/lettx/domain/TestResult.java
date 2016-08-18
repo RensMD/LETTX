@@ -14,7 +14,7 @@ public class TestResult {
 
     private float elongation;
     private float force;
-    private long time;
+    private double time;
 
     public float getElongation() {
         return elongation;
@@ -32,11 +32,11 @@ public class TestResult {
         this.force = force;
     }
 
-    public long getTime() {
+    public double getTime() {
         return time;
     }
 
     public void setTime(long time) {
-        this.time = time;
+        this.time = time/1000.0;
     }
 }

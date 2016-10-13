@@ -19,7 +19,9 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
 
     // Serial ports
     private static final String WINDOWS_SERIAL_PORT = "COM";
-    private static final String APPLE_SERIAL_PORT = "tty";
+    private static final String APPLE_SERIAL_PORT1 = "tty";
+    private static final String APPLE_SERIAL_PORT2 = "dev";
+    private static final String APPLE_SERIAL_PORT3 = "cu";
 
     // Messages
     private static final String MESSAGE_COM_INIT = "Communication initialized.";
@@ -138,7 +140,7 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
      */
     private boolean isSelectedPortValid() {
         //TODO: could provide problem on apple in current state
-        return this.serialPortNumber.contains(WINDOWS_SERIAL_PORT) || this.serialPortNumber.contains(APPLE_SERIAL_PORT);
+        return this.serialPortNumber.contains(WINDOWS_SERIAL_PORT) || this.serialPortNumber.contains(APPLE_SERIAL_PORT1)|| this.serialPortNumber.contains(APPLE_SERIAL_PORT2)|| this.serialPortNumber.contains(APPLE_SERIAL_PORT3);
     }
 
     /**

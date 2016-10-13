@@ -2,6 +2,9 @@
   <artifact type="jar" build-on-make="true" name="lettx:jar">
     <output-path>$PROJECT_DIR$/build/classes/artifacts/lettx_jar</output-path>
     <root id="archive" name="lettx.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+      </element>
       <element id="module-output" name="lettx_main" />
       <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/1.10.19/e8546f5bef4e061d8dd73895b4e8f40e3fe6effe/mockito-core-1.10.19.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.embeddedunveiled/scm/1.0.3/1e3c054212f41a2e7ea76dbbebe54450bdc9d05a/scm-1.0.3.jar" path-in-jar="/" />

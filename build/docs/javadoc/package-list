@@ -1,0 +1,6 @@
+nl.tudelft.lab.lettx.application
+nl.tudelft.lab.lettx.dao
+nl.tudelft.lab.lettx.domain
+nl.tudelft.lab.lettx.gui
+nl.tudelft.lab.lettx.service
+nl.tudelft.lab.lettx.util

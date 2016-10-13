@@ -1,6 +1,6 @@
-// Writen by Pieter Welling november 6th 2014 for graduation project: Design of a desktop tensile tester
-// Adapted by Rens Doornbusch, June 2016. Adding Compression test functionality, Control Buttons and cross platform support of application.
 
+// Writen by Pieter Welling november 6th 2014 for graduation project: Design of a desktop tensile tester
+// Adapted by Rens Doornbusch, June 2016. Adding Compression test functionality, Control Joystick and cross platform support of application.
 
 // Library used for the analog to digital converter
 #include "Hx711.h"
@@ -8,6 +8,10 @@
 
 // Declare port 1 and 2 on the Arduino board
 Hx711 scale(A1, A0);
+
+#define joystick_switch_pin  7
+#define joystick_x_pin       A5
+#define joystick_y_pin       A4
 
 // LETT dependent variables. Check Excel sheet for right values.
 int LETTNumber = 19;
@@ -20,8 +24,7 @@ int oldByte;
 int numberOfSteps = 0;
 int Speed = 0;
 boolean testStarted = false;
-boolean startReceived = false;
-boolean dataReceived = false;
+boolean joystickflag = false;
 
 //Actuator control variables                                                     
 int pwmSignal = 0;
@@ -79,13 +82,8 @@ unsigned long timeSinceStart = 0;
 unsigned long timeSincesLastStep = 0;
 unsigned long timeAtLastStep = 0;
 
-char start_char = '@';
-char end_char = '#';
-char sep_char = ':';
-String temp;
 
-
-void setup(){                                                                                      
+void setup(){                                                                         
   pinMode(actuatorUp,OUTPUT);                                                              
   pinMode(actuatorDown,OUTPUT);
   analogWrite(actuatorSpeed,0);
@@ -93,34 +91,46 @@ void setup(){
   pinModeFast(time, INPUT);  
   pinMode(reset, OUTPUT);  
   digitalWrite(12,HIGH);
-  attachInterrupt(0,clock,FALLING);                                                 
-  
+  attachInterrupt(0,clock,FALLING);          
+
+  pinMode(joystick_switch_pin, INPUT_PULLUP);  // Enable the pullup resistor on pin 3 for the joystick's switch signal
+                                         
   Serial.begin(19200);
 }
 
-void loop(){                                                                             
+void loop(){
+                                                                               
   //Read signal from computer
   if (Serial.available() > 0) {                                                          
     incomingByte = Serial.read();
+    Serial.write(incomingByte);
   }
   
-  if (!testStarted){
+  //Check if test is started/in progress
+  if(!testStarted){
+    int X_Axis = analogRead(joystick_x_pin);     // read the x axis value
+    int Y_Axis = analogRead(joystick_y_pin);     // read the x axis value
+   
     //Check to move top grip up
-    if(incomingByte == 'A') {
+    if(incomingByte == 'A' || Y_Axis<200) {
       topGripUp_ButtonDown();
     }
     //Check to stop moving top grip up
-    else if (incomingByte == 'H') {
+    else if ((incomingByte == 'H' || incomingByte == 'G' ) ) {
       topGripUp_ButtonUp();
     } 
     //Check to move top grip adown
-    else if(incomingByte == 'B') {
+    else if(incomingByte == 'B' || Y_Axis>900) {
       topGripDown_ButtonDown();
     } 
-    //Check to stop moving top grip down
-    else if(incomingByte == 'G') {
-      topGripDown_ButtonUp();
+    if(Y_Axis>900 || Y_Axis<200){
+      joystickflag=true;
     }
+    if(joystickflag && Y_Axis<900 && Y_Axis>200){
+      topGripUp_ButtonUp();
+      joystickflag=false;
+    }
+  
     //Check if speed is set
     else if (incomingByte == '1' || incomingByte == '2' || incomingByte == '3' || incomingByte == '4') {
       setSpeed();
@@ -129,60 +139,31 @@ void loop(){
     else if (incomingByte == 'E' || incomingByte == 'F') {
       setLoadCell();
     } 
-    //check load cell gain value
+    //check type of test to be conducted
     else if (incomingByte == 'T' || incomingByte == 'R') {
       setTestType();
     } 
-    
-    else if(incomingByte == 'O') {
-      startReceived=true;
-    }
-    //Start a test
+    //Ctart a test
     else if (incomingByte == 'I') {
       startTest();
     }
     //Reset incomingbyte value
     incomingByte=' ';
-
-  startStream();
-  writeStream(LETTNumber);
-  endStream();
-
-
-//      if(n=20){
-//      //Write LETT number to UI
-//      Serial.print("startL");
-//      Serial.print('\n');
-//      Serial.print(LETTNumber);
-//      Serial.print('\n');
-//      Serial.print("stop");
-//      Serial.print('\n');
-//      write("start");
-//      Serial.flush();
-//    }
-//    n++;
-
-//    if(!startReceived){
-//      //Write LETT number to UI
-//      Serial.print("startL");
-//      Serial.print('\n');
-//      Serial.print(LETTNumber);
-//      Serial.print('\n');
-//      Serial.print("stop");
-//      Serial.print('\n');
-//    }
   }
   else{
+    int SwitchValue = digitalRead(joystick_switch_pin);  // read the state of the switch
+    
     //Check for stop signal
-    if (incomingByte == 'C'){
-      STOP();
-      incomingByte=' ';
+    if (incomingByte == 'C' || SwitchValue==LOW){
+      CANCEL();
     }
-  
+    //Reset incomingbyte value
+    incomingByte=' ';
+
     //Read value from digital ruler
     digitalruler();                                                                      
     
-    //Read value from load cell
+    //Read value from laod cell
     loadcell();                                                                          
     
     //Check time passed since last step
@@ -225,9 +206,9 @@ void loop(){
     }
   }  
 }
-
+ 
 //Starts a test 
-void startTest(){                                                             
+void startTest(){                                                       
   //Reset digital ruler
   digitalWrite (reset,LOW);
   delay(400);
@@ -252,6 +233,10 @@ void startTest(){
   numberOfSteps = 0;
   absolutDistanceOneStepAgo = 0;
   forceOneStepAgo =0;
+
+  //Write LETT number to UI
+  Serial.print(LETTNumber);
+  Serial.print('\n'); 
   
   //Set PWM signal to correct value for selected speed and set speed value  
   if (moveWith100){
@@ -273,35 +258,13 @@ void startTest(){
   }
   //Write PWM signal value to PWM port
   analogWrite(actuatorSpeed,pwmSignal);
+
 }
 
 //Write values to computer
-void writevalues(){  
+void writevalues(){ 
+  if(testStarted != false){ 
   //Write values to UI
-  //String combineddata="startD"+absolutDistance+"-"+force+"-"+timeSinceStart+"stop";
-  
-  //Serial.print(combineddata);
-  
-// TODO: Solution with receive check
-//  oldByte = incomingByte;
-//  while(incomingByte == oldByte){
-//    //Write values to UI
-//    Serial.print("data");                                             
-//    Serial.print('\n');
-//    Serial.print(absolutDistance);                                                    
-//    Serial.print('\n');
-//    Serial.print(force);          
-//    Serial.print('\n');  
-//    Serial.print(timeSinceStart);          
-//    Serial.print('\n');
-//    delay(10);
-//    if (Serial.available() > 0) {                                                          
-//      incomingByte = Serial.read();
-//    }
-//  }
-
-  Serial.print("startD");  
-  Serial.print('\n');
   Serial.print(absolutDistance);                                                    
   Serial.print('\n');
     
@@ -310,7 +273,7 @@ void writevalues(){
          
   Serial.print(timeSinceStart);          
   Serial.print('\n');
-  Serial.print("stop");
+  }
 }
 
 /*----- Read Data Functions -----*/
@@ -550,11 +513,23 @@ void stopAtFail(){
     forceSTOP();   
   }
 }  
+//TODO: change for compression test
 
 //Stop test 
 void forceSTOP(){
   //Write stop command to UI
-  // TODO: wat hier?   
+  Serial.print('a');
+  Serial.print('\n');
+   
+  STOP();
+}
+
+// Cancel test
+void CANCEL(){
+  //Write cancel command to UI
+  Serial.print('b');
+  Serial.print('\n');
+
   STOP();
 }
 
@@ -595,61 +570,3 @@ void  topGripDown_ButtonUp(){
   analogWrite(actuatorSpeed,0);
 }
 
-//Methods to Convert Everything to String
-//Then Send out through Serial Port
-void startStream(){
- Serial.write(start_char);
- Serial.write(sep_char);
- Serial.flush();
-}
- 
-void endStream(){
- Serial.write(end_char);
- Serial.write(sep_char);
- Serial.flush();
-}
- 
-void sepStream(){
- Serial.write(sep_char);
- Serial.flush();
-}
- 
-void writeStream(float data){
- temp = String(data);
- 
- byte charBuf[temp.length()];
- temp.getBytes(charBuf,temp.length()+1);
- 
- Serial.write(charBuf,temp.length());
- Serial.flush();
- sepStream();
- 
-}
-
-void writeStream(int data){
- temp = String(data);
- 
- byte charBuf[temp.length()];
- temp.getBytes(charBuf,temp.length()+1);
- 
- Serial.write(charBuf,temp.length());
- Serial.flush();
- sepStream();
-}
- 
-void writeStream(unsigned long data){
- temp = String(data);
- 
- byte charBuf[temp.length()];
- temp.getBytes(charBuf,temp.length()+1);
- 
- Serial.write(charBuf,temp.length());
- Serial.flush();
- sepStream();
-}
- 
-void writeStream(char string[]){
- Serial.write(string);
- Serial.flush();
- sepStream();
-}

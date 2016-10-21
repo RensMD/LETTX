@@ -12,9 +12,7 @@ import nl.tudelft.lab.lettx.gui.GUI;
  * Main Lettx application
  */
 
-// TODO: test on Mac
-
-// TODO: send the "C" directly upon connecting and refreshing
+// TODO: send the "C" directly upon connecting and when pressing refresh
 
 // TODO: when test cancelled better information processing on UI
 

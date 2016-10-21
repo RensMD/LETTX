@@ -45,7 +45,7 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
      */
     public void writeCommand(String command) {
         try {
-            //TODO unnecessary when data send directly?
+            //TODO unnecessary when data send directly? (send the "C" directly upon connecting and when pressing refresh)
             if (isFirstCommand) {
                 initializeSerialCommunication();
                 System.out.println(MESSAGE_COM_INIT);
@@ -119,7 +119,7 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
         return succes=true;
     }
 
-//    // TODO: Refresh
+//    // TODO: Refresh working again
 //    public void refreshSerialPort() {
 //        try {
 //            serialComManager.closeComPort(handle);

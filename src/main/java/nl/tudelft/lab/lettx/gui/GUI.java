@@ -131,7 +131,7 @@ public class GUI extends JPanel {
             JComboBox commComboBox = (JComboBox) actionEvent.getSource();
             isComActive=false;
             commString_Current = (String) commComboBox.getSelectedItem();
-            //TODO: fix
+            //TODO: fix refreshing
             //SerialPortCommDao.refreshSerialPort();
             isComActive = serialCommDao.startCommunication(commString_Current);
         });

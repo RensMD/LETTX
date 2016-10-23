@@ -17,6 +17,10 @@ import java.util.List;
  */
 public class MessageToTestDataConverter {
 
+    // TODO - doorb02 - find out the if LETT_TEST_END must be 'a' or 'C'
+/*
+    private static final String LETT_TEST_END = "C";
+*/
     private static final String LETT_TEST_END = "a";
     private static final String LETT_TEST_START = "I";
     private static final String NEWLINE = "\n";

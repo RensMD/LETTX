@@ -1,6 +1,6 @@
 package nl.tudelft.lab.lettx.dao;
 
-import jssc.SerialPort;
+import com.embeddedunveiled.serial.SerialComManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -12,7 +12,7 @@ import org.mockito.Mock;
 public class SerialPortCommDaoTest {
 
     @Mock
-    SerialPort serialPort;
+    SerialComManager serialPort;
 
     @InjectMocks
     SerialPortCommDao serialCommDao;
@@ -20,7 +20,47 @@ public class SerialPortCommDaoTest {
 
     @Before
     public void before() {
-        serialCommDao = new SerialComJsscDaoImpl();
+        serialCommDao = new SerialPortCommDao() {
+            @Override
+            public void writeCommand(String command) {
+
+            }
+
+            @Override
+            public boolean startCommunication(String portNumber) {
+                return false;
+            }
+
+            @Override
+            public String[] getAvailablePorts() {
+                return new String[0];
+            }
+
+            @Override
+            public void setFileLocation(String fileLocation) {
+
+            }
+
+            @Override
+            public void setFileName(String fileName) {
+
+            }
+
+            @Override
+            public void setTestString_Current(String testString_Current) {
+
+            }
+
+            @Override
+            public void setForceString_Current(String forceString_Current) {
+
+            }
+
+            @Override
+            public void setSpeedString_Current(String speedString_Current) {
+
+            }
+        };
     }
 
     @Test

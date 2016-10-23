@@ -1,7 +1,5 @@
 package nl.tudelft.lab.lettx.domain;
 
-import nl.tudelft.lab.lettx.gui.GUI;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +17,7 @@ import java.util.List;
 
 public class LettTestData {
     private String fileLocation;
-    private String name;
+    private String fileName;
     private String lettNumber;
     private String speed;
     private String type;
@@ -35,19 +33,31 @@ public class LettTestData {
     }
 
     public String getFileLocation() {
-        return fileLocation;
+        if(this.fileLocation == null){
+            this.fileLocation = "";
+        }
+        if (!this.fileLocation.contains("lettxResults")) {
+            this.fileLocation += "\\lettxResults";
+        }
+        return this.fileLocation;
     }
 
-    public void setFileLocation() {
-        this.fileLocation = GUI.fileLocation;
+    public void setFileLocation(String fileLocation) {
+        this.fileLocation = fileLocation;
     }
 
-    public String getName() {
-        return name;
+    public String getFileName() {
+        if(this.fileName == null || this.fileName.contentEquals("")) {
+            this.fileName = "test";
+        }
+        if (!this.fileName.contains(".txt")) {
+            this.fileName += ".txt";
+        }
+        return this.fileName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getLettNumber() {

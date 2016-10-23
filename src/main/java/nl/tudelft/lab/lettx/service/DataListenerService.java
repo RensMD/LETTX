@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 public class DataListenerService implements ISerialComDataListener {
-    private static final String LETT_TEST_END = "a";
+    private static final String LETT_TEST_END = "C";
     private static final String LETT_TEST_ABORTED = "b";
     private boolean isTestEndReceived = false;
     private boolean isTestAborted = false;
@@ -81,8 +81,8 @@ public class DataListenerService implements ISerialComDataListener {
      */
     public void setLettTestData(LettTestData testData) {
         data = new LettTestData();
-        data.setFileLocation();
-        data.setName(testData.getName());
+        data.setFileLocation(testData.getFileLocation());
+        data.setFileName(testData.getFileName());
         data.setType(testData.getType());
         data.setForce(testData.getForce());
         data.setSpeed(testData.getSpeed());

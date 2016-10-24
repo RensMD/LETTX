@@ -225,9 +225,9 @@ public class GUI extends JPanel {
             if(!isComActive) {
                 isComActive = serialCommDao.startCommunication(commString_Current);
             }
-            //TODO: default location for mac OS
+            //set default file location for all OS Versions
             if (Objects.equals(fileLocation_Current, "")) {
-                fileLocation_Current = "C:";
+                fileLocation_Current = System.getProperty("user.dir");
                 fileLocationButton.setText(fileLocation_Current);
             }
             if(!isComActive) {

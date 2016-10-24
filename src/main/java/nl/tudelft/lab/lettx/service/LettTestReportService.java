@@ -29,7 +29,7 @@ class LettTestReportService {
         if (!dir.isDirectory()) {
             dir.mkdir();
         }
-        File textFile = new File(dir + "\\" + testData.getFileName());
+        File textFile = new File(dir + File.separator + testData.getFileName());
         System.out.println("Test Report saved in: " + textFile.getAbsolutePath());
         try {
             textFile.createNewFile();

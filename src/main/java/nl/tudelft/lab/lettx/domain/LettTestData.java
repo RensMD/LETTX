@@ -1,5 +1,6 @@
 package nl.tudelft.lab.lettx.domain;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,7 +38,7 @@ public class LettTestData {
             this.fileLocation = "";
         }
         if (!this.fileLocation.contains("lettxResults")) {
-            this.fileLocation += "\\lettxResults";
+            this.fileLocation += File.separator + "lettxResults";
         }
         return this.fileLocation;
     }

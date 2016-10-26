@@ -222,11 +222,8 @@ public class GUI extends JPanel {
 
         if (!commString_Current.equalsIgnoreCase("No port available")) {
             resultsLabel.setText("Conducting Test...");
-            if(!isComActive) {
-                isComActive = serialCommDao.startCommunication(commString_Current);
-            }
             //set default file location for all OS Versions
-            if (Objects.equals(fileLocation_Current, "")) {
+            if (Objects.equals(fileLocation_Current, "") || fileLocation_Current == null) {
                 fileLocation_Current = System.getProperty("user.dir");
                 fileLocationButton.setText(fileLocation_Current);
             }

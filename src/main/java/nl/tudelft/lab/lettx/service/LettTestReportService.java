@@ -30,10 +30,11 @@ class LettTestReportService {
             dir.mkdir();
         }
         File textFile = new File(dir + File.separator + testData.getFileName());
-        System.out.println("Test Report saved in: " + textFile.getAbsolutePath());
         try {
             textFile.createNewFile();
+            System.out.println("Test Report saved in: " + textFile.getAbsolutePath());
         } catch (IOException e) {
+            System.out.println("Problem saving Test Report in: " + textFile.getAbsolutePath());
             e.printStackTrace();
         }
 
@@ -58,6 +59,7 @@ class LettTestReportService {
             w.close();
 
         } catch (IOException e) {
+            System.out.println("Problem writing Test Data to file: " + textFile.getAbsolutePath());
             e.printStackTrace();
         }
         GUI.testFinished= true;

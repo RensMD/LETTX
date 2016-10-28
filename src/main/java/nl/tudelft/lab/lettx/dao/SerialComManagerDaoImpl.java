@@ -106,7 +106,7 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
      * Initialize and open the serial communication port.
      */
     private boolean openSerialPort() {
-        // TODO: success usable for refresh?
+        // TODO: success bool usable for refresh?
         boolean succes = false;
         try {
             handle = serialComManager.openComPort(serialPortNumber, true, true, true);

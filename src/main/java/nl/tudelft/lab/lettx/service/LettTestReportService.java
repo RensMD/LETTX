@@ -25,15 +25,16 @@ class LettTestReportService {
 
     public void createReport(LettTestData testData) {
         // Create new text File
-        File dir = new File(testData.getFileLocation() + "\\lettxResults");
+        File dir = new File(testData.getFileLocation());
         if (!dir.isDirectory()) {
             dir.mkdir();
         }
-        File textFile = new File(dir + "\\" + testData.getName() + ".txt");
-        System.out.println(textFile.getAbsolutePath());
+        File textFile = new File(dir + File.separator + testData.getFileName());
         try {
             textFile.createNewFile();
+            System.out.println("Test Report saved in: " + textFile.getAbsolutePath());
         } catch (IOException e) {
+            System.out.println("Problem saving Test Report in: " + textFile.getAbsolutePath());
             e.printStackTrace();
         }
 
@@ -43,7 +44,7 @@ class LettTestReportService {
             w.println("Developed by:\t\tPieter Welling & Rens Doornbusch");
             w.println("\t\t\tTU Delft");
             w.println();
-            w.println("Test Name:\t\t" + testData.getName());
+            w.println("Test Name:\t\t" + testData.getFileName());
             w.println("Date & Time:\t\t" + testData.getDateTime());
             w.println("Speed:\t\t\t" + testData.getSpeed());
             w.println("Load Cell:\t\t" + testData.getForce());
@@ -58,6 +59,7 @@ class LettTestReportService {
             w.close();
 
         } catch (IOException e) {
+            System.out.println("Problem writing Test Data to file: " + textFile.getAbsolutePath());
             e.printStackTrace();
         }
         GUI.testFinished= true;

@@ -149,7 +149,8 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
      * @return
      */
     public String[] getAvailablePorts() {
-        String[] comPorts = null;
+        String[] comPorts;
+        comPorts = new String[]{};
         try {
             comPorts = serialComManager.listAvailableComPorts();
         } catch (SerialComException e) {
@@ -158,12 +159,12 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
         return comPorts;
     }
 
-    public void setFileLocation(String fileLocation) {
-        testData.setFileLocation();
+    public void setFileLocation(String fileLocation_Current) {
+        testData.setFileLocation(fileLocation_Current);
     }
 
-    public void setFileName(String fileName) {
-        testData.setName(fileName);
+    public void setFileName(String fileName_Current) {
+        testData.setFileName(fileName_Current);
     }
 
     public void setTestString_Current(String testString_Current) {

@@ -38,7 +38,6 @@ public class GUI extends JPanel {
     private JButton refreshButton;
     private JButton fileLocationButton;
     private JFileChooser fc;
-    public static String fileLocation = "";
     private JTextField fileNameField;
     private JButton gripUpButton;
     private JButton gripDownButton;
@@ -50,7 +49,8 @@ public class GUI extends JPanel {
     private String forceString_Current;
     private String speedString_Current;
     private String commString_Current;
-    public  JButton startButton;
+    private String fileLocation_Current;
+    private JButton startButton;
     private JLabel resultsLabel;
     private JTextArea log;
 
@@ -98,15 +98,15 @@ public class GUI extends JPanel {
 
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
-                    fileLocation = Paths.get(String.valueOf(fc.getSelectedFile())).normalize().toString();
+                    fileLocation_Current = Paths.get(String.valueOf(fc.getSelectedFile())).normalize().toString();
                     log.append("Opening: " + file.getName() + ". \n");
                 } else {
                     log.append("Open command cancelled by user.\n");
                 }
                 log.setCaretPosition(log.getDocument().getLength());
                 System.out.println("Current Path:");
-                System.out.println(fileLocation);
-                fileLocationButton.setText(fileLocation+"\\lettxResults");
+                System.out.println(fileLocation_Current);
+                fileLocationButton.setText(fileLocation_Current);
             }
         });
 
@@ -222,20 +222,11 @@ public class GUI extends JPanel {
 
         if (!commString_Current.equalsIgnoreCase("No port available")) {
             resultsLabel.setText("Conducting Test...");
-            if(!isComActive) {
-                isComActive = serialCommDao.startCommunication(commString_Current);
+            //set default file location for all OS Versions
+            if (Objects.equals(fileLocation_Current, "") || fileLocation_Current == null) {
+                fileLocation_Current = System.getProperty("user.dir");
+                fileLocationButton.setText(fileLocation_Current);
             }
-            //Check for empty fields
-            if (Objects.equals(fileNameField.getText(), "")) {
-                fileNameField.setText("test");
-            }
-            serialCommDao.setFileName(fileNameField.getText());
-            //TODO: default location for mac OS
-            if (Objects.equals(fileLocation, "")) {
-                fileLocation = "C:";
-                fileLocationButton.setText(fileLocation+"\\lettxResults");
-            }
-            serialCommDao.setFileLocation(fileLocation);
             if(!isComActive) {
                 isComActive = serialCommDao.startCommunication(commString_Current);
             }
@@ -288,7 +279,9 @@ public class GUI extends JPanel {
                     break;
             }
 
-            // Write Standard information to file for SerialComJsscDaoImpl
+            // Write selections to serialCommDao
+            serialCommDao.setFileLocation(fileLocation_Current);
+            serialCommDao.setFileName(fileNameField.getText());
             serialCommDao.setSpeedString_Current(speedString_Current);
             serialCommDao.setTestString_Current(testString_Current);
             serialCommDao.setForceString_Current(forceString_Current);

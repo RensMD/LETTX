@@ -21,8 +21,10 @@ import java.util.List;
 public class DataListenerService implements ISerialComDataListener {
     private static final String LETT_TEST_END = "a";
     private static final String LETT_TEST_ABORTED = "b";
+    private static final String LETT_TEST_CANCELED = "C";
     private boolean isTestEndReceived = false;
     private boolean isTestAborted = false;
+    private boolean isTestCanceled = false;
 
     private StringBuilder message = new StringBuilder();
     private LettTestData data = new LettTestData();
@@ -33,6 +35,7 @@ public class DataListenerService implements ISerialComDataListener {
         message.append(receivedString);
         isTestAborted = message.indexOf(LETT_TEST_ABORTED) > -1;
         isTestEndReceived = message.indexOf(LETT_TEST_END) > -1;
+        isTestCanceled = message.indexOf(LETT_TEST_CANCELED) > -1;
         if (isTestEndReceived) {
             MessageToTestDataConverter converter = new MessageToTestDataConverter();
 
@@ -44,7 +47,7 @@ public class DataListenerService implements ISerialComDataListener {
             createTestReport();
             message = new StringBuilder();
         }
-        if(isTestAborted) {
+        if(isTestAborted || isTestCanceled) {
             message = new StringBuilder();
             data = new LettTestData();
         }
@@ -81,8 +84,8 @@ public class DataListenerService implements ISerialComDataListener {
      */
     public void setLettTestData(LettTestData testData) {
         data = new LettTestData();
-        data.setFileLocation();
-        data.setName(testData.getName());
+        data.setFileLocation(testData.getFileLocation());
+        data.setFileName(testData.getFileName());
         data.setType(testData.getType());
         data.setForce(testData.getForce());
         data.setSpeed(testData.getSpeed());

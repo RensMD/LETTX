@@ -2,28 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e7f007ab-79ef-46c1-a66a-11235da12ce6" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/main.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/test.iml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/artifacts/lettx_jar.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/dictionaries/LocalAdmin.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialComJsscDaoImpl.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/lettx.iml" afterPath="$PROJECT_DIR$/.idea/modules/lettx.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/lettx_main.iml" afterPath="$PROJECT_DIR$/.idea/modules/lettx_main.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/lettx_test.iml" afterPath="$PROJECT_DIR$/.idea/modules/lettx_test.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/application/LettxApplication.java" afterPath="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/application/LettxApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialComManagerDaoImpl.java" afterPath="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialComManagerDaoImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialPortCommDao.java" afterPath="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialPortCommDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/domain/LettTestData.java" afterPath="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/domain/LettTestData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/gui/GUI.java" afterPath="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/gui/GUI.java" />
     </list>
     <ignored path="lettx.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -94,11 +74,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SerialComManagerDaoImpl.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SerialComManagerDaoImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialComManagerDaoImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="141" column="55" selection-start-line="141" selection-start-column="55" selection-end-line="141" selection-end-column="55" />
+            <state relative-caret-position="272">
+              <caret line="132" column="22" selection-start-line="132" selection-start-column="22" selection-end-line="132" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SerialComJNINativeInterface.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.embeddedunveiled/scm/1.0.3/6ac9ffb5845d58cab4f0d3f0be781571822f8665/scm-1.0.3-sources.jar!/com/embeddedunveiled/serial/SerialComJNINativeInterface.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="646">
+              <caret line="58" column="27" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -107,7 +97,7 @@
       <file leaf-file-name="SerialPortCommDao.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialPortCommDao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
+            <state relative-caret-position="442">
               <caret line="26" column="7" selection-start-line="26" selection-start-column="7" selection-end-line="26" selection-end-column="7" />
               <folding />
             </state>
@@ -117,7 +107,7 @@
       <file leaf-file-name="GUI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/gui/GUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="754">
+            <state relative-caret-position="5287">
               <caret line="320" column="23" selection-start-line="320" selection-start-column="23" selection-end-line="320" selection-end-column="23" />
               <folding />
             </state>
@@ -134,7 +124,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.iml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="test.iml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/test.iml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -147,7 +137,7 @@
       <file leaf-file-name="LettTestData.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/domain/LettTestData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="491">
+            <state relative-caret-position="969">
               <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
               <folding />
             </state>
@@ -157,7 +147,7 @@
       <file leaf-file-name="LETT_2.ino" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Arduino/LETT_2/LETT_2.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="423">
+            <state relative-caret-position="8823">
               <caret line="519" column="25" selection-start-line="519" selection-start-column="25" selection-end-line="519" selection-end-column="25" />
               <folding />
             </state>
@@ -499,10 +489,10 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/application/LettxApplication.java" />
-        <option value="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialComManagerDaoImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialPortCommDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/domain/LettTestData.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/gui/GUI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialComManagerDaoImpl.java" />
       </list>
     </option>
   </component>
@@ -544,8 +534,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -853,6 +843,9 @@
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/Atlassian/SourceTree/git_local/bin/git.exe" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RunManager" selected="Application.LettxApplication">
     <configuration default="false" name="LettxApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -1139,6 +1132,21 @@
       <option name="presentableId" value="Default" />
       <updated>1476973122440</updated>
     </task>
+    <task id="LOCAL-00001" summary="I should create a better gitignore...">
+      <created>1477048968114</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1477048968114</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Necessary commit">
+      <created>1477644328488</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1477644328488</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1152,17 +1160,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32875264" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1178,6 +1185,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1192,6 +1200,11 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="I should create a better gitignore..." />
+    <MESSAGE value="Necessary commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Necessary commit" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
@@ -1201,6 +1214,78 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialComManagerDaoImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.embeddedunveiled/scm/1.0.3/6ac9ffb5845d58cab4f0d3f0be781571822f8665/scm-1.0.3-sources.jar!/com/embeddedunveiled/serial/SerialComJNINativeInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="986">
+          <caret line="58" column="27" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialPortCommDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="7" selection-start-line="26" selection-start-column="7" selection-end-line="26" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/gui/GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5287">
+          <caret line="320" column="23" selection-start-line="320" selection-start-column="23" selection-end-line="320" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/main.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/test.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/domain/LettTestData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Arduino/LETT_2/LETT_2.ino">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8823">
+          <caret line="519" column="25" selection-start-line="519" selection-start-column="25" selection-end-line="519" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/application/LettxApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialComManagerDaoImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
@@ -1233,35 +1318,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.embeddedunveiled/scm/1.0.3/6ac9ffb5845d58cab4f0d3f0be781571822f8665/scm-1.0.3-sources.jar!/com/embeddedunveiled/serial/SerialComJNINativeInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="56" column="24" selection-start-line="56" selection-start-column="24" selection-end-line="56" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Arduino/LETT_2/LETT_2.ino">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
+        <state relative-caret-position="8823">
           <caret line="519" column="25" selection-start-line="519" selection-start-column="25" selection-end-line="519" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialComJsscDaoImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialComJsscDaoImpl.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/desktop.ini">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1273,17 +1342,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialComManagerDaoImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="141" column="55" selection-start-line="141" selection-start-column="55" selection-end-line="141" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/domain/LettTestData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="491">
+        <state relative-caret-position="969">
           <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
           <folding />
         </state>
@@ -1291,7 +1352,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialPortCommDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
+        <state relative-caret-position="442">
           <caret line="26" column="7" selection-start-line="26" selection-start-column="7" selection-end-line="26" selection-end-column="7" />
           <folding />
         </state>
@@ -1299,7 +1360,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/gui/GUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="754">
+        <state relative-caret-position="5287">
           <caret line="320" column="23" selection-start-line="320" selection-start-column="23" selection-end-line="320" selection-end-column="23" />
           <folding />
         </state>
@@ -1321,5 +1382,107 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.embeddedunveiled/scm/1.0.3/6ac9ffb5845d58cab4f0d3f0be781571822f8665/scm-1.0.3-sources.jar!/com/embeddedunveiled/serial/SerialComJNINativeInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="58" column="27" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/tudelft/lab/lettx/dao/SerialComManagerDaoImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="132" column="22" selection-start-line="132" selection-start-column="22" selection-end-line="132" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>lettx</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Gradle: com.embeddedunveiled:scm:1.0.3</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

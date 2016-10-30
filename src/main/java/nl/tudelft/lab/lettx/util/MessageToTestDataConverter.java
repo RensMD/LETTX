@@ -17,31 +17,88 @@ import java.util.List;
  */
 public class MessageToTestDataConverter {
 
-    // TODO - doorb02 - find out the if LETT_TEST_END must be 'a' or 'C'
-/*
-    private static final String LETT_TEST_END = "C";
-*/
     private static final String LETT_TEST_END = "a";
+    private static final String LETT_TEST_ABORT = "b";
     private static final String LETT_TEST_START = "I";
+    private static final String LETT_TEST_CANCEL = "C";
     private static final String NEWLINE = "\n";
     private static final int MESSAGE_START = 0;
 
     /**
-     * Split message in single data units.
+     * Remove arduino commands and split message in single data units.
      * @param message
      * @return separate data
      */
     public String[] split(StringBuilder message) {
         // remove commands
-        int splitPosStart = message.indexOf(LETT_TEST_START) + 1;
-        message.delete(MESSAGE_START, splitPosStart);
-        int splitPosEnd = message.indexOf(LETT_TEST_END);
-        int end = message.length();
-        message.delete(splitPosEnd, end);
+        removeStartCommand(message);
+        removeCancelCommand(message);
+        removeEndOrAbortCommand(message);
 
         // split message
-        String messageString = message.toString();
-        return messageString.split(NEWLINE);
+        return message.toString().split(NEWLINE);
+    }
+
+    /*
+     * Check existence of END or ABORT command and remove the found command.
+     * Test ends with either END or ABORT command.
+     * @param message
+    */
+    private void removeEndOrAbortCommand(StringBuilder message) {
+        int splitPosition = 0;
+        splitPosition = getSplitPositionEnd(message, splitPosition);
+        splitPosition = getSplitPositionAbort(message, splitPosition);
+
+        int messageEnd = message.length();
+        message.delete(splitPosition, messageEnd);
+    }
+
+    /*
+    * Remove the START command.
+    * @param message
+    */
+    private void removeStartCommand(StringBuilder message) {
+        int splitPosStart = message.indexOf(LETT_TEST_START) + 1;
+        message.delete(MESSAGE_START, splitPosStart);
+    }
+
+    /*
+    * Remove the CANCEL command.
+    * @param message
+    */
+    private void removeCancelCommand(StringBuilder message) {
+        int splitPosCancel = message.indexOf(LETT_TEST_CANCEL);
+        if (splitPosCancel > -1) {
+            message.deleteCharAt(splitPosCancel);
+        }
+    }
+
+    /*
+    * Find the position of the ABORT command.
+    * @param message
+    * @param splitPosition
+    * @return position of the command
+    */
+    private int getSplitPositionAbort(StringBuilder message, int splitPosition) {
+        int splitPosAbort = message.indexOf(LETT_TEST_ABORT);
+        if(splitPosAbort > -1) {
+            splitPosition = splitPosAbort;
+        }
+        return splitPosition;
+    }
+
+    /*
+    * Find the position of the END command.
+    * @param message
+    * @param splitPosition
+    * @return position of the command
+    */
+    private int getSplitPositionEnd(StringBuilder message, int splitPosition) {
+        int splitPosEnd = message.indexOf(LETT_TEST_END);
+        if(splitPosEnd > -1){
+            splitPosition = splitPosEnd;
+        }
+        return splitPosition;
     }
 
     /**

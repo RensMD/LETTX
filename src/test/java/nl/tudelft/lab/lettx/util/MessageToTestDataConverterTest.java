@@ -12,7 +12,8 @@ import java.util.List;
  */
 public class MessageToTestDataConverterTest {
     // test messages
-    public static final String NORMAL_LETT_TEST_MESSAGE = "TF4I19\n0.00\n0\n0\n3.10\n10.20\n1\n6.20\n20.40\n2\na\n";
+    private static final String NORMAL_LETT_TEST_MESSAGE = "TF4I19\n0.00\n0\n0\n3.10\n10.20\n1\n6.20\n20.40\n2\na\n";
+    private static final String ABORTED_LETT_TEST_MESSAGE = "TF4I19\n0.00\n0\n0\n3.10\n10.20\n1\n6.20\n20.40\n2\nCb\n";
     private static final String EXTRA_END_CHARS_LETT_TEST_MESSAGE = "TF4I19\n0.00\n0\n0\n3.10\n10.20\n1\n6.20\n20.40\n2\na\n24.00\n12.34\n3\n";
 
     MessageToTestDataConverter converter;
@@ -48,6 +49,22 @@ public class MessageToTestDataConverterTest {
         Assert.assertEquals(3, testResults.size());
     }
 
+    @Test
+    public void splitTestAborted() {
+        String[] splitMessage = converter.split(createAbortedTestMessage());
+        int lastDataPos = splitMessage.length - 1;
+        Assert.assertEquals("2", splitMessage[lastDataPos]);
+    }
+
+    /**
+     * Message with test that ends with character "C" and "b"
+     *
+     * @return message
+     */
+    private StringBuilder createAbortedTestMessage() {
+        return createMessage(ABORTED_LETT_TEST_MESSAGE);
+    }
+
     /**
      * Message with characters after test end character "a"
      *
@@ -58,7 +75,7 @@ public class MessageToTestDataConverterTest {
     }
 
     /**
-     * Normal message from Arduino Lett Test
+     * Normal message from Arduino Lett Test ends with "a"
      *
      * @return message
      */

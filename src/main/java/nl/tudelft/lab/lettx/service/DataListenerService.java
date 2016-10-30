@@ -36,7 +36,7 @@ public class DataListenerService implements ISerialComDataListener {
         isTestAborted = message.indexOf(LETT_TEST_ABORTED) > -1;
         isTestEndReceived = message.indexOf(LETT_TEST_END) > -1;
         isTestCanceled = message.indexOf(LETT_TEST_CANCELED) > -1;
-        if (isTestEndReceived) {
+        if (isTestEndReceived || isTestAborted) {
             MessageToTestDataConverter converter = new MessageToTestDataConverter();
 
             String[] splitMessage = converter.split(message);
@@ -44,14 +44,41 @@ public class DataListenerService implements ISerialComDataListener {
             List<TestResult> testResultList = converter.convertTestResults(splitMessage);
 
             data.setTestResults(testResultList);
+            logCommand(dataEvent, receivedString);
             createTestReport();
-            message = new StringBuilder();
+            logTestEndStatus();
+            resetTest();
+        } else {
+            logCommand(dataEvent, receivedString);
         }
-        if(isTestAborted || isTestCanceled) {
-            message = new StringBuilder();
-            data = new LettTestData();
+    }
+
+    /*
+    * Log status at the end of the test to console.
+    */
+    private void logTestEndStatus() {
+        if(isTestEndReceived) {
+            System.out.println("Test completed successfully.");
+        } else if(isTestCanceled) {
+            System.out.println("Test cancelled by user.");
+        } else if(isTestAborted) {
+            System.out.println("Test aborted by arduino.");
         }
+    }
+
+    /*
+    * Log the received command to the console.
+    */
+    private void logCommand(SerialComDataEvent dataEvent, String receivedString) {
         System.out.println("Message from Arduino: " + dataEvent.getDataBytesLength() + " byte(s): " + receivedString);
+    }
+
+    /*
+    * Reset message and data.
+    */
+    private void resetTest() {
+        message = new StringBuilder();
+        data = new LettTestData();
     }
 
     @Override

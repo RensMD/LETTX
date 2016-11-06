@@ -49,7 +49,8 @@ public class LettTestData {
 
     public String getFileName() {
         if(this.fileName == null || this.fileName.contentEquals("")) {
-            this.fileName = "test";
+            String convertedDatTime = this.getDateTime().replace(" ", "_");
+            this.fileName = "test_" + this.getLettNumber() + "_" + convertedDatTime ;
         }
         if (!this.fileName.contains(".txt")) {
             this.fileName += ".txt";

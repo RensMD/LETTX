@@ -21,9 +21,8 @@ import java.io.PrintWriter;
 
 class LettTestReportService {
     private int lineNumber = 1;
-    private PrintWriter w;
 
-    public void createReport(LettTestData testData) {
+    public void createReport(LettTestData testData, PrintWriter w) {
         // Create new text File
         File dir = new File(testData.getFileLocation());
         if (!dir.isDirectory()) {

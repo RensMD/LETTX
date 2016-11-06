@@ -6,6 +6,7 @@ import nl.tudelft.lab.lettx.domain.LettTestData;
 import nl.tudelft.lab.lettx.domain.TestResult;
 import nl.tudelft.lab.lettx.util.MessageToTestDataConverter;
 
+import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -101,7 +102,8 @@ public class DataListenerService implements ISerialComDataListener {
       */
     private void createTestReport() {
         LettTestReportService reportService = new LettTestReportService();
-        reportService.createReport(data);
+        PrintWriter printWriter = null;
+        reportService.createReport(data, printWriter);
     }
 
     /**

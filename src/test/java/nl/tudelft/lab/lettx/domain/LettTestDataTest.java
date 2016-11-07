@@ -31,7 +31,7 @@ public class LettTestDataTest {
     @Test
     public void getFileNameNoInput() {
         lettTestData.setLettNumber("22");
-        Assert.assertTrue(lettTestData.getFileName().matches("test_22_[0-9]{2}/[0-9]{2}/[0-9]{4}_[0-9]{2}:[0-9]{2}:[0-9]{2}.txt"));
+        Assert.assertTrue(lettTestData.getFileName().matches("test_22_[0-9]{2}[0-9]{2}[0-9]{4}_[0-9]{2}[0-9]{2}[0-9]{2}.txt"));
     }
 
     @Test

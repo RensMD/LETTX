@@ -28,7 +28,8 @@ public class DataListenerService implements ISerialComDataListener {
     private boolean isTestCanceled = false;
 
     private StringBuilder message = new StringBuilder();
-    private LettTestData data = new LettTestData();
+    private LettTestData generatedData = new LettTestData();
+    private LettTestData selectedData;
 
     @Override
     public void onNewSerialDataAvailable(SerialComDataEvent dataEvent) {
@@ -41,17 +42,23 @@ public class DataListenerService implements ISerialComDataListener {
             MessageToTestDataConverter converter = new MessageToTestDataConverter();
 
             String[] splitMessage = converter.split(message);
-            data.setLettNumber(splitMessage[0]);
+            generatedData.setLettNumber(splitMessage[0]);
             List<TestResult> testResultList = converter.convertTestResults(splitMessage);
 
-            data.setTestResults(testResultList);
+            selectedData.setTestResults(testResultList);
             logCommand(dataEvent, receivedString);
+            updateReportData();
             createTestReport();
             logTestEndStatus();
             resetTest();
         } else {
             logCommand(dataEvent, receivedString);
         }
+    }
+
+    private void updateReportData() {
+        selectedData.setLettNumber(generatedData.getLettNumber());
+        selectedData.setFileName(generatedData.getFileName());
     }
 
     /*
@@ -79,7 +86,7 @@ public class DataListenerService implements ISerialComDataListener {
     */
     private void resetTest() {
         message = new StringBuilder();
-        data = new LettTestData();
+        generatedData = new LettTestData();
     }
 
     @Override
@@ -103,7 +110,7 @@ public class DataListenerService implements ISerialComDataListener {
     private void createTestReport() {
         LettTestReportService reportService = new LettTestReportService();
         PrintWriter printWriter = null;
-        reportService.createReport(data, printWriter);
+        reportService.createReport(selectedData, printWriter);
     }
 
     /**
@@ -112,11 +119,11 @@ public class DataListenerService implements ISerialComDataListener {
      * @param testData
      */
     public void setLettTestData(LettTestData testData) {
-        data = new LettTestData();
-        data.setFileLocation(testData.getFileLocation());
-        data.setFileName(testData.getFileName());
-        data.setType(testData.getType());
-        data.setForce(testData.getForce());
-        data.setSpeed(testData.getSpeed());
+        selectedData = new LettTestData();
+        selectedData.setFileLocation(testData.getFileLocation());
+        selectedData.setFileName(testData.getFileName());
+        selectedData.setType(testData.getType());
+        selectedData.setForce(testData.getForce());
+        selectedData.setSpeed(testData.getSpeed());
     }
 }

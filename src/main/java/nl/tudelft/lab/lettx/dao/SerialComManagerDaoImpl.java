@@ -5,6 +5,8 @@ import com.embeddedunveiled.serial.SerialComManager;
 import nl.tudelft.lab.lettx.domain.LettTestData;
 import nl.tudelft.lab.lettx.service.DataListenerService;
 
+import java.io.IOException;
+
 /**
  * Lettx application
  /**
@@ -37,6 +39,9 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
     private SerialComManager serialComManager = new SerialComManager();
     private DataListenerService dataListenerService = new DataListenerService();
     private LettTestData testData = new LettTestData();
+
+    public SerialComManagerDaoImpl() throws IOException {
+    }
 
     /**
      * Write command to SerialPort.
@@ -154,7 +159,7 @@ public class SerialComManagerDaoImpl implements SerialPortCommDao {
         try {
             comPorts = serialComManager.listAvailableComPorts();
         } catch (SerialComException e) {
-            e.printStackTrace();
+            e.getStackTrace();
         }
         return comPorts;
     }

@@ -1,7 +1,6 @@
 package nl.tudelft.lab.lettx.service;
 
 import com.embeddedunveiled.serial.ISerialComDataListener;
-import com.embeddedunveiled.serial.SerialComDataEvent;
 import nl.tudelft.lab.lettx.domain.LettTestData;
 import nl.tudelft.lab.lettx.domain.TestResult;
 import nl.tudelft.lab.lettx.util.MessageToTestDataConverter;
@@ -31,6 +30,7 @@ public class DataListenerService implements ISerialComDataListener {
     private LettTestData generatedData = new LettTestData();
     private LettTestData selectedData;
 
+/*
     @Override
     public void onNewSerialDataAvailable(SerialComDataEvent dataEvent) {
         String receivedString = extractMessage(dataEvent);
@@ -55,6 +55,33 @@ public class DataListenerService implements ISerialComDataListener {
             logCommand(dataEvent, receivedString);
         }
     }
+*/
+
+    @Override
+    public void onNewSerialDataAvailable(byte[] dataEvent) {
+        String receivedString = extractMessage(dataEvent);
+        message.append(receivedString);
+        isTestAborted = message.indexOf(LETT_TEST_ABORTED) > -1;
+        isTestEndReceived = message.indexOf(LETT_TEST_END) > -1;
+        isTestCanceled = message.indexOf(LETT_TEST_CANCELED) > -1;
+        if (isTestEndReceived || isTestAborted) {
+            MessageToTestDataConverter converter = new MessageToTestDataConverter();
+
+            String[] splitMessage = converter.split(message);
+            generatedData.setLettNumber(splitMessage[0]);
+            List<TestResult> testResultList = converter.convertTestResults(splitMessage);
+
+            selectedData.setTestResults(testResultList);
+            logCommand(dataEvent, receivedString);
+            updateReportData();
+            createTestReport();
+            logTestEndStatus();
+            resetTest();
+        } else {
+            logCommand(dataEvent, receivedString);
+        }
+    }
+
 
     private void updateReportData() {
         selectedData.setLettNumber(generatedData.getLettNumber());
@@ -77,8 +104,8 @@ public class DataListenerService implements ISerialComDataListener {
     /*
     * Log the received command to the console.
     */
-    private void logCommand(SerialComDataEvent dataEvent, String receivedString) {
-        System.out.println("Message from Arduino: " + dataEvent.getDataBytesLength() + " byte(s): " + receivedString);
+    private void logCommand(byte[] dataEvent, String receivedString) {
+        System.out.println("Message from Arduino: " + dataEvent.length + " byte(s): " + receivedString);
     }
 
     /*
@@ -99,8 +126,8 @@ public class DataListenerService implements ISerialComDataListener {
      * @param dataEvent
      * @return
      */
-    private String extractMessage(SerialComDataEvent dataEvent) {
-        byte[] receivedData = dataEvent.getDataBytes();
+    private String extractMessage(byte[] dataEvent) {
+        byte[] receivedData = dataEvent;
         return new String(receivedData);
     }
 

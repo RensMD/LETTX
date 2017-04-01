@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Objects;
 
@@ -327,7 +328,11 @@ public class GUI extends JPanel {
         String[] speedStrings = {"100 mm/min", "20 mm/min", "50 mm/min", "10 mm/min"};
         String[] commStrings = {"No port available"};
 
-        serialCommDao = new SerialComManagerDaoImpl();
+        try {
+            serialCommDao = new SerialComManagerDaoImpl();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (serialCommDao.getAvailablePorts().length > 0) {
             commStrings = serialCommDao.getAvailablePorts();
         }
